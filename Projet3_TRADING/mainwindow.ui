@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TRADING PLUS 2015</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="myresources.qrc">
+    <normaloff>:/images/icons/Dollar.png</normaloff>:/images/icons/Dollar.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>350</y>
+      <width>711</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>360</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>EUR/USD</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>EUR/CHF</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>EUR/GBP</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>EUR/JPY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>USD/CAD</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>USD/CHF</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>GBP/USD</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>USD/JPY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AUD/USD</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AUD/JPY</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>NZD/USD</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>GBP/JPY</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QDateEdit" name="dateDebut">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>510</y>
+      <width>110</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="dateFin">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>560</y>
+      <width>110</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkDate">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>460</y>
+      <width>81</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Option date</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelDebut">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>490</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Début</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelFin">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>540</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fin</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_valider_date">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>600</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Valider</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>25</y>
+      <width>900</width>
+      <height>250</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>900</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menu_Affiche">
+    <property name="title">
+     <string>&amp;Affichage</string>
+    </property>
+    <addaction name="actionCours_devises"/>
+    <addaction name="actionPersonnaliser"/>
+    <addaction name="actionGraphique"/>
+    <addaction name="actionSimulation"/>
+    <addaction name="actionOptions"/>
+   </widget>
+   <widget class="QMenu" name="menuA_propos">
+    <property name="title">
+     <string>A propos</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuMenu"/>
+   <addaction name="menu_Affiche"/>
+   <addaction name="menuA_propos"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionQuitter"/>
+   <addaction name="actionCours_devises"/>
+   <addaction name="actionPersonnaliser"/>
+   <addaction name="actionGraphique"/>
+   <addaction name="actionSimulation"/>
+   <addaction name="action_Rafraichir"/>
+   <addaction name="actionOptions"/>
+   <addaction name="actionAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionQuitter">
+   <property name="icon">
+    <iconset resource="myresources.qrc">
+     <normaloff>:/images/icons/Exit.png</normaloff>:/images/icons/Exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+   <property name="toolTip">
+    <string>Fermer l'application</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionCours_devises">
+   <property name="icon">
+    <iconset resource="myresources.qrc">
+     <normaloff>:/images/icons/Euro.png</normaloff>:/images/icons/Euro.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cours devises</string>
+   </property>
+  </action>
+  <action name="actionPersonnaliser">
+   <property name="icon">
+    <iconset resource="myresources.qrc">
+     <normaloff>:/images/icons/Wrench.png</normaloff>:/images/icons/Wrench.png</iconset>
+   </property>
+   <property name="text">
+    <string>Personnaliser</string>
+   </property>
+  </action>
+  <action name="actionGraphique">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/icons/3d bar chart.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Graphique</string>
+   </property>
+  </action>
+  <action name="actionSimulation">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/icons/Calculator.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Simulation</string>
+   </property>
+  </action>
+  <action name="actionOptions">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/icons/Repair.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>options</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset>
+     <normalon>:/images/icons/About.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>about</string>
+   </property>
+  </action>
+  <action name="action_Rafraichir">
+   <property name="icon">
+    <iconset resource="myresources.qrc">
+     <normaloff>:/images/icons/Sync.png</normaloff>:/images/icons/Sync.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Rafraichir</string>
+   </property>
+   <property name="toolTip">
+    <string>Recharge la page</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="myresources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
