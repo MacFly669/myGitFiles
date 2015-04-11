@@ -5,7 +5,7 @@
 #include <QSqlDatabase>
 
 
-class cotationsView;
+class CotationsView;
 class QSqlTableModel;
 
 namespace Ui {
@@ -38,7 +38,7 @@ private slots:
 
 private:
     QSqlTableModel* model;
-    cotationsView* cotes;
+    CotationsView* cotes;
 
 
 };

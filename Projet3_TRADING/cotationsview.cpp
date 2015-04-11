@@ -7,44 +7,53 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlDatabase>
+#include <QSettings>
 #include "optiondialog.h"
 #include "mainwindow.h"
 
 
-cotationsView::cotationsView(QSqlDatabase* db, QString _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::cotationsView)
+CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
 
-    m_paires = "1;10";
+    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+
+    *m_paires = settings.value("pairs", "1;10;").toString();
+    dlg = new OptionDialog( this ) ;
 
    // tdTable = new QVector<QString>(0);
 
     // Signal attend le fin du chargement de la page web puis appelle la fonctin loadData()
    connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
-   connect(ui->webView, SIGNAL(loadFinished(bool)), parent, SLOT(reloadTableView()));
    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(afficheProprietes()));
-   connect(this, SIGNAL(dataSaved()), parent, SLOT(statutDataSAved()));
+   connect(this, SIGNAL(dataSaved()), parent, SLOT(MainWindow::statutDataSaved()));
+   connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(rafraichirPage()));
+
 }
 
-cotationsView::~cotationsView()
+CotationsView::~CotationsView()
 {
     delete ui;
 }
 
 // fonction de mise à jour de l'URL
-void cotationsView::setUrl(QUrl &url)
+void CotationsView::setUrl(QUrl &url)
 {
        ui->webView->setUrl(url);
 }
 
 // fonction rafraichissement du webView
-void cotationsView::rafraichirPage()
+void CotationsView::rafraichirPage()
 {
-    ui->webView->reload();
+
+    qDebug() << "recieve signal ! " + *m_paires;
+    this->ui->webView->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
+    qDebug() << "http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show";
+    this->ui->webView->update();
 }
 
 // fonction qui récupére les datas du webView
-void cotationsView::loadData(){
+void CotationsView::loadData(){
 
     QVector<QString> tdTable(0,"");
     QWebFrame *frame = ui->webView->page()->mainFrame();
@@ -75,7 +84,7 @@ void cotationsView::loadData(){
 
 }
 
-void cotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds la DB
+void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds la DB
 
     // récupération de la date du jour + formatage
     QDate date;
@@ -124,8 +133,13 @@ void cotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
         emit dataSaved();
 }
 
-void cotationsView::afficheProprietes()
+void CotationsView::afficheProprietes()
 {
-   OptionDialog* dlg = new OptionDialog( this ) ;
+
     dlg->exec() ;
+}
+
+void CotationsView::on_pushButton_clicked()
+{
+
 }

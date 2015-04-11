@@ -1,2 +1,155 @@
-<RCC/>
-
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/3d bar chart.png</file>
+        <file>icons/Abort.png</file>
+        <file>icons/About.png</file>
+        <file>icons/Add.png</file>
+        <file>icons/Anchor.png</file>
+        <file>icons/Application.png</file>
+        <file>icons/Apply.png</file>
+        <file>icons/Back.png</file>
+        <file>icons/Bad mark.png</file>
+        <file>icons/Blue key.png</file>
+        <file>icons/Blue tag.png</file>
+        <file>icons/Boss.png</file>
+        <file>icons/Bottom.png</file>
+        <file>icons/Calculator.png</file>
+        <file>icons/Calendar.png</file>
+        <file>icons/Car key.png</file>
+        <file>icons/CD.png</file>
+        <file>icons/Clipboard.png</file>
+        <file>icons/Clock.png</file>
+        <file>icons/Close.png</file>
+        <file>icons/Compass.png</file>
+        <file>icons/Component.png</file>
+        <file>icons/Copy.png</file>
+        <file>icons/Create.png</file>
+        <file>icons/Cut.png</file>
+        <file>icons/Danger.png</file>
+        <file>icons/Database.png</file>
+        <file>icons/Delete.png</file>
+        <file>icons/Delivery.png</file>
+        <file>icons/Dial.png</file>
+        <file>icons/Disaster.png</file>
+        <file>icons/Dollar.png</file>
+        <file>icons/Down.png</file>
+        <file>icons/Download.png</file>
+        <file>icons/Eject.png</file>
+        <file>icons/E-mail.png</file>
+        <file>icons/Erase.png</file>
+        <file>icons/Error.png</file>
+        <file>icons/Euro.png</file>
+        <file>icons/Exit.png</file>
+        <file>icons/Fall.png</file>
+        <file>icons/Fast-forward.png</file>
+        <file>icons/Favourites.png</file>
+        <file>icons/Female.png</file>
+        <file>icons/Filter.png</file>
+        <file>icons/Find.png</file>
+        <file>icons/First record.png</file>
+        <file>icons/First.png</file>
+        <file>icons/Flag.png</file>
+        <file>icons/Folder.png</file>
+        <file>icons/Forbidden.png</file>
+        <file>icons/Forward.png</file>
+        <file>icons/Free bsd.png</file>
+        <file>icons/Go back.png</file>
+        <file>icons/Go forward.png</file>
+        <file>icons/Go.png</file>
+        <file>icons/Good-mark.png</file>
+        <file>icons/Green tag.png</file>
+        <file>icons/Heart.png</file>
+        <file>icons/Help book 3d.png</file>
+        <file>icons/Help book.png</file>
+        <file>icons/Help.png</file>
+        <file>icons/Hint.png</file>
+        <file>icons/Home.png</file>
+        <file>icons/How-to.png</file>
+        <file>icons/Hungup.png</file>
+        <file>icons/Info.png</file>
+        <file>icons/Key.png</file>
+        <file>icons/Last recor.png</file>
+        <file>icons/Last.png</file>
+        <file>icons/Left-right.png</file>
+        <file>icons/Lightning.png</file>
+        <file>icons/Linux.png</file>
+        <file>icons/List.png</file>
+        <file>icons/Load.png</file>
+        <file>icons/Lock.png</file>
+        <file>icons/Low rating.png</file>
+        <file>icons/Mail.png</file>
+        <file>icons/Male.png</file>
+        <file>icons/Medium rating.png</file>
+        <file>icons/Message.png</file>
+        <file>icons/Mobile-phone.png</file>
+        <file>icons/Modify.png</file>
+        <file>icons/Movie.png</file>
+        <file>icons/Music.png</file>
+        <file>icons/New document.png</file>
+        <file>icons/New.png</file>
+        <file>icons/Next track.png</file>
+        <file>icons/Next.png</file>
+        <file>icons/No.png</file>
+        <file>icons/No-entry.png</file>
+        <file>icons/Notes.png</file>
+        <file>icons/OK.png</file>
+        <file>icons/Paste.png</file>
+        <file>icons/Pause.png</file>
+        <file>icons/People.png</file>
+        <file>icons/Person.png</file>
+        <file>icons/Phone number.png</file>
+        <file>icons/Pie chart.png</file>
+        <file>icons/Pinion.png</file>
+        <file>icons/Play.png</file>
+        <file>icons/Playback.png</file>
+        <file>icons/Play-music.png</file>
+        <file>icons/Previous record.png</file>
+        <file>icons/Previous.png</file>
+        <file>icons/Problem.png</file>
+        <file>icons/Question.png</file>
+        <file>icons/Raise.png</file>
+        <file>icons/Record.png</file>
+        <file>icons/Red mark.png</file>
+        <file>icons/Red star.png</file>
+        <file>icons/Red tag.png</file>
+        <file>icons/Redo.png</file>
+        <file>icons/Refresh.png</file>
+        <file>icons/Remove.png</file>
+        <file>icons/Repair.png</file>
+        <file>icons/Report.png</file>
+        <file>icons/Retort.png</file>
+        <file>icons/Rewind.png</file>
+        <file>icons/Sad.png</file>
+        <file>icons/Save.png</file>
+        <file>icons/Search.png</file>
+        <file>icons/Shopping cart.png</file>
+        <file>icons/Smile.png</file>
+        <file>icons/Sound.png</file>
+        <file>icons/Stop sign.png</file>
+        <file>icons/Stop.png</file>
+        <file>icons/Sync.png</file>
+        <file>icons/Table.png</file>
+        <file>icons/Target.png</file>
+        <file>icons/Taxi.png</file>
+        <file>icons/Terminate.png</file>
+        <file>icons/Text preview.png</file>
+        <file>icons/Text.png</file>
+        <file>icons/Thumbs down.png</file>
+        <file>icons/Thumbs up.png</file>
+        <file>icons/Top.png</file>
+        <file>icons/Turn off.png</file>
+        <file>icons/Undo.png</file>
+        <file>icons/Unlock.png</file>
+        <file>icons/Up.png</file>
+        <file>icons/Update.png</file>
+        <file>icons/Up-down.png</file>
+        <file>icons/Upload.png</file>
+        <file>icons/User group.png</file>
+        <file>icons/View.png</file>
+        <file>icons/Warning.png</file>
+        <file>icons/Wrench.png</file>
+        <file>icons/Yes.png</file>
+        <file>icons/Zoom.png</file>
+    </qresource>
+    <qresource prefix="/images"/>
+</RCC>

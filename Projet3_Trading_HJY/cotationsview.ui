@@ -7,19 +7,59 @@
     <x>0</x>
     <y>0</y>
     <width>915</width>
-    <height>373</height>
+    <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>230</y>
+     <width>731</width>
+     <height>301</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>310</y>
+     <width>91</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="startDate">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>380</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateEdit" name="endDate">
+   <property name="geometry">
+    <rect>
+     <x>790</x>
+     <y>440</y>
+     <width>110</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QWebView" name="webView">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>60</y>
-     <width>701</width>
-     <height>200</height>
+     <y>20</y>
+     <width>731</width>
+     <height>171</height>
     </rect>
    </property>
    <property name="url">
@@ -28,19 +68,14 @@
     </url>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>760</x>
-     <y>70</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
+  <action name="actionRafraichier">
+   <property name="checkable">
+    <bool>false</bool>
    </property>
    <property name="text">
-    <string>Options</string>
+    <string>Rafraichier</string>
    </property>
-  </widget>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

@@ -24,3 +24,6 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     cotationsview.ui \
     optionsdialog.ui
+
+RESOURCES += \
+    myresources.qrc

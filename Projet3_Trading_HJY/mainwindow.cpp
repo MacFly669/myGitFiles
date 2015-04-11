@@ -77,10 +77,6 @@ void MainWindow::createTable(QSqlDatabase* db){
 
 }
 
-void MainWindow::reloadTableView(){
-
-    ui->tableView->reset();
-}
 
 QString MainWindow::loadPaires(){
 

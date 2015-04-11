@@ -30,7 +30,7 @@ private:
 
 private slots:
 //    void on_actionCours_devises_triggered();
-    void reloadTableView();
+//    void reloadTableView();
 //    void on_comboBox_currentTextChanged(const QString &arg1);
 //    void on_btn_valider_date_clicked();
 //    void on_actionGraphique_triggered();

@@ -37,7 +37,7 @@ public slots:
        void rafraichirPage();
        void loadData();
        void afficheProprietes();
-
+       void reloadTableView();
 };
 
 #endif // COTATIONSVIEW_H

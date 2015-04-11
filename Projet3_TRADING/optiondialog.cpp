@@ -6,25 +6,37 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QSettings>
 #include <QSignalMapper>
+#include <QFileDialog>
 
-OptionDialog::OptionDialog(cotationsView* cotations, QWidget *parent) : QDialog(parent), ui(new Ui::OptionDialog)
+OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog(parent), ui(new Ui::OptionDialog)
 {
     ui->setupUi(this);
 
-    this->cotations = cotations;
+    this->cotations = _cotations;
 
-   // QStringList pairs = cotations->getPaires().split(";", QString::SkipEmptyParts);
-    QCheckBox* tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
-    QList<QString> coupleName; // Liste des couples en string "EUR/USD" par exemple
-    QList<QString> coupleId;  //  Liste des couples par ID
+    pairsList = cotations->getPaires().split(";", QString::SkipEmptyParts);
+    coupleName << "EUR/USD" << "EUR/CHF" << "EUR/GBP" << "EUR/JPY" << "USD/CAD" << "USD/CHF" << "GBP/USD" << "USD/JPY" <<  "AUD/USD" << "AUD/JPY" << "NZD/USD" << "GBP/JPY";
+    coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
+    number  << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11" << "12";
+
+    tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
+/*    QList<QString> coupleName; // Liste des couples en string "EUR/USD" par exemple
+    QList<QString> coupleId;*/  //  Liste des couples par ID
+    checkListDevises = new QList<QCheckBox*>;
+    QString newPairs = "";
+    // Listes des devises
 
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
     QHBoxLayout *layout = new QHBoxLayout;
-  //  QVBoxLayout *layoutCheck = new QVBoxLayout;
-    QLineEdit *nomDB = new QLineEdit;
-    QLineEdit *chemin = new QLineEdit;
+
+    nomDB = new QLineEdit;
+    chemin = new QLineEdit;
+    parcourir = new QPushButton("Parcourir");
+    parcourir->setFixedSize(200,25);
+    dossier = new QString;
 
     QFormLayout *formLayout = new QFormLayout;
      formLayout->addRow("Nom de la base de données :", nomDB);
@@ -32,14 +44,9 @@ OptionDialog::OptionDialog(cotationsView* cotations, QWidget *parent) : QDialog(
      layoutPrincipale->addLayout(formLayout);
 
      layoutPrincipale->addWidget(ui->buttonBox);
-
+     layoutPrincipale->addWidget(parcourir);
      this->setLayout(layoutPrincipale);
 
-
-     // Listes des devises
-    coupleName << "EUR/USD" << "EUR/CHF" << "EUR/GBP" << "EUR/JPY" << "USD/CAD" << "USD/CHF" << "GBP/USD" << "USD/JPY" <<  "AUD/USD" << "AUD/JPY" << "NZD/USD" << "GBP/JPY";
-    coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
-    number << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11" << "12";
 
     //Création d'un signal mapper
     QSignalMapper* mapper = new QSignalMapper(this);
@@ -48,29 +55,38 @@ OptionDialog::OptionDialog(cotationsView* cotations, QWidget *parent) : QDialog(
     for(int i=0; i<12; i++)
     {
     tmpCheckBox = new QCheckBox(coupleName[i]);
-    checkListDevises << tmpCheckBox; // on stocke les checkBox dans un Qlist
+    checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
     layoutPrincipale->addWidget(tmpCheckBox); // on ajoute les widgets au layout
 
     connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
     mapper->setMapping(tmpCheckBox, i);
+
+    qDebug() << coupleId[i];
     }
 
     layoutPrincipale->addWidget(ui->buttonBox);
     layoutPrincipale->addLayout(layout);
+    chargerOptions(); // charge les options du fichier ini
 
-     chargerOptions(); // charge les options du fichier ini
      // récupération du signal stateChange sur les checkBox
      connect(mapper, SIGNAL(mapped(int)), this, SLOT(checkboxClicked(int)));
+     connect(parcourir, SIGNAL(clicked()), this, SLOT(choisirDossier()));
 
 }
 
-void OptionDialog::checkboxClicked(int checkboxId)
+void OptionDialog::checkboxClicked(int i)
 {   // fichier setting ini
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
 
-    // enregistrement de l'id et de l'état de la checkBox
-    settings.setValue("Checkbox/" + number[checkboxId],checkListDevises[checkboxId]->isChecked());
+    qDebug() << "checkboxClicked : " + QString::number(i);
+   // qDebug() << "checkListDevises : " + checkListDevises.size();
+
+
+    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+   // enregistrement de l'id et de l'état de la checkBox
+    settings.setValue("Checkbox/" + number[i],checkListDevises->at(i)->isChecked());
+
 }
+
 
 OptionDialog::~OptionDialog()
 {
@@ -79,15 +95,21 @@ OptionDialog::~OptionDialog()
 
 void OptionDialog::chargerOptions()
 {   // fichier setting ini
+
     QSettings settings("../mesoptions.ini", QSettings::IniFormat);
 
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
-    for (int i=0; i<12;i++)
+    for (int i=0; i<11;i++)
     {
-       checkListDevises[i]->setChecked(settings.value("Checkbox/" + number[i], "false").toBool()) ; // false par défaut si pas de valeur
+       checkListDevises->at(i)->setChecked(settings.value("Checkbox/" + number[i], "false").toBool()) ; // false par défaut si pas de valeur
+
+      // qDebug() << coupleId[i];
     }
 
-qDebug() << "ChargerOptions terminer !! ";
+    nomDB->setText(settings.value("nomBase", "Projet3.db").toString()) ;
+    chemin->setText(settings.value("chemin").toString());
+
+    qDebug() << "ChargerOptions terminer !! ";
 
 }
 
@@ -95,31 +117,51 @@ qDebug() << "ChargerOptions terminer !! ";
 void OptionDialog::accept(){
 
 
-//    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
-//    QString newPairs = "";
+    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
 
-//    // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
-//    foreach (QCheckBox* cb,checkListDevises )
-//    {
-//       if(cb->isChecked())
-//       {
+    coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
+    settings.setValue("nomBase", nomDB->text());
+    settings.setValue("chemin", chemin->text());
+    newPairs = "";
+
+    int taille = checkListDevises->size();
+
+    qDebug() << "taille : " + QString::number(taille);
+
+    // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
+    for ( int i(0); i <12; i++ )
+    {
+      if (settings.value("Checkbox/" + number[i]) == "true")
+       {
+
+          qDebug() << "coupleId : " << coupleId[1] ;
+           newPairs += coupleId[i] + ";";
+           qDebug() << newPairs;
+       }
 
 
-//           newPairs += coupleId[checkListDevises.indexOf(cb)] + ";";
-//            qDebug() << newPairs;
-//       }
+    }
+    settings.setValue("pairs", newPairs);
 
+    cotations->setPaires(newPairs);
 
-//    }
-//    settings.setValue("pairs", newPairs);
+    emit acceptedOptionDevises();
 
+    qDebug() << "emit accept...." ;
 
-
-//     cotations->setPaires(deviseChecked());
-//     cotations->rafraichirPage();
      QDialog::accept() ;
 
 
 }
 
+void OptionDialog::choisirDossier()
+{
+    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
 
+    dossier->append(QFileDialog::getExistingDirectory(this));
+
+    chemin->setText(*dossier);
+
+    settings.setValue("chemin", QVariant(getChemin()));
+    settings.setValue("nomBase", nomDB->text());
+}

@@ -33,21 +33,23 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
     QGridLayout *layoutPrincipale = new QGridLayout;
     QHBoxLayout *layout = new QHBoxLayout;
-
+    QDate date;
     // couple EUR/CHF par défaut
     QString m_paires = loadPaires();//charge les paires
 
     // instanciation d'un fenêtre de cotations webView
-    cotes = new cotationsView(db,m_paires,this->ui->frame);
+    cotes = new CotationsView(db,&m_paires,this->ui->frame);
     cotes->move(0,0);
 
     // Passage de l'URL
     cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
 
 
-  //  layoutPrincipale->addWidget(cotes,1,1,2,4);
+    //layoutPrincipale->addWidget(cotes,1,1,2,4);
     layoutPrincipale->addLayout(layout,2,1,2,4);
-
+    // Initialisation des widgets dateEdit
+    ui->dateDebut->setDate(date.currentDate());
+    ui->dateFin->setDate(date.currentDate());
     //this->setLayout(layoutPrincipale);
 
     if( db )
@@ -159,7 +161,8 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 
 }
 
-void MainWindow::reloadTableView(){
+void MainWindow::reloadTableView()
+{
 
     //qDebug() << "reload table";
 
@@ -168,7 +171,8 @@ void MainWindow::reloadTableView(){
     model->sort(11,Qt::DescendingOrder);
 }
 
-QString MainWindow::loadPaires(){
+QString MainWindow::loadPaires()
+{
 
     QSettings settings("../mesoptions.ini", QSettings::IniFormat);
     QString valueReturn = settings.value("pairs", "1;10").toString();
@@ -180,20 +184,25 @@ QString MainWindow::loadPaires(){
 void MainWindow::on_btn_valider_date_clicked()
 {
 
-    if(!ui->checkDate->isChecked())
-    {
-        return;
-    }
-    else
-    {
+
         QString debut = ui->dateDebut->date().toString("dd.MM.yyyy");
         QString fin = ui->dateFin->date().toString("dd.MM.yyyy");
-        // Filtre le Table view en fonction des dates de début et de fin.
+        if(ui->dateDebut->date() > ui->dateFin->date())
+        {
+            ui->statusBar->showMessage("Vous avez saisie une date de début supérieure à la date de fin");
+
+            return;
+       }
+        else
+        {
+
+       // Filtre le Table view en fonction des dates de début et de fin.
         model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "'");
         model->select() ;
 
-        if(ui->dateDebut > ui->dateFin) ui->statusBar->showMessage("Vous avez saisie une date de début supérieure à la date de fin");
-    }
+        ui->statusBar->showMessage( ui->comboBox->currentText() + " du " + ui->dateDebut->date().toString("dd.MM.yyyy") + " au " + ui->dateFin->date().toString("dd.MM.yyyy"),2000);
+
+        }
 
 }
 

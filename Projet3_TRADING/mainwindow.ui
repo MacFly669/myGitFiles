@@ -124,19 +124,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkDate">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>460</y>
-      <width>81</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Option date</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="labelDebut">
     <property name="geometry">
      <rect>

@@ -40,6 +40,11 @@ void CotationsView::rafraichirPage()
     ui->webView->reload();
 }
 
+void CotationsView::reloadTableView(){
+
+    ui->tableView->reset();
+}
+
 // Récupération des données
 void CotationsView::loadData()
 {
