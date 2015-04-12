@@ -1,6 +1,12 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
-
+///!
+///!*********************************
+/// Class de la boite d'info About
+///
+///
+///
+/// *********************************
 #include <QDialog>
 
 namespace Ui {

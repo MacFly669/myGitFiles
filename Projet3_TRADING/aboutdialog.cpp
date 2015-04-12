@@ -6,6 +6,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
+
+    connect(ui->pushButton, SIGNAL(clicked()),this, SLOT(close()));
 }
 
 AboutDialog::~AboutDialog()

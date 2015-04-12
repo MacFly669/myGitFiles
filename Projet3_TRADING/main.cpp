@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     MainWindow w(db);
     w.show();
-    w.setFixedSize(1000,700);
+    w.setFixedSize(900,400);
 
     return a.exec();
 }

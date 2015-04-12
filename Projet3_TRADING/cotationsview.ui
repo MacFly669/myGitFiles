@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>90</y>
-     <width>121</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Modifier les paires</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>

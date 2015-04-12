@@ -36,11 +36,14 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     chemin = new QLineEdit;
     parcourir = new QPushButton("Parcourir");
     parcourir->setFixedSize(200,25);
+    chemin->setFixedSize(700,25);
+
     dossier = new QString;
 
     QFormLayout *formLayout = new QFormLayout;
      formLayout->addRow("Nom de la base de données :", nomDB);
      formLayout->addRow("Chemin", chemin);
+     formLayout->setVerticalSpacing(25);
      layoutPrincipale->addLayout(formLayout);
 
      layoutPrincipale->addWidget(ui->buttonBox);

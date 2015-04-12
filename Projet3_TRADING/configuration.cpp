@@ -18,8 +18,9 @@ Configuration::~Configuration()
 }
 
 bool Configuration::readXmlFile(QIODevice &device, QSettings::SettingsMap &map) {
-  QXmlStreamReader xmlReader(&device);
-  QStringList elements;
+
+    QXmlStreamReader xmlReader(&device);
+    QStringList elements;
 
   //Tant que la fin ne est pas atteint et aucune erreur ne s'est produite
   while (!xmlReader.atEnd() && !xmlReader.hasError()) {
@@ -58,7 +59,8 @@ bool Configuration::readXmlFile(QIODevice &device, QSettings::SettingsMap &map) 
 }
 
 bool Configuration::writeXmlFile(QIODevice &device, const QSettings::SettingsMap &map) {
-  QXmlStreamWriter xmlWriter(&device);
+
+    QXmlStreamWriter xmlWriter(&device);
 
   xmlWriter.setAutoFormatting(true);
   xmlWriter.writeStartDocument();

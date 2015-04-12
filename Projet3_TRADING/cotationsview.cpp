@@ -25,7 +25,7 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
 
     // Signal attend le fin du chargement de la page web puis appelle la fonctin loadData()
    connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
-   connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(afficheProprietes()));
+ //  connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(afficheProprietes()));
    connect(this, SIGNAL(dataSaved()), parent, SLOT(MainWindow::statutDataSaved()));
    connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(rafraichirPage()));
 

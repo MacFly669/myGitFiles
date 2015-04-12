@@ -11,7 +11,12 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Options</string>
+   <string>Boîte  de configuration</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/images/icons/Repair.png</normalon>
+   </iconset>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">

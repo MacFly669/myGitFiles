@@ -10,7 +10,9 @@
         <file>optiondialog.cpp</file>
         <file>optiondialog.h</file>
         <file>qcustomplot.cpp</file>
-        <file>qcustomplot.h</file>
+        <file>configuration.cpp</file>
+        <file>configuration.h</file>
+        <file>about.html</file>
     </qresource>
     <qresource lang="fr" prefix="/images">
         <file>icons/3d bar chart.png</file>
@@ -163,5 +165,8 @@
         <file>icons/Wrench.png</file>
         <file>icons/Yes.png</file>
         <file>icons/Zoom.png</file>
+        <file>icons/oeil.png</file>
+        <file>icons/mid_trading_small_new.jpg</file>
+        <file>icons/mid_trading_small_new.png</file>
     </qresource>
 </RCC>

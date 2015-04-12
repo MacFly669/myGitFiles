@@ -22,6 +22,7 @@ public:
     static QSqlDatabase* connectToDB( QString dbName ) ;
     static void createTable(QSqlDatabase* db);
     QString loadPaires(); // charge les couples ds le fichier ini
+    void setHeaderTable();
 
     Ui::MainWindow *ui;
     QSqlDatabase* db;
@@ -35,6 +36,8 @@ private slots:
     void statutDataSAved();
 
     void on_action_Rafraichir_triggered();
+
+    void on_actionAbout_triggered();
 
 private:
     QSqlTableModel* model;
