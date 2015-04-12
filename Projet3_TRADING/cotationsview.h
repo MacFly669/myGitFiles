@@ -41,7 +41,7 @@ class CotationsView : public QWidget
 public:
     explicit CotationsView(QSqlDatabase* db =0, QString *_paires = 0, QWidget *parent = 0);
     ~CotationsView();
-    QString getPaires(){ return *m_paires;}
+    QString getPaires(){ return *m_paires;} // renvoi les id à afficher et sauvegarder
     void setUrl(QUrl &url);//Mise à jour de l'URL du webView
     void setPaires(QString &_paires){ m_paires = &_paires;} //Getter/Setter
     void saveData(QVector<QString> table); // enregistrement DB
