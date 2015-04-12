@@ -13,8 +13,9 @@
         <file>configuration.cpp</file>
         <file>configuration.h</file>
         <file>about.html</file>
+        <file>doc.pdf</file>
     </qresource>
-    <qresource lang="fr" prefix="/images">
+    <qresource prefix="/images" lang="fr">
         <file>icons/3d bar chart.png</file>
         <file>icons/Abort.png</file>
         <file>icons/About.png</file>

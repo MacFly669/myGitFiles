@@ -23,58 +23,57 @@
 #include <QSqlError>
 #include <QSqlTableModel>
 #include <QTableView>
-#include <QHBoxLayout>
+
 #include <QSettings>
 #include <QMdiArea>
 
 MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db(db), ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    ui->frame->hide();
-    QGridLayout *layoutPrincipale = new QGridLayout;
-    QHBoxLayout *layout = new QHBoxLayout;
-    QDate date;
-    // couple EUR/CHF par défaut
-    QString m_paires = loadPaires();//charge les paires
+        ui->setupUi(this);
 
-    // instanciation d'un fenêtre de cotations webView
-    cotes = new CotationsView(db,&m_paires,this->ui->frame);
-    cotes->move(0,0);
+        initGui();
 
-    // Passage de l'URL
-    cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
+        QString m_paires = loadPaires();//charge les paires
 
+        cotes = new CotationsView(db,&m_paires,this->ui->frame);// instanciation d'un fenêtre de cotations webView (affichage de la page forex)
+        cotes->move(0,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
+        // Passage de l'URL
+        cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
 
-    //layoutPrincipale->addWidget(cotes,1,1,2,4);
-    layoutPrincipale->addLayout(layout,2,1,2,4);
-    // Initialisation des widgets dateEdit
-    ui->dateDebut->setDate(date.currentDate());
-    ui->dateFin->setDate(date.currentDate());
-    //this->setLayout(layoutPrincipale);
 
     if( db )
-    {   // création de la table s'il n'existe pas
-        MainWindow::createTable(db);
+    {
+        MainWindow::createTable(db); // Création de la table si elle n'existe pas
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
-        model->setTable( "couples" ) ;
-        model->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");
+        model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
+        model->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");// Filtre de l'affiche en fonction de la sélection active de la comboBox
         model->select() ;
-        setHeaderTable();
+        setHeaderTable(); // Fonction qui renomme les headers
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-       layout->addWidget(ui->tableView);
 
     }
+        // Bloc de connection des signaux
+        connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(update())); // Rafraichit l'affichage du webView
+        connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( reloadTableView()));// Rafraichit l'affichage de la TableView
+        connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
+        connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
 
-    connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(update()));
-    connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( reloadTableView()));
-    connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
-    connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes()));
 
 }
 
-void MainWindow::setHeaderTable()
+void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
+{
+    ui->frame->hide();
+
+    QDate date;
+
+    ui->dateDebut->setDate(date.currentDate());// Initialisation des widgets dateEdit
+    ui->dateFin->setDate(date.currentDate());
+}
+
+void MainWindow::setHeaderTable() // Nomme les header du TableView
 {
     model->setHeaderData(1, Qt::Horizontal, tr("Nom"));
     model->setHeaderData(2, Qt::Horizontal, tr("Achat"));
@@ -89,6 +88,7 @@ void MainWindow::setHeaderTable()
     model->sort(11,Qt::DescendingOrder);
 
     ui->tableView->setModel( model );
+    // Masquage des colonnes non désirées
     ui->tableView->hideColumn(0); // id
     ui->tableView->hideColumn(4); // cours
     ui->tableView->hideColumn(5); // ouverture
@@ -103,14 +103,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QSqlDatabase* MainWindow::connectToDB(QString dbName)
+QSqlDatabase* MainWindow::connectToDB(QString dbName)// Création d'un connection à la base passée en paramètre
 {
     QSqlDatabase* db = new QSqlDatabase ;
 
    *db = QSqlDatabase::addDatabase( "QSQLITE" ) ;
     db->setDatabaseName( dbName );
     if( db->open()) return db ;
-    // TODO MessageBox Error
+    // TODO MessageBox Error   
     qDebug() << "Etat db open : " + db->isOpen();
     db->close();
     delete db ;
@@ -185,19 +185,18 @@ void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
     ui->statusBar->showMessage(tr("Mise à jour du tableau"),1000);
 }
 
-QString MainWindow::loadPaires()
+QString MainWindow::loadPaires() // Charge les pairs à afficher dans les options sauvegarder par QSettings
 {
 
     QSettings settings("../mesoptions.ini", QSettings::IniFormat);
     QString valueReturn = settings.value("pairs", "1;10").toString();
 
-    return valueReturn;
+    return valueReturn; // retourne un string ex: "1;10;"
 
 }
 
-void MainWindow::on_btn_valider_date_clicked()
+void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fin pour l'affichage dans le TableView
 {
-
 
         QString debut = ui->dateDebut->date().toString("dd.MM.yyyy"); // récupération de la date QDateEdit : date de début
         QString fin = ui->dateFin->date().toString("dd.MM.yyyy");    //  récupération de la date QDateEdit : date de fin
@@ -213,13 +212,12 @@ void MainWindow::on_btn_valider_date_clicked()
 
        // Filtre le Table view en fonction des dates de début et de fin.
         model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboBox->currentText()+ "'"); // SELECT WHERE debut < date < fin
-        bool ok = model->select() ;
-        if(!ok) ui->statusBar->showMessage("Aucun enregistrements trouvé !", 2000);
-        else ui->statusBar->showMessage( ui->comboBox->currentText() + " du " + ui->dateDebut->date().toString("dd.MM.yyyy") + " au " + ui->dateFin->date().toString("dd.MM.yyyy"),2000);
+        model->select() ;
+        if( model->rowCount() == 0 ) ui->statusBar->showMessage("Aucun enregistrements trouvé pour les dates sélectionées !", 2000);
+        else ui->statusBar->showMessage( ui->comboBox->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy"),2000);
 
-        QString s = QString::number(ok);
 
-        qDebug() << "bool Ok : " << s ;
+        qDebug() << "bool Ok : " << model->rowCount() ;
 
         }
 
@@ -239,7 +237,7 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
     ui->statusBar->showMessage(tr("Rafraîchissement manuel de la page"),2000);
 }
 
- void MainWindow::statutDataSAved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
+ void MainWindow::statutDataSaved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
  {
 
      ui->statusBar->showMessage(tr("Données sauvegardées avec succès !"),2000);
