@@ -4,7 +4,7 @@
 #include <QCheckBox>
 #include <QDialog>
 #include <QLineEdit>
-
+#include <QSettings>
 
 namespace Ui {
 class OptionDialog;
@@ -37,6 +37,7 @@ private:
     QCheckBox* tmpCheckBox;
     QString newPairs;
     QStringList pairsList;
+    QSettings::Format XmlFormat;
 
 signals:
 

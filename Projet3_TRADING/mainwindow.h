@@ -33,7 +33,7 @@ public:
     QString loadPaires(); // charge les couples ds le fichier ini
     void setHeaderTable();// fonction qui renomme le texte des header de la tableView
     void initGui();
-
+    QSettings::Format XmlFormat;
 
 
     Ui::MainWindow *ui;

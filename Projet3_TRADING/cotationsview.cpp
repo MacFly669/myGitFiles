@@ -41,14 +41,13 @@
 #include "optiondialog.h"
 #include "mainwindow.h"
 
-
 CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
     dlg = new OptionDialog( this ) ;
 
    // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
-
+    XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 

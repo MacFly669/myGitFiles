@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QUrl>
 #include <QSqlDatabase>
-
+#include <QSettings>
 class QWebElement;
 class OptionDialog;
 
@@ -29,7 +29,7 @@ private:
     QSqlDatabase* db;
     QString *m_paires;
     OptionDialog* dlg;
-
+    QSettings::Format XmlFormat;
 
 signals:
     void dataSaved();

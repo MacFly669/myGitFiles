@@ -25,7 +25,8 @@ HEADERS  += mainwindow.h \
     optiondialog.h \
     qcustomplot.h \
     graphique.h \
-    aboutdialog.h
+    aboutdialog.h \
+    xml.h
 
 FORMS    += mainwindow.ui \
     cotationsview.ui \

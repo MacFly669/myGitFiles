@@ -1,21 +1,3 @@
-//////////////////////////////////////////////////////////////////////////////////////////////
-//!
-//!         Class MainWindow - Fenêtre principale de l'application
-//!
-//! \file mainwindow.cpp
-//! \author HENQUEZ
-//! \version 1.0
-//! \date Avril 2015
-//! \brief Instancie une fenêtre principale.
-//!
-//!
-//! \details Cette class créée une instance de MainWindow
-//! Contient un menuBar , une statutBar
-//!
-//! \param db est un paramètre de type QSqlDatabase
-//! \param parent
-//!
-//!
 // class
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -33,18 +15,40 @@
 #include <QTableView>
 #include <QXmlStreamReader>
 #include <QDir>
-
-
 #include <QMdiArea>
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!
+//!         Class MainWindow - Fenêtre principale de l'application
+//!
+//! \file mainwindow.cpp
+//! \author HENQUEZ
+//! \version 1.0
+//! \date Avril 2015
+//! \brief Instancie une fenêtre principale.
+//!
+//!
+//! \details Cette class créée une instance de MainWindow
+//! Contient un menuBar , une statutBar , un ui->frame qui contiendra le webView de l'instance de la class cotationsView
+//! Un ui->tableView pour afficher les enregistrements, une checkbox pour changer la devise et des QDateEDit pour le filtre par date
+//!
+//! \param db est un paramètre de type QSqlDatabase
+//! \param parent
+//!
+//!
 
+
+//!
+//! \brief MainWindow::MainWindow Cette class créée la fenêter principale du programme
+//! \param db Etablit la connection à la base de données
+//! \param parent Désigne dans quel widget sera iunstancier la class
+//!
 MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db(db), ui(new Ui::MainWindow)
 {
         ui->setupUi(this);
 
-
-        QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-        QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath());
-        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+       XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+       QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath());
+       QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
         initGui();
 
@@ -77,7 +81,11 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
 
 }
-
+//!
+//! \brief MainWindow::initGui Initialise l'affichage : Masque le webView, initialise les QDateEdit
+//!
+//!
+//!
 void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
     ui->frame->hide();
@@ -117,7 +125,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
+//!
+//! \brief MainWindow::connectToDB Fonction static qui créée une connection à la base de données
+//! \param dbName Nom de la base de données
+//! \return  Retourne un objet QSqlDatabase
+//!
+//!
+//!
+//!
 QSqlDatabase* MainWindow::connectToDB(QString dbName)// Création d'un connection à la base passée en paramètre
 {
     QSqlDatabase* db = new QSqlDatabase ;
@@ -162,7 +177,11 @@ void MainWindow::createTable(QSqlDatabase* db){
     qDebug() << "Etat de la requête envoyée : " << result.lastError() ;
 
 }
-
+//!
+//! \brief MainWindow::on_actionCours_devises_triggered
+//!
+//!Affiche / Masque le webView
+//!
 void MainWindow::on_actionCours_devises_triggered()
 {
     if(ui->frame->isHidden())
@@ -180,7 +199,13 @@ void MainWindow::on_actionCours_devises_triggered()
     }
 
 }
-
+//!
+//! \brief MainWindow::on_comboBox_currentTextChanged
+//!
+//! Récupère le current text de la comboBox, filtre le tableView en fonction
+//! \param arg1 Retourne la valeur du comboBox au format QSrting
+//!
+//!
 void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 {
 
@@ -190,7 +215,11 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
     ui->statusBar->showMessage( ( "Affichage de la paire " + arg1  ),2000);
 
 }
-
+//!
+//! \brief MainWindow::reloadTableView
+//!
+//!Rafraichit l'affichage du tableView
+//!
 void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
 {
     model->setTable( "couples" ) ;
@@ -200,17 +229,25 @@ void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
     ui->statusBar->showMessage(tr("Mise à jour du tableau"),1000);
 }
 
+//!
+//! \brief MainWindow::loadPaires Charge le ids de paires à afficher
+//! \return  Retourne le contenu au format QString
+//!
+//!
 QString MainWindow::loadPaires() // Charge les pairs à afficher dans les options sauvegarder par QSettings
 {
 
-    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString valueReturn = settings.value("pairs", "1;10").toString();
 
     return valueReturn; // retourne un string ex: "1;10;"
 
 }
-
+//!
+//! \brief MainWindow::on_btn_valider_date_clicked
+//!
+//! Validation des dates pour lancement de la requêtes : filte la devise sélectionnée en fonction de date début -> date fin
+//!
 void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fin pour l'affichage dans le TableView
 {
 
@@ -238,7 +275,11 @@ void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fi
         }
 
 }
-
+//!
+//! \brief MainWindow::on_actionGraphique_triggered
+//!
+//! Affichage du graphique
+//!
 void MainWindow::on_actionGraphique_triggered()
 {
 
@@ -254,109 +295,22 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
     reloadTableView();
 
 }
-
+//!
+//! \brief MainWindow::statutDataSaved
+//!
+//! Affiche un message dans la statut bar
+//!
  void MainWindow::statutDataSaved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
  {
 
      ui->statusBar->showMessage(tr("Données sauvegardées avec succès !"),2000);
  }
+ //!
+ //! \brief MainWindow::on_actionAbout_triggered
+ //! Action sur le bouton 'About' -> affiche le widget About
 
-
-
-void MainWindow::on_actionAbout_triggered()
+ void MainWindow::on_actionAbout_triggered()
 {
     AboutDialog* about = new AboutDialog;
     about->show();
 }
-
-bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
-{
-    QXmlStreamReader xmlReader( &device );
-
-    QString currentElementName;
-    while( !xmlReader.atEnd() )
-    {
-    xmlReader.readNext();
-        while( xmlReader.isStartElement() )
-        {
-            if( xmlReader.name() == "SettingsMap" )
-            {
-                                xmlReader.readNext();
-                continue;
-            }
-
-            if( !currentElementName.isEmpty() )
-            {
-                currentElementName += "/";
-            }
-            currentElementName += xmlReader.name().toString();
-            xmlReader.readNext();
-        }
-
-        if( xmlReader.isEndElement() )
-        {
-            continue;
-        }
-
-        if( xmlReader.isCharacters() && !xmlReader.isWhitespace() )
-        {
-            QString key = currentElementName;
-            QString value = xmlReader.text().toString();
-
-            map[ key ] = value;
-
-            currentElementName.clear();
-        }
-    }
-
-     if( xmlReader.hasError() )
-     {
-        return false;
-     }
-
-    return true;
-}
-//!
-//! \brief writeXmlFile
-//! \param device
-//! \param map
-//! \return
-//!
-
-bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map )
-{
-    QXmlStreamWriter xmlWriter( &device );
-    xmlWriter.setAutoFormatting( true );
-
-    xmlWriter.writeStartDocument();
-        xmlWriter.writeStartElement( "SettingsMap" );
-
-    QSettings::SettingsMap::const_iterator mi = map.begin();
-    for( mi; mi != map.end(); ++mi )
-    {
-       QList< QString > groups;
-    //   StringUtils::SplitList( mi.key().toStdString().c_str(), "/", &groups );
-       QString string( mi.key().toStdString().c_str());
-        groups.append(string.split("/"));
-
-        qDebug() << "string xml : " + mi.key();
-
-        foreach( QString groupName, groups )
-        {
-            xmlWriter.writeStartElement( groupName );
-        }
-
-        xmlWriter.writeCharacters( mi.value().toString() );
-
-        foreach( QString groupName, groups )
-        {
-            xmlWriter.writeEndElement();
-        }
-    }
-
-        xmlWriter.writeEndElement();
-    xmlWriter.writeEndDocument();
-
-    return true;
-}
-

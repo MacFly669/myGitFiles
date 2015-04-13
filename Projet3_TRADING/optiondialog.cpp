@@ -1,7 +1,7 @@
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
 #include "cotationsview.h"
-#include "mainwindow.h"
+#include "xml.h"
 #include <QDebug>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -17,7 +17,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     ui->setupUi(this);
 
     this->cotations = _cotations;
-
+    XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     pairsList = cotations->getPaires().split(";", QString::SkipEmptyParts);
     coupleName << "EUR/USD" << "EUR/CHF" << "EUR/GBP" << "EUR/JPY" << "USD/CAD" << "USD/CHF" << "GBP/USD" << "USD/JPY" <<  "AUD/USD" << "AUD/JPY" << "NZD/USD" << "GBP/JPY";
     coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
@@ -85,7 +85,6 @@ void OptionDialog::checkboxClicked(int i)
    // qDebug() << "checkListDevises : " + checkListDevises.size();
 
     // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
-     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
      QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
    // enregistrement de l'id et de l'état de la checkBox
     settings.setValue("Checkbox/cb" + number[i],checkListDevises->at(i)->isChecked());
@@ -132,8 +131,10 @@ void OptionDialog::accept(){
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
+    settings.beginGroup("OptionBase");
     settings.setValue("nomBase", nomDB->text());
     settings.setValue("chemin", chemin->text());
+    settings.endGroup();
     newPairs = "";
 
     int taille = checkListDevises->size();
@@ -177,8 +178,9 @@ void OptionDialog::choisirDossier()
     dossier->append(QFileDialog::getExistingDirectory(this));
 
     chemin->setText(*dossier);
-
+    settings.beginGroup("OptionBase");
     settings.setValue("chemin", QVariant(getChemin()));
     settings.setValue("nomBase", nomDB->text());
+    settings.endGroup();
 }
 
