@@ -316,6 +316,12 @@ bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
 
     return true;
 }
+//!
+//! \brief writeXmlFile
+//! \param device
+//! \param map
+//! \return
+//!
 
 bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map )
 {
@@ -328,12 +334,12 @@ bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map )
     QSettings::SettingsMap::const_iterator mi = map.begin();
     for( mi; mi != map.end(); ++mi )
     {
-     //  std::vector< std::string > groups;
+       QList< QString > groups;
     //   StringUtils::SplitList( mi.key().toStdString().c_str(), "/", &groups );
        QString string( mi.key().toStdString().c_str());
-       QStringList groups = string.split("/");
+        groups.append(string.split("/"));
 
-        qDebug() << "string xml : " + string;
+        qDebug() << "string xml : " + mi.key();
 
         foreach( QString groupName, groups )
         {
