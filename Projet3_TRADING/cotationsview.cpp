@@ -27,7 +27,7 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
    connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
  //  connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(afficheProprietes()));
    connect(this, SIGNAL(dataSaved()), parent, SLOT(MainWindow::statutDataSaved()));
-   connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(rafraichirPage()));
+   connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(updateUrl()));
 
 }
 
@@ -43,12 +43,16 @@ void CotationsView::setUrl(QUrl &url)
 }
 
 // fonction rafraichissement du webView
-void CotationsView::rafraichirPage()
+void CotationsView::reload()
 {
 
-    qDebug() << "recieve signal ! " + *m_paires;
+    this->ui->webView->reload();
+}
+// Mise à jour de l'url
+void CotationsView::updateUrl()
+{
+
     this->ui->webView->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
-    qDebug() << "http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show";
     this->ui->webView->update();
 }
 

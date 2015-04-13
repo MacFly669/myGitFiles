@@ -18,7 +18,7 @@
 /// dataSaved() emis lors de l'insertion réussie des données
 ///
 /// Les slots:
-/// rafraichirPage() recharge la page
+/// updateUrl() recharge la page
 /// loadData() charge les données et les stocke dans un tableau
 /// afficheProprietes() ouvre la boite de dialogue de sélection des couples
 ///
@@ -57,7 +57,8 @@ signals:
     void dataSaved();
 
 public slots:
-       void rafraichirPage();
+       void reload();
+       void updateUrl();
        void loadData();
 
 

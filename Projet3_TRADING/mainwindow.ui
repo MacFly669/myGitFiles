@@ -255,7 +255,7 @@
      <normaloff>:/images/icons/Exit.png</normaloff>:/images/icons/Exit.png</iconset>
    </property>
    <property name="text">
-    <string>Quitter</string>
+    <string>&amp;Quitter</string>
    </property>
    <property name="toolTip">
     <string>Fermer l'application</string>
@@ -270,7 +270,10 @@
      <normaloff>:/images/icons/oeil.png</normaloff>:/images/icons/oeil.png</iconset>
    </property>
    <property name="text">
-    <string>Cours devises</string>
+    <string>&amp;Cours devises</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+C</string>
    </property>
   </action>
   <action name="actionGraphique">
@@ -280,7 +283,10 @@
     </iconset>
    </property>
    <property name="text">
-    <string>Graphique</string>
+    <string>&amp;Graphique</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+G</string>
    </property>
   </action>
   <action name="actionSimulation">
@@ -290,7 +296,10 @@
     </iconset>
    </property>
    <property name="text">
-    <string>Simulation</string>
+    <string>&amp;Simulation</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+S</string>
    </property>
   </action>
   <action name="actionOptions">
@@ -299,7 +308,10 @@
      <normaloff>:/images/icons/Wrench.png</normaloff>:/images/icons/Wrench.png</iconset>
    </property>
    <property name="text">
-    <string>options</string>
+    <string>&amp;Options</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+O</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -309,7 +321,10 @@
     </iconset>
    </property>
    <property name="text">
-    <string>about</string>
+    <string>&amp;About</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+A</string>
    </property>
   </action>
   <action name="action_Rafraichir">
@@ -322,6 +337,9 @@
    </property>
    <property name="toolTip">
     <string>Recharge la page</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
    </property>
   </action>
  </widget>

@@ -55,8 +55,8 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
     }
         // Bloc de connection des signaux
-        connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(update())); // Rafraichit l'affichage du webView
-        connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( reloadTableView()));// Rafraichit l'affichage de la TableView
+        connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
+       // connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( ()));// Rafraichit l'affichage de la TableView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
         connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
 
@@ -235,6 +235,8 @@ void MainWindow::on_actionGraphique_triggered()
 void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
 {
     ui->statusBar->showMessage(tr("Rafraîchissement manuel de la page"),2000);
+    reloadTableView();
+
 }
 
  void MainWindow::statutDataSaved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
