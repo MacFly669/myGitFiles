@@ -1,28 +1,6 @@
 #ifndef COTATIONSVIEW_H
 #define COTATIONSVIEW_H
-///!***************************************************************************************///
-///                              CLASS COTATIONSVIEW
-///
-/// Cette class utilise un webView pour afficher les cotations devises via l'url générée
-/// sur le site de Forex.
-/// Le constructeur prend en paramètre une base SQLITE , la paire sous forme d'id stocké
-/// en QString.
-///
-/// Les méthodes :
-/// setUrl() permet de mettre à jour l'url passé en paramètre au format QUrl
-/// setPaires() permet de mettre à jour la variable qui stocke les id à afficher
-/// getPaires() renvoi un QString retournant le ou les id contenu dans la variable.
-/// saveData sauvegarde les données dans la base. Prend un tableau string en paramètre.
-///
-/// Les signaux:
-/// dataSaved() emis lors de l'insertion réussie des données
-///
-/// Les slots:
-/// updateUrl() recharge la page
-/// loadData() charge les données et les stocke dans un tableau
-/// afficheProprietes() ouvre la boite de dialogue de sélection des couples
-///
-/// **************************************************************************************///
+
 #include <QWidget>
 #include <QUrl>
 #include <QSqlDatabase>
@@ -64,7 +42,7 @@ public slots:
 
 
 private slots:
-       void on_pushButton_clicked();
+      // void on_pushButton_clicked();
        void afficheProprietes();
 };
 

@@ -1,3 +1,33 @@
+///!
+///!
+///                              CLASS COTATIONSVIEW
+///
+/// \file cotationsView.cpp
+/// \author HENQUEZ
+/// \version 1.0
+/// \date Avril 2015
+/// \details
+///  Cette class utilise un webView pour afficher les cotations devises via l'url générée
+/// sur le site de Forex.
+/// Le constructeur prend en paramètre une base SQLITE , la paire sous forme d'id stocké
+/// en QString.
+///
+/// Les méthodes :
+/// setUrl() permet de mettre à jour l'url passé en paramètre au format QUrl
+/// setPaires() permet de mettre à jour la variable qui stocke les id à afficher
+/// getPaires() renvoi un QString retournant le ou les id contenu dans la variable.
+/// saveData sauvegarde les données dans la base. Prend un tableau string en paramètre.
+///
+/// Les signaux:
+/// dataSaved() emis lors de l'insertion réussie des données
+///
+/// Les slots:
+/// updateUrl() recharge la page
+/// loadData() charge les données et les stocke dans un tableau
+/// afficheProprietes() ouvre la boite de dialogue de sélection des couples
+///
+///
+///
 #include "cotationsview.h"
 #include "ui_cotationsview.h"
 
@@ -15,8 +45,12 @@
 CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
+    dlg = new OptionDialog( this ) ;
 
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     *m_paires = settings.value("pairs", "1;10;").toString();
     dlg = new OptionDialog( this ) ;
@@ -143,7 +177,3 @@ void CotationsView::afficheProprietes()
     dlg->exec() ;
 }
 
-void CotationsView::on_pushButton_clicked()
-{
-
-}

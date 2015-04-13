@@ -1,6 +1,7 @@
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
 #include "cotationsview.h"
+#include "mainwindow.h"
 #include <QDebug>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -83,10 +84,13 @@ void OptionDialog::checkboxClicked(int i)
     qDebug() << "checkboxClicked : " + QString::number(i);
    // qDebug() << "checkListDevises : " + checkListDevises.size();
 
-
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+    // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
    // enregistrement de l'id et de l'état de la checkBox
-    settings.setValue("Checkbox/" + number[i],checkListDevises->at(i)->isChecked());
+    settings.setValue("Checkbox/cb" + number[i],checkListDevises->at(i)->isChecked());
+
+    qDebug() << "checkListDevises->at(i)->objectName() " + checkListDevises->at(i)->objectName();
 
 }
 
@@ -98,13 +102,16 @@ OptionDialog::~OptionDialog()
 
 void OptionDialog::chargerOptions()
 {   // fichier setting ini
+   // QString temp;
 
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
     for (int i=0; i<11;i++)
     {
-       checkListDevises->at(i)->setChecked(settings.value("Checkbox/" + number[i], "false").toBool()) ; // false par défaut si pas de valeur
+       checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + number[i], "false").toBool()) ; // false par défaut si pas de valeur
 
       // qDebug() << coupleId[i];
     }
@@ -120,7 +127,9 @@ void OptionDialog::chargerOptions()
 void OptionDialog::accept(){
 
 
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
     settings.setValue("nomBase", nomDB->text());
@@ -134,13 +143,15 @@ void OptionDialog::accept(){
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
     for ( int i(0); i <12; i++ )
     {
-      if (settings.value("Checkbox/" + number[i]) == "true")
+      if (settings.value("Checkbox/cb" + number[i]) == "true")
        {
 
           qDebug() << "coupleId : " << coupleId[1] ;
            newPairs += coupleId[i] + ";";
            qDebug() << newPairs;
        }
+
+     checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + number[i], "false").toBool()) ;
 
 
     }
@@ -159,7 +170,9 @@ void OptionDialog::accept(){
 
 void OptionDialog::choisirDossier()
 {
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     dossier->append(QFileDialog::getExistingDirectory(this));
 
@@ -168,3 +181,4 @@ void OptionDialog::choisirDossier()
     settings.setValue("chemin", QVariant(getChemin()));
     settings.setValue("nomBase", nomDB->text());
 }
+

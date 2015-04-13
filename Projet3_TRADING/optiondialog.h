@@ -48,6 +48,8 @@ public slots:
     void choisirDossier();
     void accept();
 
+private slots:
+
 };
 
 #endif // OPTIONDIALOG_H

@@ -12,7 +12,7 @@
 /// *********************************************************************************
 #include <QMainWindow>
 #include <QSqlDatabase>
-
+#include <QSettings>
 
 class CotationsView;
 class QSqlTableModel;
@@ -34,6 +34,8 @@ public:
     void setHeaderTable();// fonction qui renomme le texte des header de la tableView
     void initGui();
 
+
+
     Ui::MainWindow *ui;
     QSqlDatabase* db;
 
@@ -47,6 +49,7 @@ private slots:
     void on_action_Rafraichir_triggered();//rafraichit le webview / enregistre les données
     void on_actionAbout_triggered(); // affichage de l'about
 
+
 signals:
     void erreurConDb();
 
@@ -56,5 +59,8 @@ private:
 
 
 };
+
+bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map );
+bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map );
 
 #endif // MAINWINDOW_H

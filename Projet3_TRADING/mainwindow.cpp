@@ -1,20 +1,28 @@
-/*****************************************************************************************************************
-
-
-        Class MainWindow - Feneêtre principale de l'application
-
-
-
-
-
-*/
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!
+//!         Class MainWindow - Fenêtre principale de l'application
+//!
+//! \file mainwindow.cpp
+//! \author HENQUEZ
+//! \version 1.0
+//! \date Avril 2015
+//! \brief Instancie une fenêtre principale.
+//!
+//!
+//! \details Cette class créée une instance de MainWindow
+//! Contient un menuBar , une statutBar
+//!
+//! \param db est un paramètre de type QSqlDatabase
+//! \param parent
+//!
+//!
 // class
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cotationsview.h"
 #include "graphique.h"
 #include "aboutdialog.h"
+#include "savetoxml.h"
 //Debug
 #include <QDebug>
 // imports
@@ -23,13 +31,20 @@
 #include <QSqlError>
 #include <QSqlTableModel>
 #include <QTableView>
+#include <QXmlStreamReader>
+#include <QDir>
 
-#include <QSettings>
+
 #include <QMdiArea>
 
 MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db(db), ui(new Ui::MainWindow)
 {
         ui->setupUi(this);
+
+
+        QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+        QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath());
+        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
         initGui();
 
@@ -188,7 +203,8 @@ void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
 QString MainWindow::loadPaires() // Charge les pairs à afficher dans les options sauvegarder par QSettings
 {
 
-    QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString valueReturn = settings.value("pairs", "1;10").toString();
 
     return valueReturn; // retourne un string ex: "1;10;"
@@ -252,3 +268,89 @@ void MainWindow::on_actionAbout_triggered()
     AboutDialog* about = new AboutDialog;
     about->show();
 }
+
+bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
+{
+    QXmlStreamReader xmlReader( &device );
+
+    QString currentElementName;
+    while( !xmlReader.atEnd() )
+    {
+    xmlReader.readNext();
+        while( xmlReader.isStartElement() )
+        {
+            if( xmlReader.name() == "SettingsMap" )
+            {
+                                xmlReader.readNext();
+                continue;
+            }
+
+            if( !currentElementName.isEmpty() )
+            {
+                currentElementName += "/";
+            }
+            currentElementName += xmlReader.name().toString();
+            xmlReader.readNext();
+        }
+
+        if( xmlReader.isEndElement() )
+        {
+            continue;
+        }
+
+        if( xmlReader.isCharacters() && !xmlReader.isWhitespace() )
+        {
+            QString key = currentElementName;
+            QString value = xmlReader.text().toString();
+
+            map[ key ] = value;
+
+            currentElementName.clear();
+        }
+    }
+
+     if( xmlReader.hasError() )
+     {
+        return false;
+     }
+
+    return true;
+}
+
+bool writeXmlFile( QIODevice& device, const QSettings::SettingsMap& map )
+{
+    QXmlStreamWriter xmlWriter( &device );
+    xmlWriter.setAutoFormatting( true );
+
+    xmlWriter.writeStartDocument();
+        xmlWriter.writeStartElement( "SettingsMap" );
+
+    QSettings::SettingsMap::const_iterator mi = map.begin();
+    for( mi; mi != map.end(); ++mi )
+    {
+     //  std::vector< std::string > groups;
+    //   StringUtils::SplitList( mi.key().toStdString().c_str(), "/", &groups );
+       QString string( mi.key().toStdString().c_str());
+       QStringList groups = string.split("/");
+
+        qDebug() << "string xml : " + string;
+
+        foreach( QString groupName, groups )
+        {
+            xmlWriter.writeStartElement( groupName );
+        }
+
+        xmlWriter.writeCharacters( mi.value().toString() );
+
+        foreach( QString groupName, groups )
+        {
+            xmlWriter.writeEndElement();
+        }
+    }
+
+        xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
+
+    return true;
+}
+
