@@ -30,6 +30,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     QFormLayout *formLayout = new QFormLayout;
      formLayout->addRow(tr("Nom de la base de données :"), nomDB);
      formLayout->addRow(tr("Chemin"), chemin);
+     formLayout->addWidget(parcourir);
      formLayout->addRow(tr("URL du serveur :"), urlBase);
      formLayout->addRow(tr("Utilisateur"), userBase);
      formLayout->addRow(tr("Mot de passe"), pwdBase);
@@ -37,7 +38,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
      layoutPrincipale->addLayout(formLayout);
 
      layoutPrincipale->addWidget(ui->buttonBox);
-     layoutPrincipale->addWidget(parcourir);
+    // layoutPrincipale->addWidget(parcourir);
      this->setLayout(layoutPrincipale);
 
 
@@ -49,14 +50,15 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     {
     tmpCheckBox = new QCheckBox(coupleName[i]);
     checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
-    layoutPrincipale->addWidget(tmpCheckBox); // on ajoute les widgets au layout
+    layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
 
     connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
     mapper->setMapping(tmpCheckBox, i);
 
     qDebug() << coupleId[i];
     }
-
+    ui->groupCheck->setLayout(layout);
+    ui->groupCheck->setGeometry(5,200,850,50);
     layoutPrincipale->addWidget(ui->buttonBox);
     layoutPrincipale->addLayout(layout);
     chargerOptions(); // charge les options du fichier ini
@@ -72,11 +74,11 @@ void OptionDialog::initGui()
 
     nomDB = new QLineEdit;
     chemin = new QLineEdit;
+    parcourir = new QPushButton("Parcourir");
     urlBase = new QLineEdit;
     userBase = new QLineEdit;
     pwdBase = new QLineEdit;
     pwdBase->setEchoMode(QLineEdit::Password);
-    parcourir = new QPushButton("Parcourir");
     parcourir->setFixedSize(200,20);
     chemin->setFixedSize(700,20);
 }

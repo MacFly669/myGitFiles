@@ -27,6 +27,12 @@ public:
 
 private:
     Ui::AboutDialog *ui;
+
+private slots:
+
+    void lienHypertexte(const QUrl &lien);
+
+
 };
 
 #endif // ABOUTDIALOG_H

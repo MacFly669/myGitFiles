@@ -34,6 +34,19 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
+  <widget class="QGroupBox" name="groupCheck">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>180</y>
+     <width>641</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Couples Devises</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
