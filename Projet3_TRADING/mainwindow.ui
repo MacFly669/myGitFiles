@@ -321,10 +321,10 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;About</string>
+    <string>About</string>
    </property>
    <property name="shortcut">
-    <string>Alt+A</string>
+    <string>Alt+W</string>
    </property>
   </action>
   <action name="action_Rafraichir">

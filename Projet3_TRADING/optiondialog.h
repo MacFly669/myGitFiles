@@ -20,6 +20,8 @@ public:
 
     void OptionDialog::chargerOptions();
     void setChemin(QString _chemin){ chemin->setText( _chemin); }
+    void initLists();
+    void initGui();
     QVariant getChemin(){ return chemin->text();}
 
 
@@ -33,6 +35,9 @@ private:
     QPushButton* parcourir;
     QLineEdit *nomDB ;
     QLineEdit *chemin;
+    QLineEdit *urlBase ;
+    QLineEdit *userBase;
+    QLineEdit *pwdBase;
     QString* dossier;
     QCheckBox* tmpCheckBox;
     QString newPairs;

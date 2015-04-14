@@ -17,34 +17,23 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     ui->setupUi(this);
 
     this->cotations = _cotations;
-    XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-    pairsList = cotations->getPaires().split(";", QString::SkipEmptyParts);
-    coupleName << "EUR/USD" << "EUR/CHF" << "EUR/GBP" << "EUR/JPY" << "USD/CAD" << "USD/CHF" << "GBP/USD" << "USD/JPY" <<  "AUD/USD" << "AUD/JPY" << "NZD/USD" << "GBP/JPY";
-    coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
-    number  << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11" << "12";
-
     tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
-/*    QList<QString> coupleName; // Liste des couples en string "EUR/USD" par exemple
-    QList<QString> coupleId;*/  //  Liste des couples par ID
-    checkListDevises = new QList<QCheckBox*>;
+    XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QString newPairs = "";
-    // Listes des devises
-
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
     QHBoxLayout *layout = new QHBoxLayout;
-
-    nomDB = new QLineEdit;
-    chemin = new QLineEdit;
-    parcourir = new QPushButton("Parcourir");
-    parcourir->setFixedSize(200,25);
-    chemin->setFixedSize(700,25);
+    initLists(); // initialisation des listes
+    initGui(); // Initialisation de l'affichage
 
     dossier = new QString;
 
     QFormLayout *formLayout = new QFormLayout;
-     formLayout->addRow("Nom de la base de données :", nomDB);
-     formLayout->addRow("Chemin", chemin);
-     formLayout->setVerticalSpacing(25);
+     formLayout->addRow(tr("Nom de la base de données :"), nomDB);
+     formLayout->addRow(tr("Chemin"), chemin);
+     formLayout->addRow(tr("URL du serveur :"), urlBase);
+     formLayout->addRow(tr("Utilisateur"), userBase);
+     formLayout->addRow(tr("Mot de passe"), pwdBase);
+     formLayout->setVerticalSpacing(10);
      layoutPrincipale->addLayout(formLayout);
 
      layoutPrincipale->addWidget(ui->buttonBox);
@@ -78,21 +67,33 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
 
 }
 
-void OptionDialog::checkboxClicked(int i)
-{   // fichier setting ini
+void OptionDialog::initGui()
+{
 
-    qDebug() << "checkboxClicked : " + QString::number(i);
-   // qDebug() << "checkListDevises : " + checkListDevises.size();
-
-    // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
-     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-   // enregistrement de l'id et de l'état de la checkBox
-    settings.setValue("Checkbox/cb" + number[i],checkListDevises->at(i)->isChecked());
-
-    qDebug() << "checkListDevises->at(i)->objectName() " + checkListDevises->at(i)->objectName();
-
+    nomDB = new QLineEdit;
+    chemin = new QLineEdit;
+    urlBase = new QLineEdit;
+    userBase = new QLineEdit;
+    pwdBase = new QLineEdit;
+    pwdBase->setEchoMode(QLineEdit::Password);
+    parcourir = new QPushButton("Parcourir");
+    parcourir->setFixedSize(200,20);
+    chemin->setFixedSize(700,20);
 }
 
+void OptionDialog::initLists()
+{
+    coupleName << "EUR/USD" << "EUR/CHF" << "EUR/GBP" << "EUR/JPY" << "USD/CAD" << "USD/CHF" << "GBP/USD" << "USD/JPY" <<  "AUD/USD" << "AUD/JPY" << "NZD/USD" << "GBP/JPY";
+    coupleId << "1" << "10" << "6" << "9" << "7" << "4" << "2" << "3" << "5" << "49" << "8" << "11";
+    number  << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9" << "10" << "11" << "12";
+    checkListDevises = new QList<QCheckBox*>;
+}
+
+void OptionDialog::checkboxClicked(int i)
+{
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+    settings.setValue("Checkbox/cb" + number[i],checkListDevises->at(i)->isChecked());// enregistrement de l'id et de l'état de la checkBox
+}
 
 OptionDialog::~OptionDialog()
 {
@@ -100,8 +101,7 @@ OptionDialog::~OptionDialog()
 }
 
 void OptionDialog::chargerOptions()
-{   // fichier setting ini
-   // QString temp;
+{
 
    // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
@@ -112,16 +112,14 @@ void OptionDialog::chargerOptions()
     {
        checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + number[i], "false").toBool()) ; // false par défaut si pas de valeur
 
-      // qDebug() << coupleId[i];
     }
 
-    nomDB->setText(settings.value("nomBase", "Projet3.db").toString()) ;
-    chemin->setText(settings.value("chemin").toString());
-
-    qDebug() << "ChargerOptions terminer !! ";
-
+    nomDB->setText(settings.value("OptionBase/nomBase", "Projet3.db").toString()) ;
+    chemin->setText(settings.value("OptionBase/chemin").toString());
+    urlBase->setText(settings.value("OptionBase/serveur", "localhost").toString()) ;
+    userBase->setText(settings.value("OptionBase/user").toString());
+    pwdBase->setText(settings.value("OptionBase/password").toString());
 }
-
 
 void OptionDialog::accept(){
 
@@ -134,6 +132,9 @@ void OptionDialog::accept(){
     settings.beginGroup("OptionBase");
     settings.setValue("nomBase", nomDB->text());
     settings.setValue("chemin", chemin->text());
+    settings.setValue("serveur", urlBase->text());
+    settings.setValue("user", userBase->text());
+    settings.setValue("password", pwdBase->text());
     settings.endGroup();
     newPairs = "";
 
