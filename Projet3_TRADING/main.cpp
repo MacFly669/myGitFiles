@@ -11,7 +11,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QSqlDatabase* db = MainWindow::connectToDB( "Projet3_Trading.db" ) ;
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+
+    QString nomBase = settings.value("OptionBase/nomBase", "Projet3_Trading.db").toString();
+
+    QSqlDatabase* db = MainWindow::connectToDB( nomBase ) ;
 
     MainWindow w(db);
     w.show();

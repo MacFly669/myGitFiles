@@ -11,16 +11,20 @@
 #include <QSettings>
 #include <QSignalMapper>
 #include <QFileDialog>
+#include <QMessageBox>
 
 OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog(parent), ui(new Ui::OptionDialog)
 {
     ui->setupUi(this);
 
     this->cotations = _cotations;
+
     tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
+
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QString newPairs = "";
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
+    QVBoxLayout *layoutDistant = new QVBoxLayout;
     QHBoxLayout *layout = new QHBoxLayout;
     initLists(); // initialisation des listes
     initGui(); // Initialisation de l'affichage
@@ -31,11 +35,17 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
      formLayout->addRow(tr("Nom de la base de données :"), nomDB);
      formLayout->addRow(tr("Chemin"), chemin);
      formLayout->addWidget(parcourir);
-     formLayout->addRow(tr("URL du serveur :"), urlBase);
-     formLayout->addRow(tr("Utilisateur"), userBase);
-     formLayout->addRow(tr("Mot de passe"), pwdBase);
      formLayout->setVerticalSpacing(10);
      layoutPrincipale->addLayout(formLayout);
+
+    QFormLayout *formLayoutDistant = new QFormLayout;
+     formLayoutDistant->addRow(tr("URL du serveur :"), urlBase);
+     formLayoutDistant->addRow(tr("Utilisateur"), userBase);
+     formLayoutDistant->addRow(tr("Mot de passe"), pwdBase);
+     formLayoutDistant->setVerticalSpacing(10);
+
+      ui->groupBase->setLayout(formLayoutDistant);
+      ui->groupBase->setGeometry(10,100,850,125);
 
      layoutPrincipale->addWidget(ui->buttonBox);
     // layoutPrincipale->addWidget(parcourir);
@@ -46,26 +56,27 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     QSignalMapper* mapper = new QSignalMapper(this);
 
     // Boucle qui créée les checkBox, ajoute le nom du couple ...
-    for(int i=0; i<12; i++)
-    {
-    tmpCheckBox = new QCheckBox(coupleName[i]);
-    checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
-    layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
+        for(int i=0; i<12; i++)
+        {
+            tmpCheckBox = new QCheckBox(coupleName[i]);
+            checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
+            layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
 
-    connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
-    mapper->setMapping(tmpCheckBox, i);
+            connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
+            mapper->setMapping(tmpCheckBox, i);
+        }
 
-    qDebug() << coupleId[i];
-    }
     ui->groupCheck->setLayout(layout);
-    ui->groupCheck->setGeometry(5,200,850,50);
+    ui->groupCheck->setGeometry(5,250,850,50);
     layoutPrincipale->addWidget(ui->buttonBox);
     layoutPrincipale->addLayout(layout);
+
     chargerOptions(); // charge les options du fichier ini
 
      // récupération du signal stateChange sur les checkBox
      connect(mapper, SIGNAL(mapped(int)), this, SLOT(checkboxClicked(int)));
      connect(parcourir, SIGNAL(clicked()), this, SLOT(choisirDossier()));
+     connect(nomDB, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
 
 }
 
@@ -73,11 +84,15 @@ void OptionDialog::initGui()
 {
 
     nomDB = new QLineEdit;
+    nomDB->setFixedWidth(200);
     chemin = new QLineEdit;
     parcourir = new QPushButton("Parcourir");
     urlBase = new QLineEdit;
+    urlBase->setFixedWidth(200);
     userBase = new QLineEdit;
+    userBase->setFixedWidth(200);
     pwdBase = new QLineEdit;
+    pwdBase->setFixedWidth(200);
     pwdBase->setEchoMode(QLineEdit::Password);
     parcourir->setFixedSize(200,20);
     chemin->setFixedSize(700,20);
@@ -187,3 +202,27 @@ void OptionDialog::choisirDossier()
     settings.endGroup();
 }
 
+void OptionDialog::alertDbName()
+{
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Modification de la DB");
+    msgBox.setText("Le nom de la base semble avoir été modifié." );
+    msgBox.setInformativeText("Vous devez redémarrer l'application");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
+
+    switch (ret) {
+      case QMessageBox::Ok:
+          // todo
+          break;
+      case QMessageBox::Cancel:
+          // todo
+          break;
+      default:
+
+          break;
+    }
+
+}

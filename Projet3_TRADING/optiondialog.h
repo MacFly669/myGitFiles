@@ -53,6 +53,7 @@ public slots:
     void checkboxClicked(int i);
     void choisirDossier();
     void accept();
+    void alertDbName();
 
 private slots:
 

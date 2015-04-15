@@ -16,23 +16,26 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     cotationsview.cpp \
     optiondialog.cpp \
-    qcustomplot.cpp \
     graphique.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    qcustomplot.cpp\
+    simulation.cpp
 
 HEADERS  += mainwindow.h \
     cotationsview.h \
     optiondialog.h \
-    qcustomplot.h \
     graphique.h \
     aboutdialog.h \
-    xml.h
+    xml.h \
+    simulation.h \
+    qcustomplot.h
 
 FORMS    += mainwindow.ui \
     cotationsview.ui \
     optiondialog.ui \
     graphique.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    simulation.ui
 
 RESOURCES += \
     myresources.qrc

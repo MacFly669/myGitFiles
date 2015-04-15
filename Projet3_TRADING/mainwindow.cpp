@@ -27,7 +27,7 @@
 //! \brief Instancie une fenêtre principale.
 //!
 //!
-//! \details Cette class créée une instance de MainWindow
+//! \def Cette class créée une instance de MainWindow
 //! Contient un menuBar , une statutBar , un ui->frame qui contiendra le webView de l'instance de la class cotationsView
 //! Un ui->tableView pour afficher les enregistrements, une checkbox pour changer la devise et des QDateEDit pour le filtre par date
 //!
