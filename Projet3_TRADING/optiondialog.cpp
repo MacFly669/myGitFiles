@@ -1,6 +1,7 @@
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
 #include "cotationsview.h"
+#include "mainwindow.h"
 #include "xml.h"
 #include <QDebug>
 #include <QFormLayout>
@@ -12,6 +13,8 @@
 #include <QSignalMapper>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QPointer>
+#include <QProcess>
 
 OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog(parent), ui(new Ui::OptionDialog)
 {
@@ -212,10 +215,23 @@ void OptionDialog::alertDbName()
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     int ret = msgBox.exec();
+    // restart:
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     switch (ret) {
       case QMessageBox::Ok:
           // todo
+            emit restartMyApp();
+        settings.beginGroup("OptionBase");
+        settings.setValue("nomBase", nomDB->text());
+        settings.endGroup();
+
+        //settings.setValue("nomBase", nomDB->text());
+        qApp->quit();
+        QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+
+
           break;
       case QMessageBox::Cancel:
           // todo
@@ -226,3 +242,5 @@ void OptionDialog::alertDbName()
     }
 
 }
+
+

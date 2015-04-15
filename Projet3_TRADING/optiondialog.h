@@ -47,6 +47,7 @@ private:
 signals:
 
     void acceptedOptionDevises();
+    void restartMyApp();
 
 public slots:
 

@@ -16,6 +16,7 @@
 #include <QXmlStreamReader>
 #include <QDir>
 #include <QMdiArea>
+#include <QProcess>
 //////////////////////////////////////////////////////////////////////////////////////////////
 //!
 //!         Class MainWindow - Fenêtre principale de l'application
@@ -78,7 +79,6 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
        // connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( ()));// Rafraichit l'affichage de la TableView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
         connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
-
 
 }
 //!
@@ -314,3 +314,4 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
     AboutDialog* about = new AboutDialog;
     about->show();
 }
+
