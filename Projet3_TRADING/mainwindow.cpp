@@ -113,7 +113,7 @@ void MainWindow::setHeaderTable() // Nomme les header du TableView
     ui->tableView->setModel( model );
     // Masquage des colonnes non désirées
     ui->tableView->hideColumn(0); // id
-    ui->tableView->hideColumn(4); // cours
+    //ui->tableView->hideColumn(4); // cours
     ui->tableView->hideColumn(5); // ouverture
     ui->tableView->hideColumn(6); // haut
     ui->tableView->hideColumn(7); // bas

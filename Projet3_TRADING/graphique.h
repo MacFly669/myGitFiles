@@ -16,10 +16,20 @@ class Graphique : public QWidget
 public:
     explicit Graphique(QSqlDatabase* _db, QWidget *parent = 0);
     ~Graphique();
+  //  void GraphiquePointLigne(QString &_gPairs);
+   // void updateGraph();
 
 private:
     Ui::Graphique *ui;
     QSqlDatabase* db;
+    QVector<double>* my;
+    QVector<double>* mx;
+    QString gPairs;
+
+protected slots:
+
+   // void collectePoints();
+
 
 };
 

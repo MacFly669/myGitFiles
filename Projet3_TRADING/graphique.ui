@@ -16,12 +16,82 @@
   <widget class="QCustomPlot" name="customPlot" native="true">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>50</y>
-     <width>541</width>
+     <x>30</x>
+     <y>150</y>
+     <width>761</width>
      <height>351</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>668</x>
+     <y>60</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>EUR/USD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>EUR/CHF</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>EUR/GBP</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>EUR/CAD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>USD/CHF</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>USD/CAD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>USD/JPY</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>AUD/USD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>A§UD/JPY</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>GBP/USD</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>GBP/JPY</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>NZD/USD</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <customwidgets>
