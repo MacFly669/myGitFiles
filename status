@@ -1,0 +1,126 @@
+[33mcommit c81aa7d418a7c277b6d5e826820fb0c27826f1b6[m
+Author: unknown <tsdi06@pole207-T.SYSINFO>
+Date:   Wed Apr 15 11:45:07 2015 +0200
+
+    Implantation redémarrage
+
+[33mcommit 793ebbb9213cbd48bff2861607ad526df8cf33fd[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Wed Apr 15 02:11:26 2015 +0200
+
+    Amélioration OptionDialog
+
+[33mcommit def3c5e1e8a45ff78c6b14be21e4d731990e8cbc[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Tue Apr 14 20:25:23 2015 +0200
+
+    About lien Ok
+
+[33mcommit 62d189ca3637906fd031e726c27712e2940c21b4[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Tue Apr 14 02:40:15 2015 +0200
+
+    finalisation xml + boite de dialogue
+
+[33mcommit 3f763e6ff169657a276fcf33a71f05ad87e90084[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Tue Apr 14 01:56:09 2015 +0200
+
+    finalisation xml - TODO url/Db/mdp DB
+
+[33mcommit 02546b6cdbe86e48818bcbb639fab59212061d8f[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Mon Apr 13 17:53:05 2015 +0200
+
+    maj du mainwindow
+
+[33mcommit 226e9784636eaf39e3d9487b5a37e271aff7961f[m
+Author: unknown <tsdi06@pole207-T.SYSINFO>
+Date:   Mon Apr 13 16:20:52 2015 +0200
+
+    maj cci
+
+[33mcommit 2d288583a615198e024d22fbeb99ce267632a355[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Mon Apr 13 12:18:02 2015 +0200
+
+    nouvelle branch
+
+[33mcommit 96bbac25d395fc9109daf2400c9dc90deee67d72[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Mon Apr 13 02:39:32 2015 +0200
+
+    ajout fonction reload + épurages
+
+[33mcommit fbc0e56a4f836ff2e064a2965f6fce1baa8f23bf[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sun Apr 12 23:04:07 2015 +0200
+
+    optimisation
+
+[33mcommit eaa77ef573d7bfe489ebdf02aa1d894d4d25ad51[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sun Apr 12 23:03:35 2015 +0200
+
+    optimisation
+
+[33mcommit 6f2690f52e3c9805fce2b566100ddf5f57f29a2c[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sun Apr 12 05:03:02 2015 +0200
+
+    commentaires
+
+[33mcommit 0016787dcdd5e709975234222ed4af4303aa0255[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sun Apr 12 04:27:45 2015 +0200
+
+    add
+
+[33mcommit 9d148a2dcf97592dd840c194c29cea80c526063f[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sun Apr 12 04:26:16 2015 +0200
+
+    finalisation about
+
+[33mcommit f4324fe57e943d1c6de9bff003ebff8f85746413[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Sat Apr 11 20:06:26 2015 +0200
+
+    mise à jour des fichiers clés USB
+
+[33mcommit 72aeabab2aa8c5ba176ebff97bb2df33e5a2d6de[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 23:52:10 2015 +0200
+
+    avancement
+
+[33mcommit f55944ec67b2e79f7b0bcfd3d03ee39358f93d79[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 20:22:57 2015 +0200
+
+    redemarrage du projet
+
+[33mcommit baf4d9386eb2227381ed212f4d6bd3832ce3c17c[m
+Merge: ec7ea14 e1251d4
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 19:59:51 2015 +0200
+
+    Merge branch 'master' of https://github.com/MacFly669/myGitFiles
+
+[33mcommit ec7ea14c5f51deac7fa84e532f12e4ae0e8c3d9a[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 18:48:24 2015 +0200
+
+    test
+
+[33mcommit e1251d4133979605099ff9c1cc370190f6c54a17[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 18:07:31 2015 +0200
+
+    Update README.md
+
+[33mcommit f21f0b83a7a3752184b904117c6b5d7813a30138[m
+Author: MacFly669 <macfly669@gmail.com>
+Date:   Fri Apr 10 18:06:12 2015 +0200
+
+    Initial commit

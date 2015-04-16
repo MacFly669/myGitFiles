@@ -20,6 +20,9 @@ public:
 private:
     Ui::Graphique *ui;
     QSqlDatabase* db;
+    QVector<double>* x;
+    QVector<double>* y;
+
 
 };
 
