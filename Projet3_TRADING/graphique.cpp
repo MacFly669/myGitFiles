@@ -11,6 +11,7 @@ Graphique::Graphique(QSqlDatabase *_db, QWidget *parent) :
 {
     ui->setupUi(this);
     this->db = _db;
+<<<<<<< HEAD
     QString gPairs = ui->comboBox->currentText();
     QDateTime timestamp;
     QVector<int> xTimestampLabel(0);
@@ -30,6 +31,27 @@ Graphique::Graphique(QSqlDatabase *_db, QWidget *parent) :
             qDebug() << " Y --> " <<  my;
           //  qDebug() << "x[0] : " << x[0] << "x[50] : " << x[50];
         }
+=======
+
+
+   // QVector<double> y(101); // initialize with entries 0..100
+    if(db) qDebug() << "connection ok Graph "; else  qDebug() << "connection PaS ok Graph ";
+
+//    QSqlQuery query;
+//        query.prepare("SELECT haut FROM couple WHERE nom='EUR/USD' ORDER BY timestamp");
+
+//        QSqlQuery xQuery("SELECT cours FROM couple WHERE nom='EUR/USD' ORDER BY timestamp DESC LIMIT 50");
+//        while (xQuery.next()) {
+//            double cours = xQuery.value(0).toDouble();
+//            x->push_back(cours);
+//        }
+
+//        QSqlQuery yQuery("SELECT date FROM couple WHERE nom='EUR/USD' ORDER BY timestamp DESC LIMIT 50");
+//        while (yQuery.next()) {
+//            double cours = yQuery.value(0).toDouble();
+//            y.push_back(cours);
+//        }
+>>>>>>> 474b7504d319558134a66d1fe4ce382f11bb031e
 
         QSqlQuery tsQuery("SELECT timestamp FROM couples WHERE nom='EUR/USD' ORDER BY timestamp DESC LIMIT 50");
         while (tsQuery.next())
@@ -51,6 +73,7 @@ Graphique::Graphique(QSqlDatabase *_db, QWidget *parent) :
     customPlot->legend->setFont(QFont("Helvetica", 9));
     QPen pen;
     // add graphs with different line styles:
+<<<<<<< HEAD
       QCPGraph::lsLine;
       customPlot->addGraph();
       pen.setColor(QColor(qSin(1.2)*80+80));
@@ -68,6 +91,42 @@ Graphique::Graphique(QSqlDatabase *_db, QWidget *parent) :
       customPlot->graph()->setData(*mx, *my);
       customPlot->graph()->rescaleAxes(true);
   //  }
+=======
+
+      customPlot->addGraph();
+      pen.setColor(QColor(qSin(1+1.2)*80+80));
+      customPlot->graph()->setPen(pen);
+      customPlot->graph()->setName("C pas Graph");
+      customPlot->graph()->setLineStyle((QCPGraph::LineStyle)1);
+      customPlot->graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, 5));
+      // generate data:
+     QVector<double> x(50);
+     QVector<double> y(50);
+      QCPGraph::lsLine;
+
+          QSqlQuery xQuery("SELECT cours FROM couple WHERE nom='EUR/USD' ORDER BY timestamp DESC LIMIT 50");
+          while (xQuery.next()) {
+              double cours = xQuery.value(0).toDouble();
+              y.push_back(cours);
+          }
+
+          QSqlQuery yQuery("SELECT date FROM couple WHERE nom='EUR/USD' ORDER BY timestamp DESC LIMIT 50");
+          while (yQuery.next()) {
+              double cours = yQuery.value(0).toDouble();
+              x.push_back(cours);
+          }
+
+
+
+          for (int j=0; j<50; ++j)
+          {
+            x[j] = j/15.0 * 5*3.14 + 0.01;
+            y[j] =  y[j]*qSin(x[j])/x[j] - ( QCPGraph::lsLine)*5  + 2;
+          }
+      customPlot->graph()->setData(x, y);
+      customPlot->graph()->rescaleAxes(true);
+
+>>>>>>> 474b7504d319558134a66d1fe4ce382f11bb031e
     // zoom out a bit:
 
 

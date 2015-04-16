@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!-- Written by QtCreator 3.3.2, 2015-04-16T01:46:56. -->
 =======
 <!-- Written by QtCreator 3.3.2, 2015-04-15T09:26:31. -->
 >>>>>>> c81aa7d418a7c277b6d5e826820fb0c27826f1b6
+=======
+<!-- Written by QtCreator 3.3.2, 2015-04-16T16:45:52. -->
+>>>>>>> 474b7504d319558134a66d1fe4ce382f11bb031e
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -229,8 +233,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Projet3_TRADING</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/Developpement/Projet3_TRADING/Projet3_TRADING.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Projet3_TRADING2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/Developpement/ProjetGit/myGitFiles/Projet3_TRADING/Projet3_TRADING.pro</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">Projet3_TRADING.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>

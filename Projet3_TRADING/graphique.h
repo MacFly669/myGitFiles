@@ -22,6 +22,7 @@ public:
 private:
     Ui::Graphique *ui;
     QSqlDatabase* db;
+<<<<<<< HEAD
     QVector<double>* my;
     QVector<double>* mx;
     QString gPairs;
@@ -29,6 +30,10 @@ private:
 protected slots:
 
    // void collectePoints();
+=======
+    QVector<double>* x;
+    QVector<double>* y;
+>>>>>>> 474b7504d319558134a66d1fe4ce382f11bb031e
 
 
 };
