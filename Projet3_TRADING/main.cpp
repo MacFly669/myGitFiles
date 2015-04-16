@@ -9,6 +9,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QApplication a(argc, argv);
 
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
@@ -23,4 +24,5 @@ int main(int argc, char *argv[])
     w.setFixedSize(900,400);
 
     return a.exec();
+
 }
