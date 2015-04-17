@@ -30,7 +30,8 @@
 ///
 #include "cotationsview.h"
 #include "ui_cotationsview.h"
-
+#include "optiondialog.h"
+#include "xml.h"
 #include <QWebElementCollection>
 #include <QWebElement>
 #include <QWebFrame>
@@ -38,13 +39,26 @@
 #include <QSqlError>
 #include <QSqlDatabase>
 #include <QSettings>
-#include "optiondialog.h"
-#include "mainwindow.h"
+#include <QMessageBox>
 
+//!
+//! \brief CotationsView::CotationsView \n
+//! Class qui affiche et sauvegarde les cotations des devises FOREX. L'affichage en direct dans un webView et le stockage des données
+//! réceptionner dans la base de données SQLITE
+//!
+//! \param db Objet QSqlDatabase : connection à la base de données
+//! \param _paires QString contient les paires d'id des couples à sauvegarder \example "1;10", il seront par la même occasion afficher dans le webView caché (hide) au démarrage.
+//! \param parent QWidget dans lequel sera afficher le Widget CotationsView instancié.
+//!
+//!
+//!
+//!
+//!
 CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
-    dlg = new OptionDialog( this ) ;
+
+    dlg = new OptionDialog( this ) ; //déclaration de la boite de dialogue
 
    // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
@@ -58,8 +72,6 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
 
     // Signal attend le fin du chargement de la page web puis appelle la fonctin loadData()
    connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
- //  connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(afficheProprietes()));
-   connect(this, SIGNAL(dataSaved()), parent, SLOT(MainWindow::statutDataSaved()));
    connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(updateUrl()));
 
 }
@@ -69,19 +81,28 @@ CotationsView::~CotationsView()
     delete ui;
 }
 
-// fonction de mise à jour de l'URL
+//!
+//! \brief CotationsView::setUrl
+//!
+//! \fn membre setUrl() change l'url du QTableView
+//! \param url  nouvelle adresse contenant les modifications apporter aux paires dans la configuration
+//!
 void CotationsView::setUrl(QUrl &url)
 {
        ui->webView->setUrl(url);
 }
 
 // fonction rafraichissement du webView
+//!
+//! \brief CotationsView::reload
+//!
+//! Recharge le ui->webView
 void CotationsView::reload()
 {
-
     this->ui->webView->reload();
 }
 // Mise à jour de l'url
+
 void CotationsView::updateUrl()
 {
 
@@ -120,19 +141,21 @@ void CotationsView::loadData(){
                saveData(tdTable); // on envoi le tableau pour la sauvegarde DB
 
 }
-
+//!
+//! \brief CotationsView::saveData
+//! \param table QVector<QString> tableau contenant les valeurs à sauvegarder dans la base de données.
+//!
 void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds la DB
 
-    // récupération de la date du jour + formatage
-    QDate date;
+
+    QDate date;// récupération de la date du jour + formatage
     QString strDate = date.currentDate().toString("dd.MM.yyyy");
-    // fabrication d'un timestamp utilisé pour le classement ds le TableView
-    QTime time;
+    QTime time; // fabrication d'un timestamp utilisé pour le classement ds le TableView
           time = time.currentTime();
     QDateTime startDate(QDate(1970,1,1) , QTime(0, 0, 0));
     QDateTime endDate(date.currentDate(), time);
-    // initialisation de la varaible timeStamp qui sera stockée.
-    int timeStamp = startDate.secsTo(endDate);
+
+    int timeStamp = startDate.secsTo(endDate);// initialisation de la variable timeStamp qui sera stockée.
 
     // calcul du nombre de lignes
     int lignes = table.count()/9;
@@ -140,10 +163,9 @@ void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
     if (!db) {
 
        // TODO QMessageBox
+    //    QMessageBox("Erreur base de données","Erreur de connection à la base de données")
         return;
     }
-
-    qDebug() << "Connecté" << lignes;
 
     for(int i=0; i<lignes; i++){
 
@@ -167,7 +189,9 @@ void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
 
 
     }
+        qDebug() << "emit dataSaved !! " ; // logs
         emit dataSaved();
+
 }
 
 void CotationsView::afficheProprietes()

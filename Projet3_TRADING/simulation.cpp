@@ -6,6 +6,8 @@ Simulation::Simulation(QWidget *parent) :
     ui(new Ui::Simulation)
 {
     ui->setupUi(this);
+
+    ui->webView->load(QUrl("http://tools.fr.forexprostools.com/profit-calculator/index.php?acc=17&pair=1"));
 }
 
 Simulation::~Simulation()

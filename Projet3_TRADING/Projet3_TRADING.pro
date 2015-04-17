@@ -6,7 +6,7 @@
 
 QT       += core gui webkitwidgets sql network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Projet3_TRADING
 TEMPLATE = app
@@ -14,28 +14,26 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    cotationsview.cpp \
-    optiondialog.cpp \
-    graphique.cpp \
-    aboutdialog.cpp \
-    qcustomplot.cpp\
-    simulation.cpp
+        cotationsview.cpp \
+        optiondialog.cpp \
+        aboutdialog.cpp \
+        simulation.cpp\
+        graphique.cpp
 
 HEADERS  += mainwindow.h \
-    cotationsview.h \
-    optiondialog.h \
-    graphique.h \
-    aboutdialog.h \
-    xml.h \
-    simulation.h \
-    qcustomplot.h
+        cotationsview.h \
+        optiondialog.h \
+        aboutdialog.h \
+        xml.h \
+        simulation.h \
+        graphique.h\
 
 FORMS    += mainwindow.ui \
-    cotationsview.ui \
-    optiondialog.ui \
-    graphique.ui \
-    aboutdialog.ui \
-    simulation.ui
+        cotationsview.ui \
+        optiondialog.ui \
+        aboutdialog.ui \
+        simulation.ui \
+        graphique.ui
 
 RESOURCES += \
     myresources.qrc

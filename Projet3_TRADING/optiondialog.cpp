@@ -2,7 +2,7 @@
 #include "ui_optiondialog.h"
 #include "cotationsview.h"
 #include "mainwindow.h"
-#include "xml.h"
+//#include "xml.h"
 #include <QDebug>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -23,7 +23,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     this->cotations = _cotations;
 
     tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
-
+    dbDataChanged = false;
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QString newPairs = "";
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
@@ -80,6 +80,10 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
      connect(mapper, SIGNAL(mapped(int)), this, SLOT(checkboxClicked(int)));
      connect(parcourir, SIGNAL(clicked()), this, SLOT(choisirDossier()));
      connect(nomDB, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
+     connect(chemin, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
+     connect(urlBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
+     connect(userBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
+     connect(pwdBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
 
 }
 
@@ -173,7 +177,7 @@ void OptionDialog::accept(){
            qDebug() << newPairs;
        }
 
-     checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + number[i], "false").toBool()) ;
+    // checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + number[i], "false").toBool()) ;
 
 
     }
@@ -184,6 +188,49 @@ void OptionDialog::accept(){
     emit acceptedOptionDevises();
 
     qDebug() << "emit accept...." ;
+    // *********************************************************************************
+
+    if( dbDataChanged == true )
+    {
+
+
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Modification de la DB");
+        msgBox.setText("Le nom de la base semble avoir été modifié." );
+        msgBox.setInformativeText("Vous devez redémarrer l'application");
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
+        // restart:
+
+
+        switch (ret) {
+          case QMessageBox::Ok:
+              // todo
+                emit restartMyApp();
+            settings.beginGroup("OptionBase");
+            settings.setValue("nomBase", nomDB->text());
+            settings.endGroup();
+
+            qApp->quit();
+            QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+
+
+              break;
+          case QMessageBox::Cancel:
+              // todo
+              break;
+          default:
+
+              break;
+        }
+
+    }
+
+
+
+
+
 
      QDialog::accept() ;
 
@@ -208,38 +255,7 @@ void OptionDialog::choisirDossier()
 void OptionDialog::alertDbName()
 {
 
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("Modification de la DB");
-    msgBox.setText("Le nom de la base semble avoir été modifié." );
-    msgBox.setInformativeText("Vous devez redémarrer l'application");
-    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
-    // restart:
-    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-
-    switch (ret) {
-      case QMessageBox::Ok:
-          // todo
-            emit restartMyApp();
-        settings.beginGroup("OptionBase");
-        settings.setValue("nomBase", nomDB->text());
-        settings.endGroup();
-
-        //settings.setValue("nomBase", nomDB->text());
-        qApp->quit();
-        QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
-
-
-          break;
-      case QMessageBox::Cancel:
-          // todo
-          break;
-      default:
-
-          break;
-    }
+    dbDataChanged = true;
 
 }
 

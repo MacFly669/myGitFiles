@@ -43,6 +43,7 @@ private:
     QString newPairs;
     QStringList pairsList;
     QSettings::Format XmlFormat;
+    bool dbDataChanged;
 
 signals:
 

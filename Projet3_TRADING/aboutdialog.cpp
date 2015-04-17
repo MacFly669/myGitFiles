@@ -17,9 +17,13 @@
 //!
 //!
 
-AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::AboutDialog)
+
+//!
+//! \brief  Constructeur de la boite de dialogue 'About'
+//!
+//! \param Widget parent
+//!
+AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent), ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
     QTextCursor cursor( ui->textBrowser->textCursor() );
@@ -27,15 +31,9 @@ AboutDialog::AboutDialog(QWidget *parent) :
     QTextCharFormat format;
     format.setFontWeight( QFont::DemiBold );
     format.setForeground( QBrush( QColor( "black" ) ) );
-    ui->textBrowser->setFontWeight(20);
-
+    ui->textBrowser->setFontWeight(10);
     ui->textBrowser->setFontFamily("Arial");
     ui->textBrowser->setFontPointSize(2);
-
-//    ui->textBrowser->append("Trading Plus est une application conçu par DevHopla société de dévelopement de logiciels informatiques.<br />");
-//    ui->textBrowser->append("Pour de plus amples informations veuillez consulter les <a href=\"file:///conditions.pdf\">conditions générales</a>.<br />");
-//    ui->textBrowser->append("Vous pouve également consulter la  <a href=\"file:///doc.pdf\">documentation</a> en anglais.");
-//    ui->textBrowser->append("Si vous avec des problèmes ou des questions concernant nos produits, vous pouvez nous écrire à <a href=\"mailto:www.info@devhopla.com\">www.info@devhopla.com</a>");
     ui->textBrowser->setOpenLinks(false);
 
 

@@ -5,6 +5,7 @@
 #include "graphique.h"
 #include "aboutdialog.h"
 #include "savetoxml.h"
+#include "simulation.h"
 //Debug
 #include <QDebug>
 // imports
@@ -32,30 +33,43 @@
 //! Contient un menuBar , une statutBar , un ui->frame qui contiendra le webView de l'instance de la class cotationsView
 //! Un ui->tableView pour afficher les enregistrements, une checkbox pour changer la devise et des QDateEDit pour le filtre par date
 //!
-//! \param db est un paramètre de type QSqlDatabase
-//! \param parent
+//! \arg db est un paramètre de type QSqlDatabase
+//! \arg parent
 //!
 //!
-
-
 //!
-//! \brief MainWindow::MainWindow Cette class créée la fenêter principale du programme
-//! \param db Etablit la connection à la base de données
-//! \param parent Désigne dans quel widget sera iunstancier la class
+//! \brief  Constructeur MainWindow::MainWindow
+//!         Instancie une QMainWindowclass, la fenêter principale du programme.
+//! \param db Objet de type QSqlDatabase* établit la connection à une base de données SQLITE
+//! \param  Objet parent
 //!
 MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db(db), ui(new Ui::MainWindow)
 {
         ui->setupUi(this);
 
-       XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-       QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath());
+
+
+       XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);/** Paramètre QSettings pour sortie XML **/
+       QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath()); /** Définit le répertoire de sortie du XML **/
        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
-        initGui();
+       QString server = settings.value("OptionBase/serveur", "127.0.0.1").toString();// récupération des valeurs sauvegardées pour la connection à la base de données.
+       QString user = settings.value("OptionBase/user", "admin").toString();
+       QString pass = settings.value("OptionBase/password","").toString();
 
-        QString m_paires = loadPaires();//charge les paires
+        initGui(); // initialisation de l'ui
 
-        cotes = new CotationsView(db,&m_paires,this->ui->frame);// instanciation d'un fenêtre de cotations webView (affichage de la page forex)
+        QString m_paires = loadPaires();/** \fn loadPaires() charge les paires depuis le fichier de configuration XML  **/
+
+        if(m_paires == "" || m_paires == NULL) return;
+        /**
+        instanciation d'un fenêtre de cotations webView (affichage de la page forex) dans le Widget frame de MainWindow
+        \arg db soit l'Objet de type QSqlDatabase, la connection à la base de données
+        \arg m_paires QString les id des paires de devises à afficher dans le webView et à sauvegarder dans la base.
+        \arg this->ui->frame où le Widget parent de l'instance de CotationsView
+        **/
+        cotes = new CotationsView(db,&m_paires,this->ui->frame);
+
         cotes->move(0,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
         // Passage de l'URL
         cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
@@ -63,7 +77,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
     if( db )
     {
-        MainWindow::createTable(db); // Création de la table si elle n'existe pas
+        MainWindow::createTable(db); /** \fn  static Création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
@@ -71,16 +85,17 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         model->select() ;
         setHeaderTable(); // Fonction qui renomme les headers
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-
     }
         // Bloc de connection des signaux
         connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
-       // connect(ui->action_Rafraichir, SIGNAL(triggered()) ,this, SLOT( ()));// Rafraichit l'affichage de la TableView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
         connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
-
+        connect(ui->actionSimulation, SIGNAL(triggered()), this, SLOT(openSim()));
+        connect(ui->actionGraphique, SIGNAL(triggered()), this, SLOT(on_actionGraphique_triggered()));
+        connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
 }
+
+
 //!
 //! \brief MainWindow::initGui Initialise l'affichage : Masque le webView, initialise les QDateEdit
 //!
@@ -96,6 +111,27 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
     ui->dateFin->setDate(date.currentDate());
 }
 
+//!
+//! \brief MainWindow::openSim
+//!
+//!     \n ouverture du panneau de simulation
+//!
+//!
+
+void MainWindow::openSim()
+{
+    Simulation* sim = new Simulation;
+    sim->show();
+
+}
+
+//!
+//! \brief MainWindow::setHeaderTable
+//!
+//! \n Renommage des entêtes de colonnes du tableau d'affichage des données \typedef QTableView
+//!
+//!
+//!
 void MainWindow::setHeaderTable() // Nomme les header du TableView
 {
     model->setHeaderData(1, Qt::Horizontal, tr("Nom"));
@@ -113,7 +149,7 @@ void MainWindow::setHeaderTable() // Nomme les header du TableView
     ui->tableView->setModel( model );
     // Masquage des colonnes non désirées
     ui->tableView->hideColumn(0); // id
-    //ui->tableView->hideColumn(4); // cours
+    ui->tableView->hideColumn(4); // cours
     ui->tableView->hideColumn(5); // ouverture
     ui->tableView->hideColumn(6); // haut
     ui->tableView->hideColumn(7); // bas
@@ -126,27 +162,42 @@ MainWindow::~MainWindow()
     delete ui;
 }
 //!
-//! \brief MainWindow::connectToDB Fonction static qui créée une connection à la base de données
-//! \param dbName Nom de la base de données
+//! \brief  \fn MainWindow::connectToDB Fonction static qui créée une connection à la base de données
+//! \param QString dbName \t Nom de la base de données
 //! \return  Retourne un objet QSqlDatabase
 //!
 //!
 //!
 //!
-QSqlDatabase* MainWindow::connectToDB(QString dbName)// Création d'un connection à la base passée en paramètre
+QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString user, QString pass)// Création d'un connection à la base passée en paramètre
 {
+
+      qDebug() << dbName << server << user << pass;
+
     QSqlDatabase* db = new QSqlDatabase ;
 
    *db = QSqlDatabase::addDatabase( "QSQLITE" ) ;
+    db->setHostName(server);
     db->setDatabaseName( dbName );
+    db->setUserName(user);
+    db->setPassword(pass);
+
     if( db->open()) return db ;
     // TODO MessageBox Error   
-    qDebug() << "Etat db open : " + db->isOpen();
     db->close();
     delete db ;
     return 0 ;
+
 }
 
+//!
+//! \brief MainWindow::createTable \n
+//!
+//!         Création de la table couples de la base de données
+//!
+//! \param db Pointeur Objet QSqlDatabase
+//!
+//!
 void MainWindow::createTable(QSqlDatabase* db){
 
 
@@ -174,9 +225,8 @@ void MainWindow::createTable(QSqlDatabase* db){
     sql += " timestamp INTEGER)";
 
     QSqlQuery result = db->exec( sql ) ;
-    qDebug() << "Etat de la requête envoyée : " << result.lastError() ;
-
 }
+
 //!
 //! \brief MainWindow::on_actionCours_devises_triggered
 //!
@@ -216,22 +266,26 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 
 }
 //!
-//! \brief MainWindow::reloadTableView
+//! \brief Rafraichit l'affichage du tableView \n
+//!        Recharge le QTableView pour actualiser tout changement
 //!
-//!Rafraichit l'affichage du tableView
+//! \fn MainWindow::reloadTableView
+//!
+//!
 //!
 void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
 {
     model->setTable( "couples" ) ;
     model->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");
 
-    setHeaderTable();
+    setHeaderTable(); /** Appel de la \fn setHeaderTable() qui renomme les headers **/
+
     ui->statusBar->showMessage(tr("Mise à jour du tableau"),1000);
 }
 
 //!
 //! \brief MainWindow::loadPaires Charge le ids de paires à afficher
-//! \return  Retourne le contenu au format QString
+//! \return  Retourne le contenu au format QString \n \example "1;10;" pour les pairs EUR/USD et EUR/CHF
 //!
 //!
 QString MainWindow::loadPaires() // Charge les pairs à afficher dans les options sauvegarder par QSettings
@@ -244,66 +298,76 @@ QString MainWindow::loadPaires() // Charge les pairs à afficher dans les option
 
 }
 //!
-//! \brief MainWindow::on_btn_valider_date_clicked
+//! \brief MainWindow::on_btn_valider_date_clicked \n
 //!
-//! Validation des dates pour lancement de la requêtes : filte la devise sélectionnée en fonction de date début -> date fin
+//! Action sur le bouton valider des champs dates\n
+//!
+//! Validation des dates pour lancement de la requêtes \n Filtre la devise sélectionnée en fonction de date début -> date fin
+//! \n Permet d'afficher les enregistrements pour une période donnée
 //!
 void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fin pour l'affichage dans le TableView
 {
-
         QString debut = ui->dateDebut->date().toString("dd.MM.yyyy"); // récupération de la date QDateEdit : date de début
         QString fin = ui->dateFin->date().toString("dd.MM.yyyy");    //  récupération de la date QDateEdit : date de fin
 
-        if(ui->dateDebut->date() > ui->dateFin->date())
-        {
-            ui->statusBar->showMessage("Vous avez saisie une date de début supérieure à la date de fin"); // si début > fin
+                if(ui->dateDebut->date() > ui->dateFin->date())
+                {
+                    ui->statusBar->showMessage(tr("Vous avez saisie une date de début supérieure à la date de fin")); // si début > fin sortie de la fonction et avertissement dans la statut bar
+                    return;
+                }
 
-            return;
-       }
-        else
-       {
+               else // Filtre le Table view en fonction des dates de début et de fin.
 
-       // Filtre le Table view en fonction des dates de début et de fin.
-        model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboBox->currentText()+ "'"); // SELECT WHERE debut < date < fin
-        model->select() ;
-        if( model->rowCount() == 0 ) ui->statusBar->showMessage("Aucun enregistrements trouvé pour les dates sélectionées !", 2000);
-        else ui->statusBar->showMessage( ui->comboBox->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy"),2000);
+               {
+                    model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboBox->currentText()+ "'"); // SELECT WHERE debut < date < fin
+                    model->select() ;
 
+                             if( model->rowCount() == 0 ) ui->statusBar->showMessage(tr("Aucun enregistrements trouvé pour les dates sélectionées !"), 3000); // Si aucun enregistrements avertissement dazns la statut bar.
 
-        qDebug() << "bool Ok : " << model->rowCount() ;
+                             // affichage dans la statut bar du couple, de la période et du nombre d'enregistrements
+                             else ui->statusBar->showMessage( ui->comboBox->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy") + " : " + model->rowCount() + " enregistrements." ,2000);
 
-        }
+                }
 
 }
 //!
 //! \brief MainWindow::on_actionGraphique_triggered
 //!
-//! Affichage du graphique
+//! Affichage du graphique. \n
+//! Widget de type QDialog contenant un webView qui charge l'url de l'outils
+//! FOREX proposé par \a http://fr.investing.com/ et notammenent les liens
+//! configurable de différents type de tableau
 //!
 void MainWindow::on_actionGraphique_triggered()
 {
-
-    Graphique* graph = new Graphique(db);
-
-    graph->show();
-
+   graph = new Graphique(this);
+   graph->show();
 }
 
+//!
+//! \brief MainWindow::on_action_Rafraichir_triggered
+//!
+//!     \n Action sur le bouton Rafraîchissement de la table QTableView
+//! \t Appel de la \fn reloadTableView()
+//!
 void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
 {
     ui->statusBar->showMessage(tr("Rafraîchissement manuel de la page"),2000);
     reloadTableView();
 
 }
+
 //!
 //! \brief MainWindow::statutDataSaved
 //!
-//! Affiche un message dans la statut bar
+//! Affiche un message dans la statut bar quand les données sont correctement enregistrées.
 //!
  void MainWindow::statutDataSaved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
  {
 
+     qDebug() << "reception";
      ui->statusBar->showMessage(tr("Données sauvegardées avec succès !"),2000);
+     reloadTableView();
  }
  //!
  //! \brief MainWindow::on_actionAbout_triggered
