@@ -32,8 +32,8 @@ public:
     static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass); // connection SQLITE
     static void createTable(QSqlDatabase* db);         //  création de la table
 
-    QString loadPaires(); // charge les couples ds le fichier ini
-    void setHeaderTable();// fonction qui renomme le texte des header de la tableView
+    QString loadPaires(); /** \fn charge les couples ds le fichier XML **/
+    void setHeaderTable(); /** \fn renomme le texte des header de la tableView **/
     void initGui();
 
     QSettings::Format XmlFormat;
