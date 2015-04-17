@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Calculateur de profits</string>
+   <string notr="true">Calculateur de profits</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="myresources.qrc">
+    <normaloff>:/images/icons/Calculator.png</normaloff>:/images/icons/Calculator.png</iconset>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -52,7 +56,9 @@
    <header>QtWebKitWidgets/QWebView</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="myresources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

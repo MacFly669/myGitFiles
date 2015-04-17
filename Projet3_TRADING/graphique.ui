@@ -10,8 +10,10 @@
     <height>550</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Graphiques FOREX</string>
+  <property name="windowIcon">
+   <iconset>
+    <normalon>:/images/icons/3d bar chart.png</normalon>
+   </iconset>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">

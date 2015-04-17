@@ -27,7 +27,6 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QString newPairs = "";
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
-    QVBoxLayout *layoutDistant = new QVBoxLayout;
     QHBoxLayout *layout = new QHBoxLayout;
     initLists(); // initialisation des listes
     initGui(); // Initialisation de l'affichage

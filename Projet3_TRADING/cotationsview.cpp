@@ -13,10 +13,10 @@
 /// en QString.
 ///
 /// Les méthodes :
-/// setUrl() permet de mettre à jour l'url passé en paramètre au format QUrl
-/// setPaires() permet de mettre à jour la variable qui stocke les id à afficher
-/// getPaires() renvoi un QString retournant le ou les id contenu dans la variable.
-/// saveData sauvegarde les données dans la base. Prend un tableau string en paramètre.
+/// \fn setUrl() \def permet de mettre à jour l'url passé en paramètre au format QUrl
+/// \fn setPaires() \def permet de mettre à jour la variable qui stocke les id à afficher
+/// \fn getPaires() \def renvoi un QString retournant le ou les id contenu dans la variable.
+/// \fn saveData()  \def sauvegarde les données dans la base. Prend un tableau string en paramètre.
 ///
 /// Les signaux:
 /// dataSaved() emis lors de l'insertion réussie des données
