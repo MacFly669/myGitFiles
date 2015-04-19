@@ -18,6 +18,7 @@
 #include <QDir>
 #include <QMdiArea>
 #include <QProcess>
+#include <QTableWidgetItem>
 //////////////////////////////////////////////////////////////////////////////////////////////
 //!
 //!         Class MainWindow - Fenêtre principale de l'application
@@ -85,6 +86,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         model->select() ;
         setHeaderTable(); // Fonction qui renomme les headers
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->tableView->setAlternatingRowColors(true);
         ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
     }
         // Bloc de connection des signaux
