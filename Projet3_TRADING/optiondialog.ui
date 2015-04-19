@@ -14,9 +14,8 @@
    <string>Boîte  de configuration</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normalon>:/images/icons/Repair.png</normalon>
-   </iconset>
+   <iconset resource="myresources.qrc">
+    <normaloff>:/images/icons/Wrench.png</normaloff>:/images/icons/Wrench.png</iconset>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -60,8 +59,36 @@
     <string>Base distante</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btnCocher">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>320</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tout cocher</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnDecocher">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>320</y>
+     <width>81</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tout décocher</string>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="myresources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -201,7 +201,6 @@ Makefile: Projet3_TRADING.pro C:\Qt\5.4\msvc2013\mkspecs\win32-msvc2013\qmake.co
 		C:/Qt/5.4/msvc2013/lib/qtmaind.prl \
 		C:/Qt/5.4/msvc2013/lib/Qt5Cored.prl \
 		C:/Qt/5.4/msvc2013/lib/Qt5WebKitWidgets.prl \
-		C:/Qt/5.4/msvc2013/lib/Qt5PrintSupport.prl \
 		C:/Qt/5.4/msvc2013/lib/Qt5Widgets.prl \
 		C:/Qt/5.4/msvc2013/lib/Qt5WebKit.prl \
 		C:/Qt/5.4/msvc2013/lib/Qt5Gui.prl \
@@ -337,7 +336,6 @@ Projet3_TRADING.pro:
 C:/Qt/5.4/msvc2013/lib/qtmaind.prl:
 C:/Qt/5.4/msvc2013/lib/Qt5Cored.prl:
 C:/Qt/5.4/msvc2013/lib/Qt5WebKitWidgets.prl:
-C:/Qt/5.4/msvc2013/lib/Qt5PrintSupport.prl:
 C:/Qt/5.4/msvc2013/lib/Qt5Widgets.prl:
 C:/Qt/5.4/msvc2013/lib/Qt5WebKit.prl:
 C:/Qt/5.4/msvc2013/lib/Qt5Gui.prl:

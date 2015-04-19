@@ -4,11 +4,14 @@
 #include <QApplication>
 #include <QSettings>
 #include <QSqlDatabase>
-
+#include <QStyleFactory>
 int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
+
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
 
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");

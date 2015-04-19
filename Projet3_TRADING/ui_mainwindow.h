@@ -44,10 +44,10 @@ public:
     QPushButton *btn_valider_date;
     QTableView *tableView;
     QDateEdit *dateFin;
-    QComboBox *comboBox;
     QDateEdit *dateDebut;
     QLabel *labelDebut;
     QLabel *labelFin;
+    QComboBox *comboDevises;
     QFrame *frame;
     QMenuBar *menuBar;
     QMenu *menuMenu;
@@ -113,14 +113,17 @@ public:
         btn_valider_date->setFlat(false);
         tableView = new QTableView(frameTable);
         tableView->setObjectName(QStringLiteral("tableView"));
-        tableView->setGeometry(QRect(20, 0, 711, 281));
+        tableView->setGeometry(QRect(20, 0, 700, 300));
+        tableView->setMinimumSize(QSize(700, 0));
+        tableView->setMaximumSize(QSize(700, 16777215));
+        QFont font;
+        font.setStyleStrategy(QFont::PreferAntialias);
+        tableView->setFont(font);
+        tableView->setLayoutDirection(Qt::LeftToRight);
         tableView->setSortingEnabled(true);
         dateFin = new QDateEdit(frameTable);
         dateFin->setObjectName(QStringLiteral("dateFin"));
         dateFin->setGeometry(QRect(750, 210, 110, 22));
-        comboBox = new QComboBox(frameTable);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setGeometry(QRect(750, 10, 111, 22));
         dateDebut = new QDateEdit(frameTable);
         dateDebut->setObjectName(QStringLiteral("dateDebut"));
         dateDebut->setGeometry(QRect(750, 160, 110, 22));
@@ -130,9 +133,12 @@ public:
         labelFin = new QLabel(frameTable);
         labelFin->setObjectName(QStringLiteral("labelFin"));
         labelFin->setGeometry(QRect(750, 190, 47, 13));
+        comboDevises = new QComboBox(frameTable);
+        comboDevises->setObjectName(QStringLiteral("comboDevises"));
+        comboDevises->setGeometry(QRect(740, 10, 111, 22));
         frame = new QFrame(centralWidget);
         frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(40, 360, 701, 241));
+        frame->setGeometry(QRect(20, 380, 700, 161));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         MainWindow->setCentralWidget(centralWidget);
@@ -199,21 +205,6 @@ public:
 #endif // QT_NO_TOOLTIP
         action_Rafraichir->setShortcut(QApplication::translate("MainWindow", "Alt+R", 0));
         btn_valider_date->setText(QApplication::translate("MainWindow", "Valider", 0));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
-         << QApplication::translate("MainWindow", "EUR/USD", 0)
-         << QApplication::translate("MainWindow", "EUR/CHF", 0)
-         << QApplication::translate("MainWindow", "EUR/GBP", 0)
-         << QApplication::translate("MainWindow", "EUR/JPY", 0)
-         << QApplication::translate("MainWindow", "USD/CAD", 0)
-         << QApplication::translate("MainWindow", "USD/CHF", 0)
-         << QApplication::translate("MainWindow", "GBP/USD", 0)
-         << QApplication::translate("MainWindow", "USD/JPY", 0)
-         << QApplication::translate("MainWindow", "AUD/USD", 0)
-         << QApplication::translate("MainWindow", "AUD/JPY", 0)
-         << QApplication::translate("MainWindow", "NZD/USD", 0)
-         << QApplication::translate("MainWindow", "GBP/JPY", 0)
-        );
         labelDebut->setText(QApplication::translate("MainWindow", "D\303\251but", 0));
         labelFin->setText(QApplication::translate("MainWindow", "Fin", 0));
         menuMenu->setTitle(QApplication::translate("MainWindow", "Menu", 0));

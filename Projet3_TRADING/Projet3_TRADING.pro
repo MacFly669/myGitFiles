@@ -16,24 +16,24 @@ SOURCES += main.cpp\
         mainwindow.cpp \
         cotationsview.cpp \
         optiondialog.cpp \
-        aboutdialog.cpp \
         simulation.cpp\
-        graphique.cpp
+        graphique.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
         cotationsview.h \
         optiondialog.h \
-        aboutdialog.h \
         xml.h \
         simulation.h \
-        graphique.h\
+        graphique.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
         cotationsview.ui \
         optiondialog.ui \
-        aboutdialog.ui \
-        simulation.ui \
-        graphique.ui
+        graphique.ui \
+    aboutdialog.ui \
+    simulation.ui
 
 RESOURCES += \
     myresources.qrc

@@ -30,15 +30,19 @@ public:
     {
         if (Simulation->objectName().isEmpty())
             Simulation->setObjectName(QStringLiteral("Simulation"));
-        Simulation->resize(489, 528);
+        Simulation->resize(452, 485);
+        Simulation->setWindowTitle(QStringLiteral("Calculateur de profits"));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/images/icons/Calculator.png"), QSize(), QIcon::Normal, QIcon::Off);
+        Simulation->setWindowIcon(icon);
         buttonBox = new QDialogButtonBox(Simulation);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(110, 470, 341, 32));
+        buttonBox->setGeometry(QRect(-40, 450, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         webView = new QWebView(Simulation);
         webView->setObjectName(QStringLiteral("webView"));
-        webView->setGeometry(QRect(20, 10, 451, 451));
+        webView->setGeometry(QRect(0, 0, 451, 441));
         webView->setUrl(QUrl(QStringLiteral("about:blank")));
 
         retranslateUi(Simulation);
@@ -50,7 +54,7 @@ public:
 
     void retranslateUi(QDialog *Simulation)
     {
-        Simulation->setWindowTitle(QApplication::translate("Simulation", "Dialog", 0));
+        Q_UNUSED(Simulation);
     } // retranslateUi
 
 };

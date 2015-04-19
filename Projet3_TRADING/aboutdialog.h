@@ -1,16 +1,6 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
-//!
-//!**********************************************************************************
-//!
-//!
-//!
-//!
-//!
-//!
-//!
-//!**********************************************************************************
-//!
+
 #include <QDialog>
 
 namespace Ui {
@@ -32,8 +22,6 @@ private slots:
 
     void lienHypertexte(const QUrl &lien);
 
-
 };
 
 #endif // ABOUTDIALOG_H
-

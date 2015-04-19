@@ -1,0 +1,13 @@
+digraph "C:/Users/Juanpa" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d522931ffa1371640980b621734a4381 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Users" fontname="Helvetica", fontsize="10", URL="dir_d522931ffa1371640980b621734a4381.html"]
+  subgraph clusterdir_739860ec1615cb425a640bd177415f35 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_739860ec1615cb425a640bd177415f35.html"];
+    dir_739860ec1615cb425a640bd177415f35 [shape=plaintext label="Juanpa"];
+    dir_28bcc82f41ca35d00acb2ac758b12169 [shape=box label="Documents" color="red" fillcolor="white" style="filled" URL="dir_28bcc82f41ca35d00acb2ac758b12169.html"];
+  }
+  }
+}

@@ -19,6 +19,8 @@ public:
 
 private:
     Ui::Graphique *ui;
+
+
 };
 
 #endif // GRAPHIQUE_H

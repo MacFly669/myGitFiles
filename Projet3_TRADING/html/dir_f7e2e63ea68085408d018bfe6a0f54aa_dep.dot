@@ -1,0 +1,13 @@
+digraph "C:/Users/Juanpa/Documents/Developpement/Qt/Git/hub" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_227d7e8151e908836803346e165263d7 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Git" fontname="Helvetica", fontsize="10", URL="dir_227d7e8151e908836803346e165263d7.html"]
+  subgraph clusterdir_f7e2e63ea68085408d018bfe6a0f54aa {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_f7e2e63ea68085408d018bfe6a0f54aa.html"];
+    dir_f7e2e63ea68085408d018bfe6a0f54aa [shape=plaintext label="hub"];
+    dir_f2e401610261b67b44908a15e438656d [shape=box label="Projet3_TRADING" color="black" fillcolor="white" style="filled" URL="dir_f2e401610261b67b44908a15e438656d.html"];
+  }
+  }
+}

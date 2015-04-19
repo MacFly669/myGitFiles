@@ -20,18 +20,15 @@ public:
 
     void OptionDialog::chargerOptions();
     void setChemin(QString _chemin){ chemin->setText( _chemin); }
-    void initLists();
     void initGui();
     QVariant getChemin(){ return chemin->text();}
 
 
 private:
     Ui::OptionDialog *ui;
+    QMap<QString, QString> mapList;
     CotationsView* cotations;
     QList<QCheckBox*> *checkListDevises;
-    QList<QString> number;
-    QList<QString> coupleId;
-    QList<QString> coupleName;
     QPushButton* parcourir;
     QLineEdit *nomDB ;
     QLineEdit *chemin;
@@ -41,7 +38,7 @@ private:
     QString* dossier;
     QCheckBox* tmpCheckBox;
     QString newPairs;
-    QStringList pairsList;
+
     QSettings::Format XmlFormat;
     bool dbDataChanged;
 
@@ -52,13 +49,15 @@ signals:
 
 public slots:
 
-    void checkboxClicked(int i);
-    void choisirDossier();
-    void accept();
-    void alertDbName();
+
 
 private slots:
-
+    void checkboxClicked(int i);
+    void selectionBase();
+    void accept();
+    void alertDbName();
+    void on_btnCocher_clicked();
+    void on_btnDecocher_clicked();
 };
 
 #endif // OPTIONDIALOG_H

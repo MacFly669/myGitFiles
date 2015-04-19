@@ -9,13 +9,10 @@
         <file>graphique.h</file>
         <file>optiondialog.cpp</file>
         <file>optiondialog.h</file>
-        <file>qcustomplot.cpp</file>
-        <file>configuration.cpp</file>
-        <file>configuration.h</file>
-        <file>about.html</file>
         <file>doc.pdf</file>
+        <file>html/index.html</file>
     </qresource>
-    <qresource prefix="/images" lang="fr">
+    <qresource lang="fr" prefix="/images">
         <file>icons/3d bar chart.png</file>
         <file>icons/Abort.png</file>
         <file>icons/About.png</file>

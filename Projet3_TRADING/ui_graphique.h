@@ -30,15 +30,18 @@ public:
     {
         if (Graphique->objectName().isEmpty())
             Graphique->setObjectName(QStringLiteral("Graphique"));
-        Graphique->resize(720, 550);
+        Graphique->resize(600, 498);
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/images/icons/3d bar chart.png"), QSize(), QIcon::Normal, QIcon::On);
+        Graphique->setWindowIcon(icon);
         buttonBox = new QDialogButtonBox(Graphique);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(350, 510, 341, 32));
+        buttonBox->setGeometry(QRect(20, 460, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         webView = new QWebView(Graphique);
         webView->setObjectName(QStringLiteral("webView"));
-        webView->setGeometry(QRect(10, 60, 691, 431));
+        webView->setGeometry(QRect(0, 0, 600, 451));
         webView->setUrl(QUrl(QStringLiteral("about:blank")));
 
         retranslateUi(Graphique);
@@ -50,7 +53,7 @@ public:
 
     void retranslateUi(QDialog *Graphique)
     {
-        Graphique->setWindowTitle(QApplication::translate("Graphique", "Dialog", 0));
+        Q_UNUSED(Graphique);
     } // retranslateUi
 
 };

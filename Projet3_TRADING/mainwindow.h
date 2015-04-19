@@ -31,6 +31,7 @@ public:
     ~MainWindow();
     static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass); // connection SQLITE
     static void createTable(QSqlDatabase* db);         //  création de la table
+    static  QMap<QString, QString> getMap();
 
     QString loadPaires(); /** \fn charge les couples ds le fichier XML **/
     void setHeaderTable(); /** \fn renomme le texte des header de la tableView **/
@@ -40,20 +41,18 @@ public:
 
 
 
-public slots:
-
+private slots:
+         void comboChanged(QString arg1);
         void statutDataSaved(); // affichage du statut du backup
 
 private slots:
     void on_actionCours_devises_triggered(); // Show/Hide cotatations en direct
     void reloadTableView(); // rafraichit le tableView
-    void on_comboBox_currentTextChanged(const QString &arg1);//event sur le comboBox
     void on_btn_valider_date_clicked(); // validatoin de la date, lancement de la requête
     void on_actionGraphique_triggered();//Affichage du graphique
     void on_action_Rafraichir_triggered();//rafraichit le webview / enregistre les données
     void on_actionAbout_triggered(); // affichage de l'about
     void openSim();
-
 
 signals:
     void erreurConDb();

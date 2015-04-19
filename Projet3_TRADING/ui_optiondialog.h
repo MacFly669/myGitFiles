@@ -17,6 +17,7 @@
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QPushButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -26,6 +27,8 @@ public:
     QDialogButtonBox *buttonBox;
     QGroupBox *groupCheck;
     QGroupBox *groupBase;
+    QPushButton *btnCocher;
+    QPushButton *btnDecocher;
 
     void setupUi(QDialog *OptionDialog)
     {
@@ -33,7 +36,7 @@ public:
             OptionDialog->setObjectName(QStringLiteral("OptionDialog"));
         OptionDialog->resize(703, 371);
         QIcon icon;
-        icon.addFile(QStringLiteral(":/images/icons/Repair.png"), QSize(), QIcon::Normal, QIcon::On);
+        icon.addFile(QStringLiteral(":/images/icons/Wrench.png"), QSize(), QIcon::Normal, QIcon::Off);
         OptionDialog->setWindowIcon(icon);
         buttonBox = new QDialogButtonBox(OptionDialog);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
@@ -46,6 +49,12 @@ public:
         groupBase = new QGroupBox(OptionDialog);
         groupBase->setObjectName(QStringLiteral("groupBase"));
         groupBase->setGeometry(QRect(30, 140, 641, 80));
+        btnCocher = new QPushButton(OptionDialog);
+        btnCocher->setObjectName(QStringLiteral("btnCocher"));
+        btnCocher->setGeometry(QRect(30, 320, 75, 23));
+        btnDecocher = new QPushButton(OptionDialog);
+        btnDecocher->setObjectName(QStringLiteral("btnDecocher"));
+        btnDecocher->setGeometry(QRect(110, 320, 81, 23));
 
         retranslateUi(OptionDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), OptionDialog, SLOT(accept()));
@@ -59,6 +68,8 @@ public:
         OptionDialog->setWindowTitle(QApplication::translate("OptionDialog", "Bo\303\256te  de configuration", 0));
         groupCheck->setTitle(QApplication::translate("OptionDialog", "Couples Devises", 0));
         groupBase->setTitle(QApplication::translate("OptionDialog", "Base distante", 0));
+        btnCocher->setText(QApplication::translate("OptionDialog", "Tout cocher", 0));
+        btnDecocher->setText(QApplication::translate("OptionDialog", "Tout d\303\251cocher", 0));
     } // retranslateUi
 
 };

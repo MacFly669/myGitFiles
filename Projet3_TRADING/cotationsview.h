@@ -44,6 +44,7 @@ public slots:
 private slots:
       // void on_pushButton_clicked();
        void afficheProprietes();
+       void on_pushButton_clicked();
 };
 
 #endif // COTATIONSVIEW_H

@@ -4,11 +4,11 @@
 #include "cotationsview.h"
 #include "graphique.h"
 #include "aboutdialog.h"
-#include "savetoxml.h"
 #include "simulation.h"
 //Debug
 #include <QDebug>
 // imports
+#include <QMap>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -70,7 +70,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         **/
         cotes = new CotationsView(db,&m_paires,this->ui->frame);
 
-        cotes->move(0,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
+        cotes->move(-68,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
         // Passage de l'URL
         cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
 
@@ -81,10 +81,11 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
-        model->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");// Filtre de l'affiche en fonction de la sélection active de la comboBox
+        model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");// Filtre de l'affiche en fonction de la sélection active de la comboBox
         model->select() ;
         setHeaderTable(); // Fonction qui renomme les headers
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
     }
         // Bloc de connection des signaux
         connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
@@ -93,6 +94,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(ui->actionSimulation, SIGNAL(triggered()), this, SLOT(openSim()));
         connect(ui->actionGraphique, SIGNAL(triggered()), this, SLOT(on_actionGraphique_triggered()));
         connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
+        connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
 }
 
 
@@ -106,11 +108,15 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
     ui->frame->hide();
 
     QDate date;
-
     ui->dateDebut->setDate(date.currentDate());// Initialisation des widgets dateEdit
     ui->dateFin->setDate(date.currentDate());
-}
 
+    QMapIterator<QString, QString> i( MainWindow::getMap() );
+    while (i.hasNext()) {
+        i.next();
+        ui->comboDevises->addItem(i.key());
+    }
+}
 //!
 //! \brief MainWindow::openSim
 //!
@@ -256,15 +262,19 @@ void MainWindow::on_actionCours_devises_triggered()
 //! \param arg1 Retourne la valeur du comboBox au format QSrting
 //!
 //!
-void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
+void MainWindow::comboChanged(QString arg1)
 {
 
     model->setFilter("nom like '%" + arg1 + "'");
     model->select() ;
 
-    ui->statusBar->showMessage( ( "Affichage de la paire " + arg1  ),2000);
+    ui->statusBar->showMessage( ( "Affichage de la paire "  ),2000);
+
+    qDebug() << "combo Cahnged !";
 
 }
+
+
 //!
 //! \brief Rafraichit l'affichage du tableView \n
 //!        Recharge le QTableView pour actualiser tout changement
@@ -276,7 +286,7 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
 {
     model->setTable( "couples" ) ;
-    model->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");
+    model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");
 
     setHeaderTable(); /** Appel de la \fn setHeaderTable() qui renomme les headers **/
 
@@ -316,16 +326,16 @@ void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fi
                     return;
                 }
 
-               else // Filtre le Table view en fonction des dates de début et de fin.
+                else // Filtre le Table view en fonction des dates de début et de fin.
 
-               {
-                    model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboBox->currentText()+ "'"); // SELECT WHERE debut < date < fin
+                {
+                    model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboDevises->currentText()+ "'"); // SELECT WHERE debut < date < fin
                     model->select() ;
 
                              if( model->rowCount() == 0 ) ui->statusBar->showMessage(tr("Aucun enregistrements trouvé pour les dates sélectionées !"), 3000); // Si aucun enregistrements avertissement dazns la statut bar.
 
                              // affichage dans la statut bar du couple, de la période et du nombre d'enregistrements
-                             else ui->statusBar->showMessage( ui->comboBox->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy") + " : " + model->rowCount() + " enregistrements." ,2000);
+                             else ui->statusBar->showMessage( ui->comboDevises->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy") + " : " + QString::number(model->rowCount()) + " enregistrements." ,2000);
 
                 }
 
@@ -379,3 +389,33 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
     about->show();
 }
 
+ QMap<QString, QString> MainWindow::getMap()
+ {
+    QMap<QString, QString> map;
+    //remplissage de map....
+    map.insert("EUR/USD","1");
+    map.insert("EUR/CHF","10");
+    map.insert("EUR/GBP","6");
+    map.insert("EUR/JPY","9");
+    map.insert("USD/CAD","7");
+    map.insert("USD/CHF","4");
+    map.insert("GBP/USD","2");
+    map.insert("USD/JPY","3");
+    map.insert("AUD/USD","5");
+    map.insert("AUD/JPY","49");
+    map.insert("NZD/USD","8");
+    map.insert("GBP/JPY","11");
+
+
+    return(map);
+ }
+
+//void MainWindow::on_comboDevises_currentTextChanged(const QString &arg1)
+//{
+//    model->setFilter("nom like '%" + arg1 + "'");
+//    model->select() ;
+
+//    ui->statusBar->showMessage( ( "Affichage de la paire " + arg1  ),2000);
+
+//    qDebug() << "combo Cahnged !";
+//}

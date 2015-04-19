@@ -66,7 +66,7 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     *m_paires = settings.value("pairs", "1;10;").toString();
-    dlg = new OptionDialog( this ) ;
+    ui->webView->move(50,0);
 
    // tdTable = new QVector<QString>(0);
 
@@ -200,3 +200,8 @@ void CotationsView::afficheProprietes()
     dlg->exec() ;
 }
 
+
+void CotationsView::on_pushButton_clicked()
+{
+    this->ui->webView->reload();
+}
