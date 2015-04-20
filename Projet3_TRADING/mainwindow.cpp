@@ -5,6 +5,7 @@
 #include "graphique.h"
 #include "aboutdialog.h"
 #include "simulation.h"
+#include "periodedialog.h"
 //Debug
 #include <QDebug>
 // imports
@@ -19,6 +20,8 @@
 #include <QMdiArea>
 #include <QProcess>
 #include <QTableWidgetItem>
+
+#define INDEXURL  "/index.php?force_lang="
 //////////////////////////////////////////////////////////////////////////////////////////////
 //!
 //!         Class MainWindow - Fenêtre principale de l'application
@@ -49,14 +52,18 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         ui->setupUi(this);
 
 
+      //  qApp->setStyleSheet("QMainWindow { background-image: url(:/images/images/splash2.png) }");
+
 
        XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);/** Paramètre QSettings pour sortie XML **/
-       QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath()); /** Définit le répertoire de sortie du XML **/
+       //QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath()); /** Définit le répertoire de sortie du XML **/
        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
        QString server = settings.value("OptionBase/serveur", "127.0.0.1").toString();// récupération des valeurs sauvegardées pour la connection à la base de données.
        QString user = settings.value("OptionBase/user", "admin").toString();
        QString pass = settings.value("OptionBase/password","").toString();
+       QString langId =settings.value("UrlForex/lang","5").toString();
+       QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
 
         initGui(); // initialisation de l'ui
 
@@ -73,7 +80,8 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
         cotes->move(-68,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
         // Passage de l'URL
-        cotes->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
+        qDebug() << INDEXURL;
+        cotes->setUrl(QUrl( forexUrl + INDEXURL +   "&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
 
 
     if( db )
@@ -84,7 +92,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
         model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");// Filtre de l'affiche en fonction de la sélection active de la comboBox
         model->select() ;
-        setHeaderTable(); // Fonction qui renomme les headers
+        setHeaderTable(*model, ui->tableView); // Fonction qui renomme les headers
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tableView->setAlternatingRowColors(true);
         ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
@@ -109,15 +117,12 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
     ui->frame->hide();
 
-    QDate date;
-    ui->dateDebut->setDate(date.currentDate());// Initialisation des widgets dateEdit
-    ui->dateFin->setDate(date.currentDate());
-
     QMapIterator<QString, QString> i( MainWindow::getMap() );
     while (i.hasNext()) {
         i.next();
         ui->comboDevises->addItem(i.key());
     }
+
 }
 //!
 //! \brief MainWindow::openSim
@@ -140,28 +145,29 @@ void MainWindow::openSim()
 //!
 //!
 //!
-void MainWindow::setHeaderTable() // Nomme les header du TableView
+void MainWindow::setHeaderTable(QSqlTableModel &model, QTableView* tableView ) // Nomme les header du TableView
 {
-    model->setHeaderData(1, Qt::Horizontal, tr("Nom"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Achat"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Vente"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Cours"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Ouverture"));
-    model->setHeaderData(6, Qt::Horizontal, tr("+Haut"));
-    model->setHeaderData(7, Qt::Horizontal, tr("+Bas"));
-    model->setHeaderData(8, Qt::Horizontal, tr("Var%"));
-    model->setHeaderData(9, Qt::Horizontal, tr("Heure"));
-    model->setHeaderData(10, Qt::Horizontal, tr("Date"));
-    model->sort(11,Qt::DescendingOrder);
 
-    ui->tableView->setModel( model );
+    model.setHeaderData(1, Qt::Horizontal, tr("Nom"));
+    model.setHeaderData(2, Qt::Horizontal, tr("Achat"));
+    model.setHeaderData(3, Qt::Horizontal, tr("Vente"));
+    model.setHeaderData(4, Qt::Horizontal, tr("Cours"));
+    model.setHeaderData(5, Qt::Horizontal, tr("Ouverture"));
+    model.setHeaderData(6, Qt::Horizontal, tr("+Haut"));
+    model.setHeaderData(7, Qt::Horizontal, tr("+Bas"));
+    model.setHeaderData(8, Qt::Horizontal, tr("Var%"));
+    model.setHeaderData(9, Qt::Horizontal, tr("Heure"));
+    model.setHeaderData(10, Qt::Horizontal, tr("Date"));
+    model.sort(11,Qt::DescendingOrder);
+
+    tableView->setModel( &model );
     // Masquage des colonnes non désirées
-    ui->tableView->hideColumn(0); // id
-    ui->tableView->hideColumn(4); // cours
-    ui->tableView->hideColumn(5); // ouverture
-    ui->tableView->hideColumn(6); // haut
-    ui->tableView->hideColumn(7); // bas
-    ui->tableView->hideColumn(11); // timestamp
+    tableView->hideColumn(0); // id
+    tableView->hideColumn(4); // cours
+    tableView->hideColumn(5); // ouverture
+    tableView->hideColumn(6); // haut
+    tableView->hideColumn(7); // bas
+    tableView->hideColumn(11); // timestamp
 
 }
 
@@ -290,7 +296,7 @@ void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
     model->setTable( "couples" ) ;
     model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");
 
-    setHeaderTable(); /** Appel de la \fn setHeaderTable() qui renomme les headers **/
+    setHeaderTable(*model, ui->tableView); /** Appel de la \fn setHeaderTable() qui renomme les headers **/
 
     ui->statusBar->showMessage(tr("Mise à jour du tableau"),1000);
 }
@@ -317,31 +323,7 @@ QString MainWindow::loadPaires() // Charge les pairs à afficher dans les option
 //! Validation des dates pour lancement de la requêtes \n Filtre la devise sélectionnée en fonction de date début -> date fin
 //! \n Permet d'afficher les enregistrements pour une période donnée
 //!
-void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fin pour l'affichage dans le TableView
-{
-        QString debut = ui->dateDebut->date().toString("dd.MM.yyyy"); // récupération de la date QDateEdit : date de début
-        QString fin = ui->dateFin->date().toString("dd.MM.yyyy");    //  récupération de la date QDateEdit : date de fin
 
-                if(ui->dateDebut->date() > ui->dateFin->date())
-                {
-                    ui->statusBar->showMessage(tr("Vous avez saisie une date de début supérieure à la date de fin")); // si début > fin sortie de la fonction et avertissement dans la statut bar
-                    return;
-                }
-
-                else // Filtre le Table view en fonction des dates de début et de fin.
-
-                {
-                    model->setFilter("date <= '" + fin + "' AND date >= '" + debut + "' AND nom like '%" + ui->comboDevises->currentText()+ "'"); // SELECT WHERE debut < date < fin
-                    model->select() ;
-
-                             if( model->rowCount() == 0 ) ui->statusBar->showMessage(tr("Aucun enregistrements trouvé pour les dates sélectionées !"), 3000); // Si aucun enregistrements avertissement dazns la statut bar.
-
-                             // affichage dans la statut bar du couple, de la période et du nombre d'enregistrements
-                             else ui->statusBar->showMessage( ui->comboDevises->currentText() + " du  " + ui->dateDebut->date().toString("dd.MM.yyyy") + "  au  " + ui->dateFin->date().toString("dd.MM.yyyy") + " : " + QString::number(model->rowCount()) + " enregistrements." ,2000);
-
-                }
-
-}
 //!
 //! \brief MainWindow::on_actionGraphique_triggered
 //!
@@ -352,7 +334,7 @@ void MainWindow::on_btn_valider_date_clicked() // validation des dates Début/Fi
 //!
 void MainWindow::on_actionGraphique_triggered()
 {
-   graph = new Graphique(this);
+  graph = new Graphique();
    graph->show();
 }
 
@@ -421,3 +403,13 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
 
 //    qDebug() << "combo Cahnged !";
 //}
+
+void MainWindow::on_actionCalendrier_triggered()
+{
+    PeriodeDialog* wDate= new PeriodeDialog(db);
+
+    wDate->show();
+
+
+
+}

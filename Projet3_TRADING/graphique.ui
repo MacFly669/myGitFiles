@@ -10,6 +10,9 @@
     <height>498</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>Graphique FOREX</string>
+  </property>
   <property name="windowIcon">
    <iconset>
     <normalon>:/images/icons/3d bar chart.png</normalon>

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="myresources.qrc">
-    <normaloff>:/images/icons/Dollar.png</normaloff>:/images/icons/Dollar.png</iconset>
+    <normaloff>:/icons/icons/Dollar.png</normaloff>:/icons/icons/Dollar.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
@@ -36,22 +36,6 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="btn_valider_date">
-     <property name="geometry">
-      <rect>
-       <x>760</x>
-       <y>250</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Valider</string>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QTableView" name="tableView">
      <property name="geometry">
       <rect>
@@ -85,52 +69,6 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QDateEdit" name="dateFin">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>210</y>
-       <width>110</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QDateEdit" name="dateDebut">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>160</y>
-       <width>110</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelDebut">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>140</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Début</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelFin">
-     <property name="geometry">
-      <rect>
-       <x>750</x>
-       <y>190</y>
-       <width>47</width>
-       <height>13</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Fin</string>
-     </property>
-    </widget>
     <widget class="QComboBox" name="comboDevises">
      <property name="geometry">
       <rect>
@@ -146,9 +84,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>380</y>
+      <y>390</y>
       <width>700</width>
-      <height>161</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -161,10 +99,10 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>570</y>
+      <x>20</x>
+      <y>640</y>
       <width>711</width>
-      <height>331</height>
+      <height>261</height>
      </rect>
     </property>
    </widget>
@@ -216,13 +154,14 @@
    <addaction name="actionSimulation"/>
    <addaction name="action_Rafraichir"/>
    <addaction name="actionOptions"/>
+   <addaction name="actionCalendrier"/>
    <addaction name="actionAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionQuitter">
    <property name="icon">
     <iconset resource="myresources.qrc">
-     <normaloff>:/images/icons/Exit.png</normaloff>:/images/icons/Exit.png</iconset>
+     <normaloff>:/icons/icons/Exit.png</normaloff>:/icons/icons/Exit.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Quitter</string>
@@ -237,7 +176,7 @@
   <action name="actionCours_devises">
    <property name="icon">
     <iconset resource="myresources.qrc">
-     <normaloff>:/images/icons/oeil.png</normaloff>:/images/icons/oeil.png</iconset>
+     <normaloff>:/icons/icons/oeil.png</normaloff>:/icons/icons/oeil.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Cours devises</string>
@@ -248,9 +187,9 @@
   </action>
   <action name="actionGraphique">
    <property name="icon">
-    <iconset>
-     <normalon>:/images/icons/3d bar chart.png</normalon>
-    </iconset>
+    <iconset resource="myresources.qrc">
+     <normaloff>:/icons/icons/3d bar chart.png</normaloff>
+     <normalon>:/images/icons/3d bar chart.png</normalon>:/icons/icons/3d bar chart.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Graphique</string>
@@ -261,9 +200,9 @@
   </action>
   <action name="actionSimulation">
    <property name="icon">
-    <iconset>
-     <normalon>:/images/icons/Calculator.png</normalon>
-    </iconset>
+    <iconset resource="myresources.qrc">
+     <normaloff>:/icons/icons/Calculator.png</normaloff>
+     <normalon>:/images/icons/Calculator.png</normalon>:/icons/icons/Calculator.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Simulation</string>
@@ -275,7 +214,7 @@
   <action name="actionOptions">
    <property name="icon">
     <iconset resource="myresources.qrc">
-     <normaloff>:/images/icons/Wrench.png</normaloff>:/images/icons/Wrench.png</iconset>
+     <normaloff>:/icons/icons/Wrench.png</normaloff>:/icons/icons/Wrench.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Options</string>
@@ -286,9 +225,9 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset>
-     <normalon>:/images/icons/About.png</normalon>
-    </iconset>
+    <iconset resource="myresources.qrc">
+     <normaloff>:/icons/icons/About.png</normaloff>
+     <normalon>:/images/icons/About.png</normalon>:/icons/icons/About.png</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -300,7 +239,7 @@
   <action name="action_Rafraichir">
    <property name="icon">
     <iconset resource="myresources.qrc">
-     <normaloff>:/images/icons/Sync.png</normaloff>:/images/icons/Sync.png</iconset>
+     <normaloff>:/icons/icons/Sync.png</normaloff>:/icons/icons/Sync.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Rafraichir</string>
@@ -310,6 +249,18 @@
    </property>
    <property name="shortcut">
     <string>Alt+R</string>
+   </property>
+  </action>
+  <action name="actionCalendrier">
+   <property name="icon">
+    <iconset resource="myresources.qrc">
+     <normaloff>:/icons/icons/Calendar.png</normaloff>:/icons/icons/Calendar.png</iconset>
+   </property>
+   <property name="text">
+    <string>Calendrier</string>
+   </property>
+   <property name="toolTip">
+    <string>Affichage par période entre 2 dates</string>
    </property>
   </action>
  </widget>

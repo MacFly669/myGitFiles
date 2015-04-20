@@ -53,7 +53,7 @@ public:
 
     void retranslateUi(QDialog *Graphique)
     {
-        Q_UNUSED(Graphique);
+        Graphique->setWindowTitle(QApplication::translate("Graphique", "Graphique FOREX", 0));
     } // retranslateUi
 
 };

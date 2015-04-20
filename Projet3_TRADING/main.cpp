@@ -5,13 +5,24 @@
 #include <QSettings>
 #include <QSqlDatabase>
 #include <QStyleFactory>
+#include <QSplashScreen>
+#include <QTimer>
+
+
+
+
 int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
 
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
 
+    QSplashScreen* splash = new QSplashScreen;
+
+    splash->setPixmap(QPixmap(":/images/images/splash2.png")); //Splashscreen
+    splash->show();
+
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
 
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
@@ -25,7 +36,11 @@ int main(int argc, char *argv[])
     QSqlDatabase* db = MainWindow::connectToDB( dbName, server, user , pass ) ;
 
     MainWindow w(db);
-    w.show();
+
+    QTimer::singleShot(2500,splash,SLOT(close()));
+    QTimer::singleShot(2500, &w, SLOT(show()));
+
+   // w.show();
     w.setFixedSize(900,400);
 
     return a.exec();

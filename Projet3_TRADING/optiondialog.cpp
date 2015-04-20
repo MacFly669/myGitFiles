@@ -16,6 +16,10 @@
 #include <QPointer>
 #include <QProcess>
 
+#define FR_URL "http://fxrates.fr.forexprostools.com/index.php?force_lang=5"
+#define EN_URL "http://fxrates.investing.com/index.php?force_lang=1"
+
+
 //!
 //! \brief OptionDialog::OptionDialog
 //! \n Boite de dialogue contenant les options : \li Couples devises \li OPtions bases de donnée
@@ -28,7 +32,8 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
 {
     ui->setupUi(this);
 
-    mapList = MainWindow::getMap();
+    mapList = MainWindow::getMap(); // Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10"
+
     this->cotations = _cotations;
     tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
     checkListDevises = new QList<QCheckBox*>;
@@ -57,7 +62,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
      formLayoutDistant->setVerticalSpacing(10);
 
      ui->groupBase->setLayout(formLayoutDistant);
-     ui->groupBase->setGeometry(10,100,850,125);
+     //ui->groupBase->setGeometry(10,100,850,125);
 
      layoutPrincipale->addWidget(ui->buttonBox);
     // layoutPrincipale->addWidget(parcourir);
@@ -143,10 +148,7 @@ void OptionDialog::checkboxClicked(int i)
                {
                  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
                  settings.setValue("Checkbox/cb" + QString::number(x),checkListDevises->at(x)->isChecked());// enregistrement de l'id et de l'état de la checkBox
-                 qDebug()  << x << j.key() << j.value();
                }
-
-
         x++;
     }
 
@@ -176,6 +178,9 @@ void OptionDialog::chargerOptions()
     urlBase->setText(settings.value("OptionBase/serveur", "localhost").toString()) ;
     userBase->setText(settings.value("OptionBase/user").toString());
     pwdBase->setText(settings.value("OptionBase/password").toString());
+    ui->radioSiteEn->setChecked(settings.value("UrlForex/radioBoutonEn").toBool());
+    ui->radioSiteFr->setChecked(settings.value("UrlForex/radioBoutonFr").toBool());
+    ui->radioUrlPerso->setChecked(settings.value("UrlForex/radioBoutonPerso").toBool());
 }
 
 void OptionDialog::accept(){
@@ -209,6 +214,13 @@ void OptionDialog::accept(){
 
     settings.setValue("pairs", newPairs); // sauvegarde de la chaine d'id dans le fichier settings XML
     cotations->setPaires(newPairs); // on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView
+
+    settings.beginGroup("UrlForex");
+    settings.setValue("radioBoutonFr",ui->radioSiteFr->isChecked());
+    settings.setValue("radioBoutonEn", ui->radioSiteEn->isChecked());
+    settings.setValue("radioBourtonPerso", ui->radioUrlPerso->isChecked());
+    settings.setValue("url",ui->lineUrlPerso->text());
+    settings.endGroup();
 
     emit acceptedOptionDevises(); /** signal \fn acceptedOptionDevises() déclenche un reload du QWebView suite au \fn  cotations->setPaires(newPairs) qui réinitialise les couples devises à afficher **/
 
@@ -310,4 +322,19 @@ void OptionDialog::on_btnDecocher_clicked()
     {
            checkListDevises->at(i)->setChecked(false);
    }
+}
+
+void OptionDialog::on_radioSiteFr_toggled(bool checked)
+{
+    if(checked) ui->lineUrlPerso->setText(FR_URL);
+}
+
+void OptionDialog::on_radioSiteEn_toggled(bool checked)
+{
+    if(checked) ui->lineUrlPerso->setText(EN_URL);
+}
+
+void OptionDialog::on_radioUrlPerso_toggled(bool checked)
+{
+     if(checked) ui->lineUrlPerso->setText("");
 }

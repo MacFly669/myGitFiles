@@ -58,6 +58,9 @@ private slots:
     void alertDbName();
     void on_btnCocher_clicked();
     void on_btnDecocher_clicked();
+    void on_radioSiteFr_toggled(bool checked);
+    void on_radioSiteEn_toggled(bool checked);
+    void on_radioUrlPerso_toggled(bool checked);
 };
 
 #endif // OPTIONDIALOG_H

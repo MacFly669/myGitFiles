@@ -66,6 +66,7 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     *m_paires = settings.value("pairs", "1;10;").toString();
+    QString url = settings.value("UrlForex/url").toString();
     ui->webView->move(50,0);
 
    // tdTable = new QVector<QString>(0);
@@ -105,8 +106,13 @@ void CotationsView::reload()
 
 void CotationsView::updateUrl()
 {
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
-    this->ui->webView->setUrl(QUrl("http://fxrates.fr.forexprostools.com/index.php?force_lang=5&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
+    url = settings.value("UrlForex/url").toString();
+
+
+    this->ui->webView->setUrl(QUrl( url + "&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
     this->ui->webView->update();
 }
 
@@ -133,7 +139,6 @@ void CotationsView::loadData(){
                    valeur = elem.toPlainText();
                    valeur = valeur.simplified();
                    valeur.replace(",",".").remove(" ");
-             //    qDebug() << "valeur : " << valeur;
                    tdTable.append(valeur);              // on stocke la valeur dans un tableau
               }
     }

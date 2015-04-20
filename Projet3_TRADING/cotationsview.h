@@ -27,7 +27,7 @@ public:
 private:
     Ui::CotationsView *ui;
     QSqlDatabase* db;
-    QString *m_paires;
+    QString *m_paires, url;
     OptionDialog* dlg;
     QSettings::Format XmlFormat;
 

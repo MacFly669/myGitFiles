@@ -38,7 +38,7 @@ public:
         CotationsView->resize(796, 191);
         horizontalLayoutWidget = new QWidget(CotationsView);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(20, 10, 641, 161));
+        horizontalLayoutWidget->setGeometry(QRect(20, 0, 641, 191));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
@@ -48,7 +48,7 @@ public:
         frame->setFrameShadow(QFrame::Raised);
         webView = new QWebView(frame);
         webView->setObjectName(QStringLiteral("webView"));
-        webView->setGeometry(QRect(0, 0, 641, 161));
+        webView->setGeometry(QRect(0, 0, 641, 191));
         webView->setAutoFillBackground(true);
         webView->setUrl(QUrl(QStringLiteral("about:blank")));
 
