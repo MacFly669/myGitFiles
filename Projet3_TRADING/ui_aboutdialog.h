@@ -31,8 +31,9 @@ public:
         if (AboutDialog->objectName().isEmpty())
             AboutDialog->setObjectName(QStringLiteral("AboutDialog"));
         AboutDialog->resize(410, 450);
+        AboutDialog->setMaximumSize(QSize(410, 450));
         QIcon icon;
-        icon.addFile(QStringLiteral(":/images/icons/About.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/icons/icons/About.png"), QSize(), QIcon::Normal, QIcon::Off);
         AboutDialog->setWindowIcon(icon);
         textBrowser = new QTextBrowser(AboutDialog);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
@@ -61,10 +62,10 @@ public:
 "<p align=\"ju"
                         "stify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt; font-weight:600;\">Trading Plus </span><span style=\" font-size:10pt;\">est une application con\303\247u par </span><span style=\" font-size:10pt; font-weight:600;\">DevHopla</span><span style=\" font-size:10pt;\"> soci\303\251t\303\251 de d\303\251velopement de logiciels informatiques.<br />Pour de plus amples informations sur les conditions d'utilisations veuillez consulter les</span><span style=\" font-size:10pt; font-weight:600;\"> </span><a href=\"conditions.pdf\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">conditions g\303\251n\303\251rales</span></a><span style=\" font-size:10pt;\">.</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Vous pouvez \303\251galement consulter la </span><a"
-                        " href=\"file:///doc.pdf\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">documentation</span></a><span style=\" font-size:10pt;\"> de l'utilisateur (anglais) , ou la </span><a href=\"qrc:/html/index.html\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">documentation d\303\251veloppeur</span></a><span style=\" font-size:10pt;\">.</span></p>\n"
+                        " href=\"file:///doc.pdf\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">documentation</span></a><span style=\" font-size:10pt;\"> de l'utilisateur (anglais) , ou la </span><a href=\"file:///C:/Users/Juanpa/Documents/Developpement/Qt/Git/hub/Projet3_TRADING/html/index.html\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">documentation d\303\251veloppeur</span></a><span style=\" font-size:10pt;\">.</span></p>\n"
 "<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:10pt;\">Si vous avec des probl\303\250mes ou des questions concernant nos produits, vous pouvez nous \303\251crire \303\240 </span><a href=\"mailto:www.info@devhopla.com\"><span style=\" font-size:10pt; text-decoration: underline; color:#0000ff;\">www.info@devhopla.com</span></a></p>\n"
-"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-s"
-                        "ize:10pt; text-decoration: underline; color:#0000ff;\"><br /></p></body></html>", 0));
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-l"
+                        "eft:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; text-decoration: underline; color:#0000ff;\"><br /></p></body></html>", 0));
         btnFermerAbout->setText(QApplication::translate("AboutDialog", "Fermer", 0));
     } // retranslateUi
 

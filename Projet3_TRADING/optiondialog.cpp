@@ -30,87 +30,34 @@
 //!
 OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog(parent), ui(new Ui::OptionDialog)
 {
-    ui->setupUi(this);
+        ui->setupUi(this);
+        this->cotations = _cotations;
 
-    mapList = MainWindow::getMap(); // Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10"
+        mapList = MainWindow::getMap(); /*! Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10" !*/
+        tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
+        checkListDevises = new QList<QCheckBox*>;
+        dbDataChanged = false;
+        QString newPairs = "";
+        dossier = new QString;
 
-    this->cotations = _cotations;
-    tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
-    checkListDevises = new QList<QCheckBox*>;
-    dbDataChanged = false;
-    QString newPairs = "";
-    XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+        initGui(); // Initialisation de l'affichage
 
-    QVBoxLayout *layoutPrincipale = new QVBoxLayout;
-    QHBoxLayout *layout = new QHBoxLayout;
+        chargerOptions(); // charge les options du fichier ini
 
-    initGui(); // Initialisation de l'affichage
-
-    dossier = new QString;
-
-    QFormLayout *formLayout = new QFormLayout;
-     formLayout->addRow(tr("Nom de la base de données :"), nomDB);
-     formLayout->addRow(tr("Chemin"), chemin);
-     formLayout->addWidget(parcourir);
-     formLayout->setVerticalSpacing(10);
-     layoutPrincipale->addLayout(formLayout);
-
-    QFormLayout *formLayoutDistant = new QFormLayout;
-     formLayoutDistant->addRow(tr("URL du serveur :"), urlBase);
-     formLayoutDistant->addRow(tr("Utilisateur"), userBase);
-     formLayoutDistant->addRow(tr("Mot de passe"), pwdBase);
-     formLayoutDistant->setVerticalSpacing(10);
-
-     ui->groupBase->setLayout(formLayoutDistant);
-     //ui->groupBase->setGeometry(10,100,850,125);
-
-     layoutPrincipale->addWidget(ui->buttonBox);
-    // layoutPrincipale->addWidget(parcourir);
-     this->setLayout(layoutPrincipale);
-
-
-    //Création d'un signal mapper
-    QSignalMapper* mapper = new QSignalMapper(this);
-
-    // Boucle qui créée les checkBox, ajoute le nom du couple, connection au QSignalMapper ...
-    QMapIterator<QString, QString> j(mapList);
-    int i(0);
-        while (j.hasNext())
-        {
-            j.next();
-
-             tmpCheckBox = new QCheckBox( j.key() );
-             checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
-             layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
-             connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
-             mapper->setMapping(tmpCheckBox, j.value().toInt());
-
-            qDebug() << j.key() << ": " << j.value() << checkListDevises->at(i)->text();
-            i++;
-        }
-
-    ui->groupCheck->setLayout(layout);
-    ui->groupCheck->setGeometry(5,250,850,50);
-    layoutPrincipale->addWidget(ui->buttonBox);
-    layoutPrincipale->addLayout(layout);
-
-    chargerOptions(); // charge les options du fichier ini
-
-
-     connect(mapper, SIGNAL(mapped(int)), this, SLOT(checkboxClicked(int)));// récupération du signal stateChange sur les checkBox
-     connect(parcourir, SIGNAL(clicked()), this, SLOT(selectionBase()));
-     connect(nomDB, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
-     connect(chemin, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
-     connect(urlBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
-     connect(userBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
-     connect(pwdBase, SIGNAL(editingFinished()), this, SLOT(alertDbName()));
-     connect(nomDB, SIGNAL(returnPressed()), this, SLOT(selectionBase()));
+        connect(mapper, SIGNAL(mapped(int)), this, SLOT(checkboxClicked(int)));// récupération du signal stateChange sur les checkBox
+        connect(parcourir, SIGNAL(clicked()), this, SLOT(selectionBase()));
+        connect(nomDB, SIGNAL(editingFinished()), this, SLOT(alertDbChange()));
+        connect(chemin, SIGNAL(editingFinished()), this, SLOT(alertDbChange()));
+        connect(urlBase, SIGNAL(editingFinished()), this, SLOT(alertDbChange()));
+        connect(userBase, SIGNAL(editingFinished()), this, SLOT(alertDbChange()));
+        connect(pwdBase, SIGNAL(editingFinished()), this, SLOT(alertDbChange()));
+        connect(nomDB, SIGNAL(returnPressed()), this, SLOT(selectionBase()));
 
 }
 
 void OptionDialog::initGui()
 {
-
+    /*! Création des QlineEdit !*/
     nomDB = new QLineEdit;
     nomDB->setFixedWidth(200);
     chemin = new QLineEdit;
@@ -124,6 +71,61 @@ void OptionDialog::initGui()
     pwdBase->setEchoMode(QLineEdit::Password);
     parcourir->setFixedSize(200,20);
     chemin->setFixedSize(700,20);
+
+    /*! Création de Layout !*/
+    QVBoxLayout *layoutPrincipale = new QVBoxLayout;
+    QHBoxLayout *layout = new QHBoxLayout;
+
+    /*! Création d'un FormLayout pour lmes champs texte des infos de la DB!*/
+    QFormLayout *formLayout = new QFormLayout;
+     formLayout->addRow(tr("Nom de la base de données :"), nomDB);
+     formLayout->addRow(tr("Chemin"), chemin);
+     formLayout->addWidget(parcourir);
+     formLayout->setVerticalSpacing(10);
+     layoutPrincipale->addLayout(formLayout);
+
+     /*! Création d'un FormLayout pour lmes champs texte des infos du serveur de la DB!*/
+    QFormLayout *formLayoutDistant = new QFormLayout;
+     formLayoutDistant->addRow(tr("URL du serveur :"), urlBase);
+     formLayoutDistant->addRow(tr("Utilisateur"), userBase);
+     formLayoutDistant->addRow(tr("Mot de passe"), pwdBase);
+     formLayoutDistant->setVerticalSpacing(10);
+     /*! Le layout est ajouté au groupBox de l'ui!*/
+     ui->groupBase->setLayout(formLayoutDistant);
+     //ui->groupBase->setGeometry(10,100,850,125);
+
+     layoutPrincipale->addWidget(ui->buttonBox);
+    // layoutPrincipale->addWidget(parcourir);
+    /*! On applique le Layout principale au QDialog !*/
+     this->setLayout(layoutPrincipale);
+
+     /*! Le Latyout contenant les checkBox ests ajoputé au groupBox de l'ui !*/
+     ui->groupCheck->setLayout(layout);
+     ui->groupCheck->setGeometry(5,250,850,50);
+     layoutPrincipale->addWidget(ui->buttonBox);
+     layoutPrincipale->addLayout(layout);
+
+     //Création d'un signal mapper
+     mapper = new QSignalMapper(this);
+
+     /*! Boucle avec un QMap iterator, qui créée les checkBox dynamiquement, ajoute le nom du couple contenu dans le QMap,
+      * puis connection des checkBox au QSignalMapper ...!*/
+     QMapIterator<QString, QString> j(mapList);
+     int i(0);
+         while (j.hasNext())
+         {
+             j.next();
+
+              tmpCheckBox = new QCheckBox( j.key() );
+              checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
+              layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
+              connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
+              mapper->setMapping(tmpCheckBox, j.value().toInt());
+
+             qDebug() << j.key() << ": " << j.value() << checkListDevises->at(i)->text();
+             i++;
+         }
+
 }
 
 
@@ -159,6 +161,15 @@ OptionDialog::~OptionDialog()
     delete ui;
 }
 
+//!
+//! \brief OptionDialog::chargerOptions
+//!
+//! Charge les dernières options enregistrées dans le fichier setting XML
+//!
+//!
+//!
+//!
+
 void OptionDialog::chargerOptions()
 {
 
@@ -183,6 +194,14 @@ void OptionDialog::chargerOptions()
     ui->radioUrlPerso->setChecked(settings.value("UrlForex/radioBoutonPerso").toBool());
 }
 
+//!
+//! \brief OptionDialog::accept
+//!
+//!
+//!Fonction après appui sur le bouton OK de la boite de dialogue des options
+//! Sauvegarde des paramètres dans le fichier XMl
+//!
+//!
 void OptionDialog::accept(){
 
 
@@ -208,8 +227,8 @@ void OptionDialog::accept(){
 
         }
 
-        if(newPairs.endsWith(";")) { // on retire le dernier caractère si ';'
-            newPairs.chop(1);
+        if(newPairs.endsWith(";")) {
+            newPairs.chop(1);/*! on retire le dernier caractère si ';'  !*/
         }
 
     settings.setValue("pairs", newPairs); // sauvegarde de la chaine d'id dans le fichier settings XML
@@ -247,7 +266,7 @@ void OptionDialog::accept(){
         // restart de l'application
         switch (ret) {
 
-        case QMessageBox::Ok:
+        case QMessageBox::Ok: /*! Si OK on redémarre l'application !*/
 
             emit restartMyApp();
             qApp->quit();
@@ -270,6 +289,8 @@ void OptionDialog::accept(){
      QDialog::accept() ;
 
 }
+
+
 //!
 //! \brief OptionDialog::selectionBase
 //!
@@ -279,7 +300,7 @@ void OptionDialog::accept(){
 //!
 void OptionDialog::selectionBase()
 {
-   // Sélection de la base d données / récupération filename et path
+   /*! Sélection de la base d données / récupération filename et path  !*/
     QString  fileName = QFileDialog::getOpenFileName(this,
           tr("Choisir la base"), "/home/", tr("Database Files (*.db *.ocdb *.sqlite)"));
 
@@ -293,47 +314,80 @@ void OptionDialog::selectionBase()
     settings.setValue("nomBase", nomDB->text());
     settings.endGroup();
 
-
     dbDataChanged = true;
-
 }
 
-void OptionDialog::alertDbName()
+//!
+//! \brief OptionDialog::alertDbChange
+//!
+//!
+//!
+void OptionDialog::alertDbChange()
 {
-
     dbDataChanged = true;
-
 }
 
-
-
-
+//!
+//! \brief OptionDialog::on_btnCocher_clicked
+//!
+//!
+//!Action sur le bouton Tout cocher. Coche toutes les checkBox
+//!
 void OptionDialog::on_btnCocher_clicked()
 {
     for ( int i(0); i <12; i++ )
     {
-           checkListDevises->at(i)->setChecked(true);
-   }
+        checkListDevises->at(i)->setChecked(true);
+    }
 }
 
+//!
+//! \brief OptionDialog::on_btnDecocher_clicked
+//!
+//! Action sur le bouton Tout décocher. Décoche toute les checkBox
+//!
+//!
+//!
 void OptionDialog::on_btnDecocher_clicked()
 {
     for ( int i(0); i <12; i++ )
     {
-           checkListDevises->at(i)->setChecked(false);
-   }
+        checkListDevises->at(i)->setChecked(false);
+    }
 }
-
+//!
+//! \brief OptionDialog::on_radioSiteFr_toggled
+//!
+//! Action si le radio bouton URL Fr est activé. Le QLineEdit prend la constante FR_URL
+//! \param checked renvoi true si le radio bouton est coché, ou false si il est décoché
+//!
+//!
+//!
 void OptionDialog::on_radioSiteFr_toggled(bool checked)
 {
     if(checked) ui->lineUrlPerso->setText(FR_URL);
 }
-
+//!
+//! \brief OptionDialog::on_radioSiteEn_toggled
+//!
+//! Action si le radio bouton URL En est activé. Le QLineEdit prend la constante EN_URL
+//! \param checked renvoi true si le radio bouton est coché, ou false si il est décoché
+//!
+//!
+//!
 void OptionDialog::on_radioSiteEn_toggled(bool checked)
 {
     if(checked) ui->lineUrlPerso->setText(EN_URL);
 }
 
+//!
+//! \brief OptionDialog::on_radioUrlPerso_toggled
+//!
+//! Vide le champ du QLineEdit à l'activation du radio bouton.
+//!
+//! \param checked renvoi true si le radio bouton est coché, ou false si il est décoché
+//!
+//!
 void OptionDialog::on_radioUrlPerso_toggled(bool checked)
 {
      if(checked) ui->lineUrlPerso->setText("");

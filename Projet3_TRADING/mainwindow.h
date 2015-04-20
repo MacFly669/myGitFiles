@@ -31,13 +31,10 @@ public:
     explicit MainWindow(QSqlDatabase* _db =0, QWidget *parent = 0);
     ~MainWindow();
 
-    static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass); // connection SQLITE
-    static void createTable(QSqlDatabase* db);         //  création de la table
-    static  QMap<QString, QString> getMap();
-
+    static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass); /*! Fonction static de connection  à la base SQLITE  !*/
+    static void createTable(QSqlDatabase* db);         /*!  Création de la table si elle n'existe pas  !*/
+    static  QMap<QString, QString> getMap();           /*! Fonction static qui renvoi le QMap  nom deivise/Id devise !*/
     static void setHeaderTable(QSqlTableModel &model, QTableView* tableView ); /** \fn renomme le texte des header de la tableView **/
-
-    QString loadPaires(); /** \fn charge les couples ds le fichier XML **/
 
     void initGui();
 
@@ -47,15 +44,16 @@ public:
 
 private slots:
          void comboChanged(QString arg1);
-        void statutDataSaved(); // affichage du statut du backup
+         void statutDataSaved(); // affichage du statut du backup
 
 private slots:
-    void on_actionCours_devises_triggered(); // Show/Hide cotatations en direct
+    void on_actionShowHideView_triggered(); // Show/Hide cotatations en direct
     void reloadTableView(); // rafraichit le tableView
     void on_actionGraphique_triggered();//Affichage du graphique
     void on_action_Rafraichir_triggered();//rafraichit le webview / enregistre les données
     void on_actionAbout_triggered(); // affichage de l'about
     void openSim();
+    bool isChecked(QString str);
 
     void on_actionCalendrier_triggered();
 
@@ -68,7 +66,7 @@ private:
     Graphique* graph;
     Ui::MainWindow *ui;
     QSqlDatabase* db;
-    QString* forexUrl;
+
 
 
 

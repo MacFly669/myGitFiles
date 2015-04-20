@@ -126,7 +126,7 @@
     <property name="title">
      <string>&amp;Affichage</string>
     </property>
-    <addaction name="actionCours_devises"/>
+    <addaction name="actionShowHideView"/>
     <addaction name="actionGraphique"/>
     <addaction name="actionSimulation"/>
     <addaction name="actionOptions"/>
@@ -149,7 +149,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionQuitter"/>
-   <addaction name="actionCours_devises"/>
+   <addaction name="actionShowHideView"/>
    <addaction name="actionGraphique"/>
    <addaction name="actionSimulation"/>
    <addaction name="action_Rafraichir"/>
@@ -173,13 +173,13 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionCours_devises">
+  <action name="actionShowHideView">
    <property name="icon">
     <iconset resource="myresources.qrc">
      <normaloff>:/icons/icons/oeil.png</normaloff>:/icons/icons/oeil.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Cours devises</string>
+    <string>&amp; FOREX Live</string>
    </property>
    <property name="shortcut">
     <string>Alt+C</string>

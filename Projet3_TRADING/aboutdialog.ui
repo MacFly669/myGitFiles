@@ -10,12 +10,18 @@
     <height>450</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>410</width>
+    <height>450</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>A propos</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/images/icons/About.png</normaloff>:/images/icons/About.png</iconset>
+   <iconset resource="myresources.qrc">
+    <normaloff>:/icons/icons/About.png</normaloff>:/icons/icons/About.png</iconset>
   </property>
   <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
@@ -47,7 +53,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;TRADING PLUS 2015 © &lt;/span&gt;	&lt;span style=&quot; font-size:10pt;&quot;&gt;version 1.0&lt;/span&gt;	&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Trading Plus &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;est une application conçu par &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;DevHopla&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; société de dévelopement de logiciels informatiques.&lt;br /&gt;Pour de plus amples informations sur les conditions d'utilisations veuillez consulter les&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;conditions.pdf&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;conditions générales&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Vous pouvez également consulter la &lt;/span&gt;&lt;a href=&quot;file:///doc.pdf&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;documentation&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; de l'utilisateur (anglais) , ou la &lt;/span&gt;&lt;a href=&quot;qrc:/html/index.html&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;documentation développeur&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Vous pouvez également consulter la &lt;/span&gt;&lt;a href=&quot;file:///doc.pdf&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;documentation&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; de l'utilisateur (anglais) , ou la &lt;/span&gt;&lt;a href=&quot;file:///C:/Users/Juanpa/Documents/Developpement/Qt/Git/hub/Projet3_TRADING/html/index.html&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;documentation développeur&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Si vous avec des problèmes ou des questions concernant nos produits, vous pouvez nous écrire à &lt;/span&gt;&lt;a href=&quot;mailto:www.info@devhopla.com&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;www.info@devhopla.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
@@ -66,6 +72,8 @@ p, li { white-space: pre-wrap; }
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="myresources.qrc"/>
+ </resources>
  <connections/>
 </ui>

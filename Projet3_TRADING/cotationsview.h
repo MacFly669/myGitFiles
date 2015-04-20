@@ -19,10 +19,12 @@ class CotationsView : public QWidget
 public:
     explicit CotationsView(QSqlDatabase* db =0, QString *_paires = 0, QWidget *parent = 0);
     ~CotationsView();
-    QString getPaires(){ return *m_paires;} // renvoi les id à afficher et sauvegarder
-    void setUrl(QUrl &url);//Mise à jour de l'URL du webView
-    void setPaires(QString &_paires){ m_paires = &_paires;} //Getter/Setter
-    void saveData(QVector<QString> table); // enregistrement DB
+    void saveData(QVector<QString> table); /*! enregistrement DB !*/
+    void initMain(); /*! initialisation du constructeur !*/
+    void setUrl(QUrl &url);/*! /Mise à jour de l'URL du webView !*/
+    void setPaires(QString &_paires){ m_paires = &_paires;} /*! Getter/Setter !*/
+    QString getPaires(){ return *m_paires;} /*! renvoi les id à afficher et sauvegarder !*/
+
 
 private:
     Ui::CotationsView *ui;
@@ -32,7 +34,7 @@ private:
     QSettings::Format XmlFormat;
 
 signals:
-    void dataSaved();
+    void dataSaved(); /*! Signal emis lorsque la sauvegarde vers la base de données esst passée !*/
 
 public slots:
        void reload();

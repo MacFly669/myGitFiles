@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_OptionDialog_t {
     QByteArrayData data[15];
-    char stringdata[223];
+    char stringdata[225];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,18 +37,18 @@ QT_MOC_LITERAL(4, 49, 15), // "checkboxClicked"
 QT_MOC_LITERAL(5, 65, 1), // "i"
 QT_MOC_LITERAL(6, 67, 13), // "selectionBase"
 QT_MOC_LITERAL(7, 81, 6), // "accept"
-QT_MOC_LITERAL(8, 88, 11), // "alertDbName"
-QT_MOC_LITERAL(9, 100, 20), // "on_btnCocher_clicked"
-QT_MOC_LITERAL(10, 121, 22), // "on_btnDecocher_clicked"
-QT_MOC_LITERAL(11, 144, 22), // "on_radioSiteFr_toggled"
-QT_MOC_LITERAL(12, 167, 7), // "checked"
-QT_MOC_LITERAL(13, 175, 22), // "on_radioSiteEn_toggled"
-QT_MOC_LITERAL(14, 198, 24) // "on_radioUrlPerso_toggled"
+QT_MOC_LITERAL(8, 88, 13), // "alertDbChange"
+QT_MOC_LITERAL(9, 102, 20), // "on_btnCocher_clicked"
+QT_MOC_LITERAL(10, 123, 22), // "on_btnDecocher_clicked"
+QT_MOC_LITERAL(11, 146, 22), // "on_radioSiteFr_toggled"
+QT_MOC_LITERAL(12, 169, 7), // "checked"
+QT_MOC_LITERAL(13, 177, 22), // "on_radioSiteEn_toggled"
+QT_MOC_LITERAL(14, 200, 24) // "on_radioUrlPerso_toggled"
 
     },
     "OptionDialog\0acceptedOptionDevises\0\0"
     "restartMyApp\0checkboxClicked\0i\0"
-    "selectionBase\0accept\0alertDbName\0"
+    "selectionBase\0accept\0alertDbChange\0"
     "on_btnCocher_clicked\0on_btnDecocher_clicked\0"
     "on_radioSiteFr_toggled\0checked\0"
     "on_radioSiteEn_toggled\0on_radioUrlPerso_toggled"
@@ -111,7 +111,7 @@ void OptionDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 2: _t->checkboxClicked((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 3: _t->selectionBase(); break;
         case 4: _t->accept(); break;
-        case 5: _t->alertDbName(); break;
+        case 5: _t->alertDbChange(); break;
         case 6: _t->on_btnCocher_clicked(); break;
         case 7: _t->on_btnDecocher_clicked(); break;
         case 8: _t->on_radioSiteFr_toggled((*reinterpret_cast< bool(*)>(_a[1]))); break;

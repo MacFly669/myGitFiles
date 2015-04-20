@@ -10,6 +10,7 @@
 #include <QDebug>
 // imports
 #include <QMap>
+#include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -20,6 +21,7 @@
 #include <QMdiArea>
 #include <QProcess>
 #include <QTableWidgetItem>
+#include <QTimer>
 
 #define INDEXURL  "/index.php?force_lang="
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,17 +35,20 @@
 //! \brief Instancie une fenêtre principale.
 //!
 //!
-//! \def Cette class créée une instance de MainWindow
+//! Cette class créée une instance de MainWindow
 //! Contient un menuBar , une statutBar , un ui->frame qui contiendra le webView de l'instance de la class cotationsView
 //! Un ui->tableView pour afficher les enregistrements, une checkbox pour changer la devise et des QDateEDit pour le filtre par date
 //!
 //! \arg db est un paramètre de type QSqlDatabase
 //! \arg parent
-//!
+
+
+
 //!
 //!
 //! \brief  Constructeur MainWindow::MainWindow
-//!         Instancie une QMainWindowclass, la fenêter principale du programme.
+//!         Instancie une MainWindow, la fenêtre principale du programme.
+//!
 //! \param db Objet de type QSqlDatabase* établit la connection à une base de données SQLITE
 //! \param  Objet parent
 //!
@@ -51,42 +56,30 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 {
         ui->setupUi(this);
 
+        initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  !*/
 
       //  qApp->setStyleSheet("QMainWindow { background-image: url(:/images/images/splash2.png) }");
-
-
-       XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);/** Paramètre QSettings pour sortie XML **/
-       //QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath()); /** Définit le répertoire de sortie du XML **/
+        /** Chargement des infos paires, urlForex, lang depuis le fichier de configuration XML  **/
        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-
-       QString server = settings.value("OptionBase/serveur", "127.0.0.1").toString();// récupération des valeurs sauvegardées pour la connection à la base de données.
-       QString user = settings.value("OptionBase/user", "admin").toString();
-       QString pass = settings.value("OptionBase/password","").toString();
-       QString langId =settings.value("UrlForex/lang","5").toString();
+       QString m_paires = settings.value("pairs", "1;10").toString();
        QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
-
-        initGui(); // initialisation de l'ui
-
-        QString m_paires = loadPaires();/** \fn loadPaires() charge les paires depuis le fichier de configuration XML  **/
+       QString langId = settings.value("UrlForex/lang","5").toString();
 
         if(m_paires == "" || m_paires == NULL) return;
+
         /**
         instanciation d'un fenêtre de cotations webView (affichage de la page forex) dans le Widget frame de MainWindow
         \arg db soit l'Objet de type QSqlDatabase, la connection à la base de données
         \arg m_paires QString les id des paires de devises à afficher dans le webView et à sauvegarder dans la base.
         \arg this->ui->frame où le Widget parent de l'instance de CotationsView
         **/
-        cotes = new CotationsView(db,&m_paires,this->ui->frame);
-
-        cotes->move(-68,0);  // Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0
-        // Passage de l'URL
-        qDebug() << INDEXURL;
-        cotes->setUrl(QUrl( forexUrl + INDEXURL +   "&pairs_ids="+ m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
-
+        cotes = new CotationsView(db,&m_paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
+        cotes->move(-68,0);
+        cotes->setUrl(QUrl( forexUrl + INDEXURL + langId + "&pairs_ids=" + m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
 
     if( db )
     {
-        MainWindow::createTable(db); /** \fn  static Création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
+        MainWindow::createTable(db); /** \fn  MainWindow::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
@@ -97,7 +90,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         ui->tableView->setAlternatingRowColors(true);
         ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
     }
-        // Bloc de connection des signaux
+        /*! Bloc de connection des signaux  !*/
         connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
         connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
@@ -105,6 +98,10 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(ui->actionGraphique, SIGNAL(triggered()), this, SLOT(on_actionGraphique_triggered()));
         connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
         connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
+
+        QTimer *timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), cotes, SLOT(reload()));
+        timer->start(10000);
 
 }
 
@@ -118,10 +115,10 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
     ui->frame->hide();
 
-    QMapIterator<QString, QString> i( MainWindow::getMap() );
-    while (i.hasNext()) {
-        i.next();
-        ui->comboDevises->addItem(i.key());
+    QMapIterator<QString, QString> map( MainWindow::getMap() );
+    while (map.hasNext() ) {
+        map.next();
+        ui->comboDevises->addItem(map.key());
     }
 
     graph = new Graphique();
@@ -132,6 +129,20 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 //!     \n ouverture du panneau de simulation
 //!
 //!
+
+bool MainWindow::isChecked(QString str)
+{
+  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+
+    for( int i(0); i<12; i++ )
+    {
+       if (settings.value("Checkbox/cb" + QString::number(i)) == "true") return true;
+    }
+
+
+   return false;
+
+}
 
 void MainWindow::openSim()
 {
@@ -198,8 +209,10 @@ QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString us
     db->setUserName(user);
     db->setPassword(pass);
 
-    if( db->open()) return db ;
-    // TODO MessageBox Error   
+    if(  db->open()) return db ;
+    QMessageBox msgBox;
+    msgBox.setText("Erreur lors de la tentative de création de la base de données \n Vérifiez que vous avez accès à la base de données et les droits en écriture");
+    msgBox.exec();
     db->close();
     delete db ;
     return 0 ;
@@ -219,13 +232,15 @@ void MainWindow::createTable(QSqlDatabase* db){
 
     if(!db->isValid())
     {
-        //TODO MessageBOx
-        qDebug() << "Erreur lors de la tentative de connection à la base";
+        /*! MessageBox si la connection n'est pas valide !*/
+        QMessageBox msgBox;
+        msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données");
+        msgBox.exec();
         return;
     }
 
     QString sql ;
-    // Creation de la table if not exists
+    /*! Creation de la table if not exists !*/
     sql = "create table if not exists couples (" ;
     sql += " id INTEGER PRIMARY KEY AUTOINCREMENT," ;
     sql += " nom varchar(50)," ;
@@ -244,11 +259,11 @@ void MainWindow::createTable(QSqlDatabase* db){
 }
 
 //!
-//! \brief MainWindow::on_actionCours_devises_triggered
+//! \brief MainWindow::on_actionShowHideView_triggered
 //!
 //!Affiche / Masque le webView
 //!
-void MainWindow::on_actionCours_devises_triggered()
+void MainWindow::on_actionShowHideView_triggered()
 {
     if(ui->frame->isHidden())
     {
@@ -256,14 +271,12 @@ void MainWindow::on_actionCours_devises_triggered()
         ui->frame->show();
         ui->statusBar->showMessage(tr("Affichage de la page cotations en direct"),2000);
     }
-
     else
     {
         ui->frame->hide();
         this->setFixedHeight(400);
         ui->statusBar->showMessage(tr("Fermeture de la page cotations en direct"),2000);
     }
-
 }
 //!
 //! \brief MainWindow::on_comboBox_currentTextChanged
@@ -279,9 +292,6 @@ void MainWindow::comboChanged(QString arg1)
     model->select() ;
 
     ui->statusBar->showMessage( ( "Affichage de la paire "  ),2000);
-
-    qDebug() << "combo Cahnged !";
-
 }
 
 
@@ -293,7 +303,7 @@ void MainWindow::comboChanged(QString arg1)
 //!
 //!
 //!
-void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
+void MainWindow::reloadTableView() /*! Rafraichit l'affichage de la TableView !*/
 {
     model->setTable( "couples" ) ;
     model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");
@@ -303,28 +313,7 @@ void MainWindow::reloadTableView() // Rafraichit l'affichage de la TableView
     ui->statusBar->showMessage(tr("Mise à jour du tableau"),1000);
 }
 
-//!
-//! \brief MainWindow::loadPaires Charge le ids de paires à afficher
-//! \return  Retourne le contenu au format QString \n \example "1;10;" pour les pairs EUR/USD et EUR/CHF
-//!
-//!
-QString MainWindow::loadPaires() // Charge les pairs à afficher dans les options sauvegarder par QSettings
-{
 
-    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-    QString valueReturn = settings.value("pairs", "1;10").toString();
-
-    return valueReturn; // retourne un string ex: "1;10;"
-
-}
-//!
-//! \brief MainWindow::on_btn_valider_date_clicked \n
-//!
-//! Action sur le bouton valider des champs dates\n
-//!
-//! Validation des dates pour lancement de la requêtes \n Filtre la devise sélectionnée en fonction de date début -> date fin
-//! \n Permet d'afficher les enregistrements pour une période donnée
-//!
 
 //!
 //! \brief MainWindow::on_actionGraphique_triggered
@@ -396,22 +385,9 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
     return(map);
  }
 
-//void MainWindow::on_comboDevises_currentTextChanged(const QString &arg1)
-//{
-//    model->setFilter("nom like '%" + arg1 + "'");
-//    model->select() ;
-
-//    ui->statusBar->showMessage( ( "Affichage de la paire " + arg1  ),2000);
-
-//    qDebug() << "combo Cahnged !";
-//}
-
 void MainWindow::on_actionCalendrier_triggered()
 {
     PeriodeDialog* wDate= new PeriodeDialog(db);
 
     wDate->show();
-
-
-
 }

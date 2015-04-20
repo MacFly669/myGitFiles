@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include <QSettings>
 
+class QSignalMapper;
+
 namespace Ui {
 class OptionDialog;
 }
@@ -38,6 +40,7 @@ private:
     QString* dossier;
     QCheckBox* tmpCheckBox;
     QString newPairs;
+    QSignalMapper* mapper;
 
     QSettings::Format XmlFormat;
     bool dbDataChanged;
@@ -55,7 +58,7 @@ private slots:
     void checkboxClicked(int i);
     void selectionBase();
     void accept();
-    void alertDbName();
+    void alertDbChange();
     void on_btnCocher_clicked();
     void on_btnDecocher_clicked();
     void on_radioSiteFr_toggled(bool checked);

@@ -40,6 +40,7 @@
 #include <QSqlDatabase>
 #include <QSettings>
 #include <QMessageBox>
+#include <QTimer>
 
 //!
 //! \brief CotationsView::CotationsView \n
@@ -57,25 +58,35 @@
 CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent): QWidget(parent),m_paires(_paires),db(db), ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
+    initMain();
 
-    dlg = new OptionDialog( this ) ; //déclaration de la boite de dialogue
 
-   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
+
+    ui->webView->move(50,0);
+
+    // Signal attend le fin du chargement de la page web puis appelle la fonctin loadData()
+    /*!  SIGNAL  loadFinished(bool) emit quand le QWebView à terminer de charge la page
+     *   renvoi vers le SLOT loadData() qui récupère les données de cette page.
+     *
+    !*/
+   connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
+   /*!  SIGNAL emis lors de la modification des couples à afficher dans le QDialog des options
+    * Le SLOT connecté est \fn updateUrl()  !*/
+   connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(updateUrl()));
+}
+
+void CotationsView::initMain()
+{
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-
     *m_paires = settings.value("pairs", "1;10;").toString();
     QString url = settings.value("UrlForex/url").toString();
-    ui->webView->move(50,0);
 
-   // tdTable = new QVector<QString>(0);
-
-    // Signal attend le fin du chargement de la page web puis appelle la fonctin loadData()
-   connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
-   connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(updateUrl()));
+     dlg = new OptionDialog( this ) ; //déclaration de la boite de dialogue
 
 }
+
 
 CotationsView::~CotationsView()
 {
@@ -85,7 +96,7 @@ CotationsView::~CotationsView()
 //!
 //! \brief CotationsView::setUrl
 //!
-//! \fn membre setUrl() change l'url du QTableView
+//! Fonction membre setUrl() se charge de changer l'url du QTableView
 //! \param url  nouvelle adresse contenant les modifications apporter aux paires dans la configuration
 //!
 void CotationsView::setUrl(QUrl &url)
@@ -97,13 +108,19 @@ void CotationsView::setUrl(QUrl &url)
 //!
 //! \brief CotationsView::reload
 //!
-//! Recharge le ui->webView
+//!Fonction appelée pour le rechargement du QWebview : ui->webView
+//!
 void CotationsView::reload()
 {
     this->ui->webView->reload();
 }
 // Mise à jour de l'url
-
+//!
+//! \brief CotationsView::updateUrl
+//!
+//! Rechargement du QWebview après changement d'url.
+//! Cette fonction est appelée quand on modifie l'url dans la boite de dialogue 'Options'
+//!
 void CotationsView::updateUrl()
 {
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
@@ -117,6 +134,18 @@ void CotationsView::updateUrl()
 }
 
 // fonction qui récupére les datas du webView
+//!
+//! \brief CotationsView::loadData
+//!
+//! Fonction qui récupère les données afficher dans le webView pour ensuite les transmettre à la \fn  CotationsView::saveData(QVector<QString> table)
+//!
+//! On déclare un QWebFrame qui se charge de récupérer le mainFrame. On déclare ensuite un QWebElement qui va récupérer le balisage html du mainFrame, on a alors
+//! toute la page html.\n
+//! Dans un QWebElementCollection nous aloons récupérer tous les <tr> réprésentant les lignes qui nous intéresse.
+//! Ensuite à l'aide d'une boucle nous allons récupérer les <td> de chaque lignes et les stocker dans un QVector.
+//! Ces <td> contiennent les valeurs à sauvegarder; le tableau est ensuite envoyé à la \fn saveData(QVector<QString> table)
+//!
+//!
 void CotationsView::loadData(){
 
     QVector<QString> tdTable(0,"");
@@ -148,6 +177,10 @@ void CotationsView::loadData(){
 }
 //!
 //! \brief CotationsView::saveData
+//!
+//! Fonction qui récupère le tableau des datas en paramètre pour les sauvegarder dans la base de données.
+//! Les données ont été récupérer de WebView via la \fn CotationsView::loadData()
+//!
 //! \param table QVector<QString> tableau contenant les valeurs à sauvegarder dans la base de données.
 //!
 void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds la DB
@@ -198,14 +231,24 @@ void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
         emit dataSaved();
 
 }
-
+//!
+//! \brief CotationsView::afficheProprietes
+//!
+//!
+//! \fn  CotationsView::afficheProprietes() ouvre la boite de dialogue proposant les diverses options
+//!
+//!
 void CotationsView::afficheProprietes()
 {
 
     dlg->exec() ;
 }
 
-
+//!
+//! \brief CotationsView::on_pushButton_clicked
+//!
+//! Bouton rafraichir à coté du WebView permet de recherger la page
+//!
 void CotationsView::on_pushButton_clicked()
 {
     this->ui->webView->reload();

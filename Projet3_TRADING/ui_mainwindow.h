@@ -31,7 +31,7 @@ class Ui_MainWindow
 {
 public:
     QAction *actionQuitter;
-    QAction *actionCours_devises;
+    QAction *actionShowHideView;
     QAction *actionGraphique;
     QAction *actionSimulation;
     QAction *actionOptions;
@@ -65,11 +65,11 @@ public:
         QIcon icon1;
         icon1.addFile(QStringLiteral(":/icons/icons/Exit.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionQuitter->setIcon(icon1);
-        actionCours_devises = new QAction(MainWindow);
-        actionCours_devises->setObjectName(QStringLiteral("actionCours_devises"));
+        actionShowHideView = new QAction(MainWindow);
+        actionShowHideView->setObjectName(QStringLiteral("actionShowHideView"));
         QIcon icon2;
         icon2.addFile(QStringLiteral(":/icons/icons/oeil.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionCours_devises->setIcon(icon2);
+        actionShowHideView->setIcon(icon2);
         actionGraphique = new QAction(MainWindow);
         actionGraphique->setObjectName(QStringLiteral("actionGraphique"));
         QIcon icon3;
@@ -153,13 +153,13 @@ public:
         menuBar->addAction(menu_Affiche->menuAction());
         menuBar->addAction(menuA_propos->menuAction());
         menuMenu->addAction(actionQuitter);
-        menu_Affiche->addAction(actionCours_devises);
+        menu_Affiche->addAction(actionShowHideView);
         menu_Affiche->addAction(actionGraphique);
         menu_Affiche->addAction(actionSimulation);
         menu_Affiche->addAction(actionOptions);
         menuA_propos->addAction(actionAbout);
         mainToolBar->addAction(actionQuitter);
-        mainToolBar->addAction(actionCours_devises);
+        mainToolBar->addAction(actionShowHideView);
         mainToolBar->addAction(actionGraphique);
         mainToolBar->addAction(actionSimulation);
         mainToolBar->addAction(action_Rafraichir);
@@ -180,8 +180,8 @@ public:
         actionQuitter->setToolTip(QApplication::translate("MainWindow", "Fermer l'application", 0));
 #endif // QT_NO_TOOLTIP
         actionQuitter->setShortcut(QApplication::translate("MainWindow", "Ctrl+Q", 0));
-        actionCours_devises->setText(QApplication::translate("MainWindow", "&Cours devises", 0));
-        actionCours_devises->setShortcut(QApplication::translate("MainWindow", "Alt+C", 0));
+        actionShowHideView->setText(QApplication::translate("MainWindow", "& FOREX Live", 0));
+        actionShowHideView->setShortcut(QApplication::translate("MainWindow", "Alt+C", 0));
         actionGraphique->setText(QApplication::translate("MainWindow", "&Graphique", 0));
         actionGraphique->setShortcut(QApplication::translate("MainWindow", "Alt+G", 0));
         actionSimulation->setText(QApplication::translate("MainWindow", "&Simulation", 0));

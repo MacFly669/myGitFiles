@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[13];
-    char stringdata[230];
+    QByteArrayData data[15];
+    char stringdata[243];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,22 +35,24 @@ QT_MOC_LITERAL(2, 23, 0), // ""
 QT_MOC_LITERAL(3, 24, 12), // "comboChanged"
 QT_MOC_LITERAL(4, 37, 4), // "arg1"
 QT_MOC_LITERAL(5, 42, 15), // "statutDataSaved"
-QT_MOC_LITERAL(6, 58, 32), // "on_actionCours_devises_triggered"
-QT_MOC_LITERAL(7, 91, 15), // "reloadTableView"
-QT_MOC_LITERAL(8, 107, 28), // "on_actionGraphique_triggered"
-QT_MOC_LITERAL(9, 136, 30), // "on_action_Rafraichir_triggered"
-QT_MOC_LITERAL(10, 167, 24), // "on_actionAbout_triggered"
-QT_MOC_LITERAL(11, 192, 7), // "openSim"
-QT_MOC_LITERAL(12, 200, 29) // "on_actionCalendrier_triggered"
+QT_MOC_LITERAL(6, 58, 31), // "on_actionShowHideView_triggered"
+QT_MOC_LITERAL(7, 90, 15), // "reloadTableView"
+QT_MOC_LITERAL(8, 106, 28), // "on_actionGraphique_triggered"
+QT_MOC_LITERAL(9, 135, 30), // "on_action_Rafraichir_triggered"
+QT_MOC_LITERAL(10, 166, 24), // "on_actionAbout_triggered"
+QT_MOC_LITERAL(11, 191, 7), // "openSim"
+QT_MOC_LITERAL(12, 199, 9), // "isChecked"
+QT_MOC_LITERAL(13, 209, 3), // "str"
+QT_MOC_LITERAL(14, 213, 29) // "on_actionCalendrier_triggered"
 
     },
     "MainWindow\0erreurConDb\0\0comboChanged\0"
     "arg1\0statutDataSaved\0"
-    "on_actionCours_devises_triggered\0"
+    "on_actionShowHideView_triggered\0"
     "reloadTableView\0on_actionGraphique_triggered\0"
     "on_action_Rafraichir_triggered\0"
     "on_actionAbout_triggered\0openSim\0"
-    "on_actionCalendrier_triggered"
+    "isChecked\0str\0on_actionCalendrier_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +62,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,18 +70,19 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   64,    2, 0x06 /* Public */,
+       1,    0,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   65,    2, 0x08 /* Private */,
-       5,    0,   68,    2, 0x08 /* Private */,
-       6,    0,   69,    2, 0x08 /* Private */,
-       7,    0,   70,    2, 0x08 /* Private */,
-       8,    0,   71,    2, 0x08 /* Private */,
-       9,    0,   72,    2, 0x08 /* Private */,
-      10,    0,   73,    2, 0x08 /* Private */,
-      11,    0,   74,    2, 0x08 /* Private */,
-      12,    0,   75,    2, 0x08 /* Private */,
+       3,    1,   70,    2, 0x08 /* Private */,
+       5,    0,   73,    2, 0x08 /* Private */,
+       6,    0,   74,    2, 0x08 /* Private */,
+       7,    0,   75,    2, 0x08 /* Private */,
+       8,    0,   76,    2, 0x08 /* Private */,
+       9,    0,   77,    2, 0x08 /* Private */,
+      10,    0,   78,    2, 0x08 /* Private */,
+      11,    0,   79,    2, 0x08 /* Private */,
+      12,    1,   80,    2, 0x08 /* Private */,
+      14,    0,   83,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -93,6 +96,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Bool, QMetaType::QString,   13,
     QMetaType::Void,
 
        0        // eod
@@ -106,13 +110,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->erreurConDb(); break;
         case 1: _t->comboChanged((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 2: _t->statutDataSaved(); break;
-        case 3: _t->on_actionCours_devises_triggered(); break;
+        case 3: _t->on_actionShowHideView_triggered(); break;
         case 4: _t->reloadTableView(); break;
         case 5: _t->on_actionGraphique_triggered(); break;
         case 6: _t->on_action_Rafraichir_triggered(); break;
         case 7: _t->on_actionAbout_triggered(); break;
         case 8: _t->openSim(); break;
-        case 9: _t->on_actionCalendrier_triggered(); break;
+        case 9: { bool _r = _t->isChecked((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 10: _t->on_actionCalendrier_triggered(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -152,13 +158,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }
