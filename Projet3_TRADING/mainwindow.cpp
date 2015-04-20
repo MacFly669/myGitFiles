@@ -105,6 +105,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(ui->actionGraphique, SIGNAL(triggered()), this, SLOT(on_actionGraphique_triggered()));
         connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
         connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
+
 }
 
 
@@ -123,6 +124,7 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
         ui->comboDevises->addItem(i.key());
     }
 
+    graph = new Graphique();
 }
 //!
 //! \brief MainWindow::openSim
@@ -334,8 +336,8 @@ QString MainWindow::loadPaires() // Charge les pairs à afficher dans les option
 //!
 void MainWindow::on_actionGraphique_triggered()
 {
-  graph = new Graphique();
-   graph->show();
+
+    graph->show();
 }
 
 //!
