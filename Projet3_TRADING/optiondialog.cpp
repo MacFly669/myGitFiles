@@ -137,24 +137,20 @@ void OptionDialog::initGui()
 //!
 void OptionDialog::checkboxClicked(int i)
 {
-
     QString idChecked = QString::number(i);
+    QMapIterator<QString, QString> j(mapList);
 
     int x(0);
-
-    QMapIterator<QString, QString> j(mapList);
     while (j.hasNext()) {
         j.next();
 
         if(j.value() == idChecked)
                {
-
                  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
                  settings.setValue("Checkbox/cb" + QString::number(x),checkListDevises->at(x)->isChecked());// enregistrement de l'id et de l'état de la checkBox
                }
         x++;
     }
-
 }
 
 OptionDialog::~OptionDialog()
@@ -173,17 +169,14 @@ OptionDialog::~OptionDialog()
 
 void OptionDialog::chargerOptions()
 {
-  //  XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
     for (int i=0; i<12;i++)
     {
        checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + QString::number(i), "false").toBool()) ; // false par défaut si pas de valeur
-
     }
-
+    // Récupération des options dans le XML
     nomDB->setText(settings.value("OptionBase/nomBase", "Projet3.db").toString()) ;
     chemin->setText(settings.value("OptionBase/chemin").toString());
     urlBase->setText(settings.value("OptionBase/serveur", "localhost").toString()) ;
@@ -204,10 +197,14 @@ void OptionDialog::chargerOptions()
 //!
 void OptionDialog::accept(){
 
-  //  XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+    /*! Action valider la boite de dialogue des options. Sauvagarde dans le xml les options validées.
+     * \li ids
+     * \li nom base, chemin
+     * \li url serveur base, user ,password
+     * !*/
 
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+    // inscription des options dans le xml
     settings.beginGroup("OptionBase");
     settings.setValue("nomBase", nomDB->text());
     settings.setValue("chemin", chemin->text());
@@ -224,23 +221,23 @@ void OptionDialog::accept(){
            {
                newPairs += mapList.value( checkListDevises->at(i)->text()) + ";";  // Récupère l'id dans le QMap
            }
-
         }
 
-        if(newPairs.endsWith(";")) {
+        if(newPairs.endsWith(";"))
+        {
             newPairs.chop(1);/*! on retire le dernier caractère si ';'  !*/
         }
 
     cotations->setPaires(newPairs);
 
     settings.setValue("pairs", newPairs); // sauvegarde de la chaine d'id dans le fichier settings XML
-    cotations->setPaires(newPairs); // on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView
+    cotations->setPaires(newPairs); /*! on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView !*/
 
     settings.beginGroup("UrlForex");
-    settings.setValue("radioBoutonFr",ui->radioSiteFr->isChecked());
+    settings.setValue("radioBoutonFr",ui->radioSiteFr->isChecked()); /*! sauvegarde de l'état des radio boutons !*/
     settings.setValue("radioBoutonEn", ui->radioSiteEn->isChecked());
     settings.setValue("radioBourtonPerso", ui->radioUrlPerso->isChecked());
-    settings.setValue("url",ui->lineUrlPerso->text());
+    settings.setValue("url",ui->lineUrlPerso->text()); /*! sauvegarde de l'url di site forex!*/
     settings.endGroup();
 
     // ***********************************************************************************
@@ -268,6 +265,7 @@ void OptionDialog::accept(){
 
         case QMessageBox::Ok: /*! Si OK on redémarre l'application !*/
 
+            dbDataChanged = false;
             emit restartMyApp();
             qApp->quit();
             QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
@@ -277,6 +275,8 @@ void OptionDialog::accept(){
         case QMessageBox::Cancel:
 
             CancelmsgBox.exec();
+            dbDataChanged = false;
+
             break;
 
         default:
@@ -308,8 +308,7 @@ void OptionDialog::selectionBase()
 
     nomDB->setText(QFileInfo(fileName).fileName());
     chemin->setText(QFileInfo(fileName).path());
- //   XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
- //   QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     settings.beginGroup("OptionBase");
     settings.setValue("chemin", QVariant(getChemin()));
@@ -338,8 +337,6 @@ void OptionDialog::alertDbChange()
 void OptionDialog::on_btnCocher_clicked()
 {
 
-    //XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString makePairs = "";
 
@@ -349,7 +346,6 @@ void OptionDialog::on_btnCocher_clicked()
         settings.setValue("Checkbox/cb" + QString::number(i), "true");
         makePairs += mapList.value( checkListDevises->at(i)->text() ) + ";";  // Récupère l'id dans le QMap
 
-        qDebug() << "checkListDevises->at(i)->text() " << checkListDevises->at(i)->text();
     }
 
     cotations->setPaires(makePairs);
@@ -364,8 +360,7 @@ void OptionDialog::on_btnCocher_clicked()
 //!
 void OptionDialog::on_btnDecocher_clicked()
 {
-    //XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString pairVide = "";
     for ( int i(0); i <12; i++ )

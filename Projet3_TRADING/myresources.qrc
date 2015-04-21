@@ -34,5 +34,7 @@
         <file>images/mid_trading_small_new.png</file>
         <file>images/splash.png</file>
         <file>images/splash2.png</file>
+        <file>images/forex.png</file>
+        <file>images/index.jpg</file>
     </qresource>
 </RCC>

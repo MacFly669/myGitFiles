@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     QTimer::singleShot(2500, &w, SLOT(show()));
 
     /*! On fixe la taille de la fenêtre MainWindow !*/
-    w.setFixedSize(900,400);
+    w.setFixedSize(860,420);
 
     return a.exec();
 
