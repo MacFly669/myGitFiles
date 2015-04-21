@@ -56,7 +56,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 {
         ui->setupUi(this);
 
-        initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  !*/
+
 
       //  qApp->setStyleSheet("QMainWindow { background-image: url(:/images/images/splash2.png) }");
         /** Chargement des infos paires, urlForex, lang depuis le fichier de configuration XML  **/
@@ -64,8 +64,8 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
        QString m_paires = settings.value("pairs", "1;10").toString();
        QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
        QString langId = settings.value("UrlForex/lang","5").toString();
+       if(m_paires == "" || m_paires == NULL) return;
 
-        if(m_paires == "" || m_paires == NULL) return;
 
         /**
         instanciation d'un fenêtre de cotations webView (affichage de la page forex) dans le Widget frame de MainWindow
@@ -76,6 +76,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         cotes = new CotationsView(db,&m_paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
         cotes->move(-68,0);
         cotes->setUrl(QUrl( forexUrl + INDEXURL + langId + "&pairs_ids=" + m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
+        initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  !*/
 
     if( db )
     {
@@ -99,6 +100,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
         connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
 
+
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), cotes, SLOT(reload()));
         timer->start(10000);
@@ -114,11 +116,18 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
     ui->frame->hide();
+    bool ok;
 
     QMapIterator<QString, QString> map( MainWindow::getMap() );
-    while (map.hasNext() ) {
+    while (map.hasNext()) {
         map.next();
-        ui->comboDevises->addItem(map.key());
+
+        ok = isChecked(map.value());
+
+        if(ok)
+        {
+          ui->comboDevises->addItem(map.key());
+        }
     }
 
     graph = new Graphique();
@@ -132,16 +141,15 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 
 bool MainWindow::isChecked(QString str)
 {
-  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
-    for( int i(0); i<12; i++ )
+    QList<QString> ids = cotes->getPaires().split(";");
+
+    for (int i(0); i< ids.size(); i++)
     {
-       if (settings.value("Checkbox/cb" + QString::number(i)) == "true") return true;
+        if(ids.at(i) == str) return true;
     }
 
-
-   return false;
-
+    return false;
 }
 
 void MainWindow::openSim()

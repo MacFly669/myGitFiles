@@ -81,7 +81,7 @@ void CotationsView::initMain()
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     *m_paires = settings.value("pairs", "1;10;").toString();
-    QString url = settings.value("UrlForex/url").toString();
+    url = settings.value("UrlForex/url").toString();
 
      dlg = new OptionDialog( this ) ; //déclaration de la boite de dialogue
 
