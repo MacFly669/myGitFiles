@@ -60,11 +60,14 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
       //  qApp->setStyleSheet("QMainWindow { background-image: url(:/images/images/splash2.png) }");
         /** Chargement des infos paires, urlForex, lang depuis le fichier de configuration XML  **/
-       QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
-       QString m_paires = settings.value("pairs", "1;10").toString();
-       QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
-       QString langId = settings.value("UrlForex/lang","5").toString();
-       if(m_paires == "" || m_paires == NULL) return;
+        XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+        QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+        QString paires = settings.value("pairs", "1;10").toString();
+        QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
+        qDebug() << "forexUrl "  << forexUrl;
+        QString langId = settings.value("UrlForex/lang","5").toString();
+
+       //if(m_paires == "" || m_paires == NULL) m_paires = "1;10";
 
 
         /**
@@ -73,9 +76,11 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         \arg m_paires QString les id des paires de devises à afficher dans le webView et à sauvegarder dans la base.
         \arg this->ui->frame où le Widget parent de l'instance de CotationsView
         **/
-        cotes = new CotationsView(db,&m_paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
+        cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
         cotes->move(-68,0);
-        cotes->setUrl(QUrl( forexUrl + INDEXURL + langId + "&pairs_ids=" + m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
+        cotes->setPaires(paires);
+        cotes->setUrl(QUrl( forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
+
         initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  !*/
 
     if( db )
@@ -99,6 +104,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(ui->actionGraphique, SIGNAL(triggered()), this, SLOT(on_actionGraphique_triggered()));
         connect(cotes, SIGNAL(dataSaved()), this, SLOT(statutDataSaved()));
         connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
+        connect( cotes, SIGNAL(emitReloadCombo()),this, SLOT( initCombo() ) );
 
 
         QTimer *timer = new QTimer(this);
@@ -116,7 +122,28 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
     ui->frame->hide();
-    bool ok;
+     ui->comboDevises->clear();
+    bool ok = false;
+
+     QMapIterator<QString, QString> map( MainWindow::getMap() );
+
+     while (map.hasNext())
+     {
+        map.next();
+        ok = isChecked(map.value());
+        if(ok) ui->comboDevises->addItem(map.key());
+     }
+       graph = new Graphique();
+}
+
+
+void MainWindow:: initCombo()
+{
+
+    qDebug() <<  "recept combo siganal";
+
+    bool ok = false;
+    ui->comboDevises->clear();
 
     QMapIterator<QString, QString> map( MainWindow::getMap() );
     while (map.hasNext()) {
@@ -124,14 +151,16 @@ void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 
         ok = isChecked(map.value());
 
-        if(ok)
-        {
-          ui->comboDevises->addItem(map.key());
-        }
+        if( ok ) ui->comboDevises->addItem(map.key());
+
     }
 
-    graph = new Graphique();
+
 }
+
+
+
+
 //!
 //! \brief MainWindow::openSim
 //!
@@ -146,7 +175,9 @@ bool MainWindow::isChecked(QString str)
 
     for (int i(0); i< ids.size(); i++)
     {
-        if(ids.at(i) == str) return true;
+        if(ids[i] == str) return true;
+
+        qDebug() << ids[i] << str;
     }
 
     return false;
@@ -219,7 +250,7 @@ QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString us
 
     if(  db->open()) return db ;
     QMessageBox msgBox;
-    msgBox.setText("Erreur lors de la tentative de création de la base de données \n Vérifiez que vous avez accès à la base de données et les droits en écriture");
+    msgBox.setText("Erreur lors de la tentative de création de la base de données \n Vérifiez le chemin de la base de données \n Ouvrez le panneau options pour reconfigurer vos paramètres");
     msgBox.exec();
     db->close();
     delete db ;
@@ -242,7 +273,7 @@ void MainWindow::createTable(QSqlDatabase* db){
     {
         /*! MessageBox si la connection n'est pas valide !*/
         QMessageBox msgBox;
-        msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données");
+        msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données\n Ouvrez le panneau options pour reconfigurer vos paramètres");
         msgBox.exec();
         return;
     }

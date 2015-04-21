@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
+
 ///!********************************************************************************
 ///!
 ///                         CLASS MAINWINDOW
@@ -53,6 +55,7 @@ private slots:
     void on_action_Rafraichir_triggered();//rafraichit le webview / enregistre les données
     void on_actionAbout_triggered(); // affichage de l'about
     void openSim();
+    void initCombo();
     bool isChecked(QString str);
 
     void on_actionCalendrier_triggered();

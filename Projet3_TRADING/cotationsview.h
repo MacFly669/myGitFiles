@@ -23,19 +23,22 @@ public:
     void initMain(); /*! initialisation du constructeur !*/
     void setUrl(QUrl &url);/*! /Mise à jour de l'URL du webView !*/
     void setPaires(QString &_paires){ m_paires = &_paires;} /*! Getter/Setter !*/
+
     QString getPaires(){ return *m_paires;} /*! renvoi les id à afficher et sauvegarder !*/
+    OptionDialog* dlg;
 
 
 private:
     Ui::CotationsView *ui;
     QSqlDatabase* db;
     QString *m_paires, url;
-    OptionDialog* dlg;
+
     QSettings::Format XmlFormat;
 
 signals:
     void dataSaved(); /*! Signal emis lorsque la sauvegarde vers la base de données esst passée !*/
-
+    void erreurConDb();
+    void emitReloadCombo();
 public slots:
        void reload();
        void updateUrl();

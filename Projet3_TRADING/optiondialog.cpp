@@ -32,7 +32,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
 {
         ui->setupUi(this);
         this->cotations = _cotations;
-
+        XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
         mapList = MainWindow::getMap(); /*! Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10" !*/
         tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
         checkListDevises = new QList<QCheckBox*>;
@@ -148,6 +148,7 @@ void OptionDialog::checkboxClicked(int i)
 
         if(j.value() == idChecked)
                {
+
                  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
                  settings.setValue("Checkbox/cb" + QString::number(x),checkListDevises->at(x)->isChecked());// enregistrement de l'id et de l'état de la checkBox
                }
@@ -172,13 +173,12 @@ OptionDialog::~OptionDialog()
 
 void OptionDialog::chargerOptions()
 {
-
-   // QSettings settings("../mesoptions.ini", QSettings::IniFormat);
-    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
-    for (int i=0; i<11;i++)
+    for (int i=0; i<12;i++)
     {
        checkListDevises->at(i)->setChecked(settings.value("Checkbox/cb" + QString::number(i), "false").toBool()) ; // false par défaut si pas de valeur
 
@@ -204,8 +204,8 @@ void OptionDialog::chargerOptions()
 //!
 void OptionDialog::accept(){
 
-
-    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     settings.beginGroup("OptionBase");
@@ -231,6 +231,8 @@ void OptionDialog::accept(){
             newPairs.chop(1);/*! on retire le dernier caractère si ';'  !*/
         }
 
+    cotations->setPaires(newPairs);
+
     settings.setValue("pairs", newPairs); // sauvegarde de la chaine d'id dans le fichier settings XML
     cotations->setPaires(newPairs); // on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView
 
@@ -240,8 +242,6 @@ void OptionDialog::accept(){
     settings.setValue("radioBourtonPerso", ui->radioUrlPerso->isChecked());
     settings.setValue("url",ui->lineUrlPerso->text());
     settings.endGroup();
-
-    emit acceptedOptionDevises(); /** signal \fn acceptedOptionDevises() déclenche un reload du QWebView suite au \fn  cotations->setPaires(newPairs) qui réinitialise les couples devises à afficher **/
 
     // ***********************************************************************************
     //    Si variables de connection modifiées propose un redémarrage de l'application
@@ -286,6 +286,8 @@ void OptionDialog::accept(){
 
     }
 
+     emit acceptedOptionDevises(); /** signal \fn acceptedOptionDevises() déclenche un reload du QWebView suite au \fn  cotations->setPaires(newPairs) qui réinitialise les couples devises à afficher **/
+
      QDialog::accept() ;
 
 }
@@ -302,12 +304,12 @@ void OptionDialog::selectionBase()
 {
    /*! Sélection de la base d données / récupération filename et path  !*/
     QString  fileName = QFileDialog::getOpenFileName(this,
-          tr("Choisir la base"), "/home/", tr("Database Files (*.db *.ocdb *.sqlite)"));
+          tr("Choisir la base"), "/home/", tr("Fichiers  (*.db *.ocdb *.sqlite)"));
 
     nomDB->setText(QFileInfo(fileName).fileName());
     chemin->setText(QFileInfo(fileName).path());
-
-    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+ //   XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+ //   QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     settings.beginGroup("OptionBase");
     settings.setValue("chemin", QVariant(getChemin()));
@@ -335,10 +337,22 @@ void OptionDialog::alertDbChange()
 //!
 void OptionDialog::on_btnCocher_clicked()
 {
+
+    //XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+    QString makePairs = "";
+
     for ( int i(0); i <12; i++ )
     {
         checkListDevises->at(i)->setChecked(true);
+        settings.setValue("Checkbox/cb" + QString::number(i), "true");
+        makePairs += mapList.value( checkListDevises->at(i)->text() ) + ";";  // Récupère l'id dans le QMap
+
+        qDebug() << "checkListDevises->at(i)->text() " << checkListDevises->at(i)->text();
     }
+
+    cotations->setPaires(makePairs);
 }
 
 //!
@@ -350,9 +364,15 @@ void OptionDialog::on_btnCocher_clicked()
 //!
 void OptionDialog::on_btnDecocher_clicked()
 {
+    //XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+  //  QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+    QString pairVide = "";
     for ( int i(0); i <12; i++ )
     {
         checkListDevises->at(i)->setChecked(false);
+        settings.setValue("Checkbox/cb" + QString::number(i), "false");
+        cotations->setPaires(pairVide);
     }
 }
 //!

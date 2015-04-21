@@ -127,10 +127,14 @@ void CotationsView::updateUrl()
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     url = settings.value("UrlForex/url").toString();
+    QString pairs = getPaires();
 
+        qDebug() << "pairs ==== " << pairs;
 
-    this->ui->webView->setUrl(QUrl( url + "&pairs_ids="+ *m_paires +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
+    this->ui->webView->setUrl(QUrl( url + "&pairs_ids="+ pairs +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
     this->ui->webView->update();
+
+    emit emitReloadCombo();
 }
 
 // fonction qui récupére les datas du webView
@@ -220,14 +224,11 @@ void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
         query.bindValue( ":heure", QVariant( table[i*9+8] ) );
         query.bindValue( ":date", QVariant(strDate) );
         query.bindValue( ":timestamp", QVariant( timeStamp ) );
-
         query.exec();
 
-        qDebug() << "Query last errror : " << query.lastError();
 
 
     }
-        qDebug() << "emit dataSaved !! " ; // logs
         emit dataSaved();
 
 }
@@ -253,3 +254,5 @@ void CotationsView::on_pushButton_clicked()
 {
     this->ui->webView->reload();
 }
+
+
