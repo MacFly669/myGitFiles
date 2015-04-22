@@ -62,7 +62,6 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
         QString paires = settings.value("pairs", "1;10").toString();
         QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
-        qDebug() << "forexUrl "  << forexUrl;
         QString langId = settings.value("UrlForex/lang","5").toString();
 
        //if(m_paires == "" || m_paires == NULL) m_paires = "1;10";
@@ -75,7 +74,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         \arg this->ui->frame où le Widget parent de l'instance de CotationsView
         **/
         cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
-        cotes->move(-50,0);
+        cotes->move(-25,10);
         cotes->setPaires(paires);
         cotes->setUrl(QUrl( forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
 
@@ -119,53 +118,55 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 //!
 void MainWindow::initGui() // initialisation affiche et dates des QDateEdit
 {
-    ui->frame->hide();
-     ui->comboDevises->clear();
-    bool ok = false;
+        ui->frame->hide();
+        ui->comboDevises->clear();
+        bool ok = false;
 
-     QMapIterator<QString, QString> map( MainWindow::getMap() );
+        QMapIterator<QString, QString> map( MainWindow::getMap() );
 
-     while (map.hasNext())
-     {
-        map.next();
-        ok = isChecked(map.value());
-        if(ok) ui->comboDevises->addItem(map.key());
-     }
+             while (map.hasNext())
+             {
+                    map.next();
+                    ok = isChecked(map.value());
+                    if(ok) ui->comboDevises->addItem(map.key());
+             }
+
        graph = new Graphique();
 }
 
-
+//!
+//! \brief MainWindow::initCombo
+//!
+//! Initialise le contenu (Items) de le comboBox en fonction des checkBox cochées
+//! Pour chaque couple contenu dans le QMap devises/id on envoi la map.valeur à la fonction \fn isChecked() qui renvoit true si la checkBox est cochée
+//!
 void MainWindow:: initCombo()
 {
-
-    qDebug() <<  "recept combo siganal";
 
     bool ok = false;
     ui->comboDevises->clear();
 
     QMapIterator<QString, QString> map( MainWindow::getMap() );
-    while (map.hasNext()) {
-        map.next();
 
-        ok = isChecked(map.value());
-
-        if( ok ) ui->comboDevises->addItem(map.key());
-
-    }
-
-
+            while (map.hasNext())
+            {
+                map.next();
+                ok = isChecked(map.value());
+                if( ok ) ui->comboDevises->addItem(map.key());
+            }
 }
 
-
-
-
 //!
-//! \brief MainWindow::openSim
+//! \brief MainWindow::isChecked
 //!
-//!     \n ouverture du panneau de simulation
+//!     Fonction qui controle si la chackBox devise est cochée ou pas
 //!
 //!
-
+//! \param str QString représente l'id du couple devise à vérifier
+//!
+//! \return  true si la checkBox est cochée
+//!
+//!
 bool MainWindow::isChecked(QString str)
 {
 
@@ -175,18 +176,11 @@ bool MainWindow::isChecked(QString str)
     {
         if(ids[i] == str) return true;
 
-        qDebug() << ids[i] << str;
     }
 
     return false;
 }
 
-void MainWindow::openSim()
-{
-    Simulation* sim = new Simulation;
-    sim->show();
-
-}
 
 //!
 //! \brief MainWindow::setHeaderTable
@@ -220,7 +214,12 @@ void MainWindow::setHeaderTable(QSqlTableModel &model, QTableView* tableView ) /
     tableView->hideColumn(11); // timestamp
 
 }
-
+//!
+//! \brief MainWindow::~MainWindow
+//!
+//!
+//! Destructeur de la MainWindow
+//!
 MainWindow::~MainWindow()
 {
     delete ui;
@@ -235,8 +234,6 @@ MainWindow::~MainWindow()
 //!
 QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString user, QString pass)// Création d'un connection à la base passée en paramètre
 {
-
-      qDebug() << dbName << server << user << pass;
 
     QSqlDatabase* db = new QSqlDatabase ;
 
@@ -295,26 +292,7 @@ void MainWindow::createTable(QSqlDatabase* db){
     QSqlQuery result = db->exec( sql ) ;
 }
 
-//!
-//! \brief MainWindow::on_actionShowHideView_triggered
-//!
-//!Affiche / Masque le webView
-//!
-void MainWindow::on_actionShowHideView_triggered()
-{
-    if(ui->frame->isHidden())
-    {
-        this->setFixedHeight(680);
-        ui->frame->show();
-        ui->statusBar->showMessage(tr("Affichage de la page cotations en direct"),2000);
-    }
-    else
-    {
-        ui->frame->hide();
-        this->setFixedHeight(420);
-        ui->statusBar->showMessage(tr("Fermeture de la page cotations en direct"),2000);
-    }
-}
+
 //!
 //! \brief MainWindow::on_comboBox_currentTextChanged
 //!
@@ -352,19 +330,7 @@ void MainWindow::reloadTableView() /*! Rafraichit l'affichage de la TableView !*
 
 
 
-//!
-//! \brief MainWindow::on_actionGraphique_triggered
-//!
-//! Affichage du graphique. \n
-//! Widget de type QDialog contenant un webView qui charge l'url de l'outils
-//! FOREX proposé par \a http://fr.investing.com/ et notammenent les liens
-//! configurable de différents type de tableau
-//!
-void MainWindow::on_actionGraphique_triggered()
-{
 
-    graph->show();
-}
 
 //!
 //! \brief MainWindow::on_action_Rafraichir_triggered
@@ -387,21 +353,19 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
  void MainWindow::statutDataSaved() // SLOT du SIGNAL dataSaved envoyé lors de l'insert des données
  {
 
-     qDebug() << "reception";
      ui->statusBar->showMessage(tr("Données sauvegardées avec succès !"),2000);
      reloadTableView();
  }
- //!
- //! \brief MainWindow::on_actionAbout_triggered
- //! Action sur le bouton 'About' -> affiche le widget About
-
- void MainWindow::on_actionAbout_triggered()
-{
-    AboutDialog* about = new AboutDialog;
-    about->show();
-}
-
- QMap<QString, QString> MainWindow::getMap()
+//!
+//! \brief MainWindow::getMap
+//!
+//!     Fonction qui renvoi un QMap contenant en key le nom des devises (ex EUR/CHF) et en value les ids (ex: 10).
+//!
+//!  \return  Renvoi un QMap
+//!
+//!
+//!
+QMap<QString, QString> MainWindow::getMap()
  {
     QMap<QString, QString> map;
     //remplissage de map....
@@ -421,10 +385,74 @@ void MainWindow::on_action_Rafraichir_triggered()// Bouton Refresh de la ToolBar
 
     return(map);
  }
-
+//!
+//! \brief MainWindow::on_actionCalendrier_triggered
+//!
+//!     Ouvre la boite de dialog pour sélectionner les enregistrements de la base de données par périodes \n
+//!     Offre la possibilité de trier la base entre deux dates.
+//!
+//!
 void MainWindow::on_actionCalendrier_triggered()
 {
     PeriodeDialog* wDate= new PeriodeDialog(db);
 
     wDate->show();
+}
+//!
+//! \brief MainWindow::openSim
+//!
+//!     \n ouverture du panneau de simulation pour calculer les profits
+//! Il s\'agit d'un webView qui appel l'url http://tools.fr.forexprostools.com/profit-calculator/index.php?acc=17&pair=1
+//! Tools webmaster proposé par le sur \link http://www.investing.com
+//!
+//!
+void MainWindow::openSim()
+{
+    Simulation* sim = new Simulation;
+    sim->show();
+
+}
+
+//!
+//! \brief MainWindow::on_actionAbout_triggered
+//! Action sur le bouton 'About' -> affiche le widget About
+
+void MainWindow::on_actionAbout_triggered()
+{
+   AboutDialog* about = new AboutDialog;
+   about->show();
+}
+
+//!
+//! \brief MainWindow::on_actionGraphique_triggered
+//!
+//! Affichage du graphique. \n
+//! Widget de type QDialog contenant un webView qui charge l'url de l'outils
+//! FOREX proposé par \a http://fr.investing.com/ et notammenent les liens
+//! configurable de différents type de tableau
+//!
+void MainWindow::on_actionGraphique_triggered()
+{
+        graph->show();
+}
+
+//!
+//! \brief MainWindow::on_actionShowHideView_triggered
+//!
+//!Affiche / Masque le webView
+//!
+void MainWindow::on_actionShowHideView_triggered()
+{
+    if(ui->frame->isHidden())
+    {
+        this->setFixedHeight(680);
+        ui->frame->show();
+        ui->statusBar->showMessage(tr("Affichage de la page cotations en direct"),2000);
+    }
+    else
+    {
+        ui->frame->hide();
+        this->setFixedHeight(420);
+        ui->statusBar->showMessage(tr("Fermeture de la page cotations en direct"),2000);
+    }
 }

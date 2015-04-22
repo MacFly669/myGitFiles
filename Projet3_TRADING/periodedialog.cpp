@@ -50,7 +50,12 @@ PeriodeDialog::PeriodeDialog(QSqlDatabase* _db, QWidget *parent) : QDialog(paren
         connect(ui->btnFermer, SIGNAL(clicked()), this, SLOT(close()));
 
 }
-
+//!
+//! \brief PeriodeDialog::~PeriodeDialog
+//!
+//!
+//!     Destructeur de PeriodeDialog
+//!
 PeriodeDialog::~PeriodeDialog()
 {
     delete ui;
@@ -90,7 +95,7 @@ void PeriodeDialog::on_btn_valider_date_clicked()
 
             if(ui->dateDebut->date() > ui->dateFin->date())
             {
-               // ui->statusBar->showMessage(tr("Vous avez saisie une date de début supérieure à la date de fin")); // si début > fin sortie de la fonction et avertissement dans la statut bar
+                ui->labelMessage->setText(tr("Attention !!! Vous avez saisie une date de début supérieure à la date de fin, veuillez recommencer")); // si début > fin sortie de la fonction et avertissement dans la statut bar
                 return;
             }
 
@@ -108,6 +113,7 @@ void PeriodeDialog::on_btn_valider_date_clicked()
             }
 
 }
+
 //!
 //! \brief PeriodeDialog::comboBoxChanged
 //!
@@ -119,12 +125,7 @@ void PeriodeDialog::on_btn_valider_date_clicked()
 //!
 void PeriodeDialog::comboBoxChanged(QString arg1)
 {
-
     pmodel->setFilter("nom like '%" + arg1 + "'");
     pmodel->select() ;
-
     ui->labelMessage->setText( "Affichage de la paire " +  arg1 );
-
-    qDebug() << "combo Cahnged !";
-
 }

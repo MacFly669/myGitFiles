@@ -20,7 +20,6 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -36,42 +35,54 @@ public:
     QVBoxLayout *verticalLayout;
     QComboBox *comboBox;
     QGridLayout *gridLayout;
-    QLabel *labelDebut;
-    QLabel *labelFin;
-    QDateEdit *dateDebut;
     QPushButton *btn_valider_date;
+    QLabel *labelDebut;
+    QDateEdit *dateDebut;
     QDateEdit *dateFin;
-    QSpacerItem *horizontalSpacer_2;
-    QSpacerItem *horizontalSpacer;
+    QLabel *labelFin;
+    QLabel *label_2;
     QPushButton *btnFermer;
+    QLabel *label;
 
     void setupUi(QDialog *PeriodeDialog)
     {
         if (PeriodeDialog->objectName().isEmpty())
             PeriodeDialog->setObjectName(QStringLiteral("PeriodeDialog"));
-        PeriodeDialog->resize(880, 470);
+        PeriodeDialog->resize(860, 475);
+        PeriodeDialog->setMinimumSize(QSize(835, 475));
+        PeriodeDialog->setMaximumSize(QSize(1000, 600));
         QIcon icon;
         icon.addFile(QStringLiteral(":/icons/icons/Calendar.png"), QSize(), QIcon::Normal, QIcon::Off);
         PeriodeDialog->setWindowIcon(icon);
         ptableView = new QTableView(PeriodeDialog);
         ptableView->setObjectName(QStringLiteral("ptableView"));
-        ptableView->setGeometry(QRect(20, 50, 671, 381));
+        ptableView->setGeometry(QRect(10, 50, 621, 381));
         labelMessage = new QLabel(PeriodeDialog);
         labelMessage->setObjectName(QStringLiteral("labelMessage"));
-        labelMessage->setGeometry(QRect(30, 440, 491, 21));
+        labelMessage->setGeometry(QRect(30, 440, 651, 21));
         verticalLayoutWidget = new QWidget(PeriodeDialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(710, 50, 160, 391));
+        verticalLayoutWidget->setGeometry(QRect(640, 50, 201, 381));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         comboBox = new QComboBox(verticalLayoutWidget);
         comboBox->setObjectName(QStringLiteral("comboBox"));
+        comboBox->setMaximumSize(QSize(100, 20));
+        comboBox->setLayoutDirection(Qt::LeftToRight);
+        comboBox->setAutoFillBackground(true);
 
         verticalLayout->addWidget(comboBox);
 
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        btn_valider_date = new QPushButton(verticalLayoutWidget);
+        btn_valider_date->setObjectName(QStringLiteral("btn_valider_date"));
+        btn_valider_date->setFlat(false);
+
+        gridLayout->addWidget(btn_valider_date, 2, 1, 1, 1);
+
         labelDebut = new QLabel(verticalLayoutWidget);
         labelDebut->setObjectName(QStringLiteral("labelDebut"));
         labelDebut->setFocusPolicy(Qt::TabFocus);
@@ -81,44 +92,47 @@ public:
 
         gridLayout->addWidget(labelDebut, 0, 0, 1, 1);
 
-        labelFin = new QLabel(verticalLayoutWidget);
-        labelFin->setObjectName(QStringLiteral("labelFin"));
-        labelFin->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(labelFin, 1, 0, 1, 1);
-
         dateDebut = new QDateEdit(verticalLayoutWidget);
         dateDebut->setObjectName(QStringLiteral("dateDebut"));
 
         gridLayout->addWidget(dateDebut, 0, 1, 1, 1);
-
-        btn_valider_date = new QPushButton(verticalLayoutWidget);
-        btn_valider_date->setObjectName(QStringLiteral("btn_valider_date"));
-        btn_valider_date->setFlat(false);
-
-        gridLayout->addWidget(btn_valider_date, 2, 1, 1, 1);
 
         dateFin = new QDateEdit(verticalLayoutWidget);
         dateFin->setObjectName(QStringLiteral("dateFin"));
 
         gridLayout->addWidget(dateFin, 1, 1, 1, 1);
 
+        labelFin = new QLabel(verticalLayoutWidget);
+        labelFin->setObjectName(QStringLiteral("labelFin"));
+        labelFin->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(labelFin, 1, 0, 1, 1);
+
 
         verticalLayout->addLayout(gridLayout);
 
-        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        label_2 = new QLabel(verticalLayoutWidget);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setPixmap(QPixmap(QString::fromUtf8(":/images/images/index.jpg")));
 
-        verticalLayout->addItem(horizontalSpacer_2);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        verticalLayout->addItem(horizontalSpacer);
+        verticalLayout->addWidget(label_2);
 
         btnFermer = new QPushButton(verticalLayoutWidget);
         btnFermer->setObjectName(QStringLiteral("btnFermer"));
 
         verticalLayout->addWidget(btnFermer);
 
+        label = new QLabel(PeriodeDialog);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(-15, 0, 971, 45));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/images/images/banner_1035.jpg")));
+        label->setScaledContents(true);
+        label->setAlignment(Qt::AlignCenter);
+        ptableView->raise();
+        labelMessage->raise();
+        verticalLayoutWidget->raise();
+        label->raise();
+        labelFin->raise();
 
         retranslateUi(PeriodeDialog);
 
@@ -129,10 +143,12 @@ public:
     {
         PeriodeDialog->setWindowTitle(QApplication::translate("PeriodeDialog", "Filtre Calendaire", 0));
         labelMessage->setText(QString());
+        btn_valider_date->setText(QApplication::translate("PeriodeDialog", "Valider", 0));
         labelDebut->setText(QApplication::translate("PeriodeDialog", "D\303\251but", 0));
         labelFin->setText(QApplication::translate("PeriodeDialog", "Fin", 0));
-        btn_valider_date->setText(QApplication::translate("PeriodeDialog", "Valider", 0));
+        label_2->setText(QString());
         btnFermer->setText(QApplication::translate("PeriodeDialog", "&Fermer", 0));
+        label->setText(QString());
     } // retranslateUi
 
 };

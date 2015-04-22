@@ -55,7 +55,7 @@ public:
         groupCheck->setGeometry(QRect(10, 230, 681, 81));
         groupBase = new QGroupBox(OptionDialog);
         groupBase->setObjectName(QStringLiteral("groupBase"));
-        groupBase->setGeometry(QRect(10, 100, 301, 141));
+        groupBase->setGeometry(QRect(10, 80, 301, 141));
         btnCocher = new QPushButton(OptionDialog);
         btnCocher->setObjectName(QStringLiteral("btnCocher"));
         btnCocher->setGeometry(QRect(30, 320, 75, 23));
@@ -64,7 +64,7 @@ public:
         btnDecocher->setGeometry(QRect(110, 320, 81, 23));
         groupBase_2 = new QGroupBox(OptionDialog);
         groupBase_2->setObjectName(QStringLiteral("groupBase_2"));
-        groupBase_2->setGeometry(QRect(320, 100, 371, 141));
+        groupBase_2->setGeometry(QRect(320, 80, 371, 141));
         radioSiteFr = new QRadioButton(groupBase_2);
         radioSiteFr->setObjectName(QStringLiteral("radioSiteFr"));
         radioSiteFr->setGeometry(QRect(30, 20, 141, 17));

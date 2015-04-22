@@ -15,16 +15,16 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QPushButton>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Simulation
 {
 public:
-    QDialogButtonBox *buttonBox;
     QWebView *webView;
+    QPushButton *pushButton;
 
     void setupUi(QDialog *Simulation)
     {
@@ -35,25 +35,22 @@ public:
         QIcon icon;
         icon.addFile(QStringLiteral(":/images/icons/Calculator.png"), QSize(), QIcon::Normal, QIcon::Off);
         Simulation->setWindowIcon(icon);
-        buttonBox = new QDialogButtonBox(Simulation);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(-40, 450, 341, 32));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         webView = new QWebView(Simulation);
         webView->setObjectName(QStringLiteral("webView"));
         webView->setGeometry(QRect(0, 0, 451, 441));
         webView->setUrl(QUrl(QStringLiteral("about:blank")));
+        pushButton = new QPushButton(Simulation);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(180, 450, 75, 23));
 
         retranslateUi(Simulation);
-        QObject::connect(buttonBox, SIGNAL(accepted()), Simulation, SLOT(accept()));
-        QObject::connect(buttonBox, SIGNAL(rejected()), Simulation, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(Simulation);
     } // setupUi
 
     void retranslateUi(QDialog *Simulation)
     {
+        pushButton->setText(QApplication::translate("Simulation", "Fermer", 0));
         Q_UNUSED(Simulation);
     } // retranslateUi
 

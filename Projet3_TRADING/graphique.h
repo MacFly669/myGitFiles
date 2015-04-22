@@ -17,6 +17,9 @@ public:
 
     //void setUrl( QUrl &url);
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Graphique *ui;
 

@@ -18,8 +18,22 @@ Graphique::Graphique(QWidget *parent) : QDialog(parent), ui(new Ui::Graphique)
     ui->webView->load(QUrl("http://charts.fr.forexprostools.com/index.php?pair_ID=1"));
 }
 
+//!
+//! \brief Graphique::~Graphique
+//!
+//! Destructeur du QDialog
+//!
 Graphique::~Graphique()
 {
     delete ui;
 }
 
+//!
+//! \brief Graphique::on_pushButton_clicked
+//!
+//! Masque le Widget Graphique
+//!
+void Graphique::on_pushButton_clicked()
+{
+    this->hide();
+}

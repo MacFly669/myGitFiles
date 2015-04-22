@@ -70,7 +70,7 @@ static const uint qt_meta_data_CotationsView[] = {
        5,    0,   57,    2, 0x0a /* Public */,
        6,    0,   58,    2, 0x0a /* Public */,
        7,    0,   59,    2, 0x0a /* Public */,
-       8,    0,   60,    2, 0x08 /* Private */,
+       8,    0,   60,    2, 0x0a /* Public */,
        9,    0,   61,    2, 0x08 /* Private */,
 
  // signals: parameters

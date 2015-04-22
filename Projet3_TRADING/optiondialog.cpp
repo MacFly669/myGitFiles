@@ -55,6 +55,14 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
 
 }
 
+//!
+//! \brief OptionDialog::initGui
+//!
+//! \li Initialisation de l'ui.
+//! \li Création des QLineEdit
+//! \li Création des Layout
+//! \li Création dynamique des checkBox
+//!
 void OptionDialog::initGui()
 {
     /*! Création des QlineEdit !*/
@@ -101,9 +109,9 @@ void OptionDialog::initGui()
 
      /*! Le Latyout contenant les checkBox ests ajoputé au groupBox de l'ui !*/
      ui->groupCheck->setLayout(layout);
-     ui->groupCheck->setGeometry(5,250,850,50);
+     ui->groupCheck->setGeometry(5,225,850,75);
      layoutPrincipale->addWidget(ui->buttonBox);
-     layoutPrincipale->addLayout(layout);
+    // layoutPrincipale->addLayout(layout);
 
      //Création d'un signal mapper
      mapper = new QSignalMapper(this);
@@ -121,13 +129,9 @@ void OptionDialog::initGui()
               layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
               connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
               mapper->setMapping(tmpCheckBox, j.value().toInt());
-
-             qDebug() << j.key() << ": " << j.value() << checkListDevises->at(i)->text();
-             i++;
+              i++;
          }
-
 }
-
 
 //!
 //! \brief OptionDialog::checkboxClicked
@@ -153,6 +157,12 @@ void OptionDialog::checkboxClicked(int i)
     }
 }
 
+//!
+//! \brief OptionDialog::~OptionDialog
+//!
+//!     Destructeur de OptionDialog
+//!
+//!
 OptionDialog::~OptionDialog()
 {
     delete ui;
@@ -247,15 +257,17 @@ void OptionDialog::accept(){
     {
 
         QMessageBox CancelmsgBox;
-        CancelmsgBox.setWindowTitle(tr("Redémarrage requis"));
-        CancelmsgBox.setText(tr("Les modifications ont bien été sauvegardées mais prendront effet après redémmarrage de l\'application !" ));
+        CancelmsgBox.setWindowIcon(QIcon(":/icons/icons/Modify.png"));
+        CancelmsgBox.setWindowTitle(tr("Sauvegardedd es paramètres"));
+        CancelmsgBox.setText(tr("Les modifications ont bien été sauvegardées et prendront effet après redémmarrage de l\'application !" ));
         CancelmsgBox.setInformativeText(tr("Redémarrage de l'application requis"));
 
 
         QMessageBox msgBox;
-        msgBox.setWindowTitle("Modification de la DB");
-        msgBox.setText("Le nom de la base semble avoir été modifié." );
-        msgBox.setInformativeText("Vous devez redémarrer l'application");
+        msgBox.setWindowIcon(QIcon(":/icons/icons/Danger.png"));
+        msgBox.setWindowTitle("Modification des infos base de données");
+        msgBox.setText("Des informations concernant la base de donnée semble avoir été modifiées." );
+        msgBox.setInformativeText("Voulez-vous redémarrer l'application pour appliquer ces changement ?");
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Cancel);
         int ret = msgBox.exec();

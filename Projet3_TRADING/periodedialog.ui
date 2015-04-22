@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>880</width>
-    <height>470</height>
+    <width>860</width>
+    <height>475</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>835</width>
+    <height>475</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1000</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Filtre Calendaire</string>
@@ -20,9 +32,9 @@
   <widget class="QTableView" name="ptableView">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>50</y>
-     <width>671</width>
+     <width>621</width>
      <height>381</height>
     </rect>
    </property>
@@ -32,7 +44,7 @@
     <rect>
      <x>30</x>
      <y>440</y>
-     <width>491</width>
+     <width>651</width>
      <height>21</height>
     </rect>
    </property>
@@ -43,18 +55,44 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>710</x>
+     <x>640</x>
      <y>50</y>
-     <width>160</width>
-     <height>391</height>
+     <width>201</width>
+     <height>381</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QComboBox" name="comboBox"/>
+     <widget class="QComboBox" name="comboBox">
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="btn_valider_date">
+        <property name="text">
+         <string>Valider</string>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="labelDebut">
         <property name="focusPolicy">
@@ -74,6 +112,12 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="1">
+       <widget class="QDateEdit" name="dateDebut"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDateEdit" name="dateFin"/>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="labelFin">
         <property name="text">
@@ -84,49 +128,17 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QDateEdit" name="dateDebut"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QPushButton" name="btn_valider_date">
-        <property name="text">
-         <string>Valider</string>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDateEdit" name="dateFin"/>
-      </item>
      </layout>
     </item>
     <item>
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string/>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+      <property name="pixmap">
+       <pixmap resource="myresources.qrc">:/images/images/index.jpg</pixmap>
       </property>
-     </spacer>
-    </item>
-    <item>
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="btnFermer">
@@ -137,6 +149,34 @@
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>-15</x>
+     <y>0</y>
+     <width>971</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="myresources.qrc">:/images/images/banner_1035.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>ptableView</zorder>
+  <zorder>labelMessage</zorder>
+  <zorder>verticalLayoutWidget</zorder>
+  <zorder>label</zorder>
+  <zorder></zorder>
+  <zorder>labelFin</zorder>
  </widget>
  <resources>
   <include location="myresources.qrc"/>

@@ -11,6 +11,7 @@
         <file>optiondialog.h</file>
         <file>doc.pdf</file>
         <file>html/index.html</file>
+        <file>Projet3_Trading.db</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/3d bar chart.png</file>
@@ -26,6 +27,8 @@
         <file>icons/Euro.png</file>
         <file>icons/Calculator.png</file>
         <file>icons/Calendar.png</file>
+        <file>icons/Modify.png</file>
+        <file>icons/Danger.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/fond.jpg</file>
@@ -36,5 +39,7 @@
         <file>images/splash2.png</file>
         <file>images/forex.png</file>
         <file>images/index.jpg</file>
+        <file>images/banner_1035.jpg</file>
+        <file>images/banner_top_01.jpg</file>
     </qresource>
 </RCC>

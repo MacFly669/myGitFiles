@@ -60,7 +60,7 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
     ui->setupUi(this);
     initMain();
 
-
+    if(!db) dlg->exec();
 
     ui->webView->move(50,0);
 
@@ -87,7 +87,11 @@ void CotationsView::initMain()
 
 }
 
-
+//!
+//! \brief CotationsView::~CotationsView
+//!
+//! Destructeur de CotationsView
+//!
 CotationsView::~CotationsView()
 {
     delete ui;
@@ -128,8 +132,6 @@ void CotationsView::updateUrl()
 
     url = settings.value("UrlForex/url").toString();
     QString pairs = getPaires();
-
-        qDebug() << "pairs ==== " << pairs;
 
     this->ui->webView->setUrl(QUrl( url + "&pairs_ids="+ pairs +"&bid=show&ask=show&last=show&change=hide&last_update=show"));
     this->ui->webView->update();
@@ -242,7 +244,7 @@ void CotationsView::saveData(QVector<QString> table){ // sauvegarde des datas ds
 void CotationsView::afficheProprietes()
 {
 
-    dlg->exec() ;
+   dlg->exec() ;
 }
 
 //!

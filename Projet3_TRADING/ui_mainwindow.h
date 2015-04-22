@@ -165,7 +165,7 @@ public:
         label_2->setAlignment(Qt::AlignCenter);
         frame = new QFrame(centralWidget);
         frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(20, 350, 841, 211));
+        frame->setGeometry(QRect(20, 350, 791, 211));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         MainWindow->setCentralWidget(centralWidget);

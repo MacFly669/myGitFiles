@@ -43,12 +43,12 @@ public slots:
        void reload();
        void updateUrl();
        void loadData();
-
+       void afficheProprietes();
 
 
 private slots:
       // void on_pushButton_clicked();
-       void afficheProprietes();
+
        void on_pushButton_clicked();
 };
 

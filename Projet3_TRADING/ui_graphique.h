@@ -15,16 +15,16 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QPushButton>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Graphique
 {
 public:
-    QDialogButtonBox *buttonBox;
     QWebView *webView;
+    QPushButton *pushButton;
 
     void setupUi(QDialog *Graphique)
     {
@@ -34,19 +34,15 @@ public:
         QIcon icon;
         icon.addFile(QStringLiteral(":/images/icons/3d bar chart.png"), QSize(), QIcon::Normal, QIcon::On);
         Graphique->setWindowIcon(icon);
-        buttonBox = new QDialogButtonBox(Graphique);
-        buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(20, 460, 341, 32));
-        buttonBox->setOrientation(Qt::Horizontal);
-        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
         webView = new QWebView(Graphique);
         webView->setObjectName(QStringLiteral("webView"));
         webView->setGeometry(QRect(0, 0, 600, 451));
         webView->setUrl(QUrl(QStringLiteral("about:blank")));
+        pushButton = new QPushButton(Graphique);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(250, 460, 75, 23));
 
         retranslateUi(Graphique);
-        QObject::connect(buttonBox, SIGNAL(accepted()), Graphique, SLOT(accept()));
-        QObject::connect(buttonBox, SIGNAL(rejected()), Graphique, SLOT(reject()));
 
         QMetaObject::connectSlotsByName(Graphique);
     } // setupUi
@@ -54,6 +50,7 @@ public:
     void retranslateUi(QDialog *Graphique)
     {
         Graphique->setWindowTitle(QApplication::translate("Graphique", "Graphique FOREX", 0));
+        pushButton->setText(QApplication::translate("Graphique", "Fermer", 0));
     } // retranslateUi
 
 };
