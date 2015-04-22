@@ -48,7 +48,7 @@ public:
     {
         if (PeriodeDialog->objectName().isEmpty())
             PeriodeDialog->setObjectName(QStringLiteral("PeriodeDialog"));
-        PeriodeDialog->resize(860, 475);
+        PeriodeDialog->resize(850, 475);
         PeriodeDialog->setMinimumSize(QSize(835, 475));
         PeriodeDialog->setMaximumSize(QSize(1000, 600));
         QIcon icon;
@@ -59,7 +59,7 @@ public:
         ptableView->setGeometry(QRect(10, 50, 621, 381));
         labelMessage = new QLabel(PeriodeDialog);
         labelMessage->setObjectName(QStringLiteral("labelMessage"));
-        labelMessage->setGeometry(QRect(30, 440, 651, 21));
+        labelMessage->setGeometry(QRect(30, 440, 651, 31));
         verticalLayoutWidget = new QWidget(PeriodeDialog);
         verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(640, 50, 201, 381));
@@ -125,6 +125,7 @@ public:
         label = new QLabel(PeriodeDialog);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(-15, 0, 971, 45));
+        label->setFrameShape(QFrame::WinPanel);
         label->setPixmap(QPixmap(QString::fromUtf8(":/images/images/banner_1035.jpg")));
         label->setScaledContents(true);
         label->setAlignment(Qt::AlignCenter);

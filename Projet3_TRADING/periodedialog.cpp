@@ -38,14 +38,14 @@ PeriodeDialog::PeriodeDialog(QSqlDatabase* _db, QWidget *parent) : QDialog(paren
     pmodel->setFilter("nom like '%" + ui->comboBox->currentText()+ "'");// Filtre de l'affiche en fonction de la sélection active de la comboBox
     pmodel->select() ;
 
-    MainWindow::setHeaderTable(*pmodel, ui->ptableView); /*! Appel de la foinction static, fonction qui renomme les headers!*/
-    /*! Configuration diverses du TableView ex: non éditable !*/
+    MainWindow::setHeaderTable(*pmodel, ui->ptableView); /*! Appel de la foinction static, fonction qui renomme les headers*/
+    /*! Configuration diverses du TableView ex: non éditable */
     ui->ptableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->ptableView->setAlternatingRowColors(true);
     ui->ptableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
     ui->ptableView->setModel(pmodel);
 
-        /*! Bloc de connection des signaux!*/
+        /*! Bloc de connection des signaux*/
         connect(ui->comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(comboBoxChanged(QString)));
         connect(ui->btnFermer, SIGNAL(clicked()), this, SLOT(close()));
 

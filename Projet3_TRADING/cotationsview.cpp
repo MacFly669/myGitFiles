@@ -68,10 +68,10 @@ CotationsView::CotationsView(QSqlDatabase* db, QString* _paires, QWidget *parent
     /*!  SIGNAL  loadFinished(bool) emit quand le QWebView à terminer de charge la page
      *   renvoi vers le SLOT loadData() qui récupère les données de cette page.
      *
-    !*/
+    */
    connect(ui->webView, SIGNAL(loadFinished(bool)), this, SLOT(loadData()));
    /*!  SIGNAL emis lors de la modification des couples à afficher dans le QDialog des options
-    * Le SLOT connecté est \fn updateUrl()  !*/
+    * Le SLOT connecté est \fn updateUrl()  */
    connect( dlg, SIGNAL(acceptedOptionDevises()),this, SLOT(updateUrl()));
 }
 

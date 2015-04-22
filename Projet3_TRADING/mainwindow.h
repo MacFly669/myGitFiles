@@ -32,16 +32,30 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QSqlDatabase* _db =0, QWidget *parent = 0);
     ~MainWindow();
+ /*! Fonction static de connection  à la base SQLITE  */
+    static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass);
+/*!  Création de la table si elle n'existe pas  */
+    static void createTable(QSqlDatabase* db);
+ /*! Fonction static qui renvoi le QMap  nom deivise/Id devise */
+    static  QMap<QString, QString> getMap();
+/** \fn renomme le texte des header de la tableView **/
+    static void setHeaderTable(QSqlTableModel &model, QTableView* tableView );
 
-    static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass); /*! Fonction static de connection  à la base SQLITE  !*/
-    static void createTable(QSqlDatabase* db);         /*!  Création de la table si elle n'existe pas  !*/
-    static  QMap<QString, QString> getMap();           /*! Fonction static qui renvoi le QMap  nom deivise/Id devise !*/
-    static void setHeaderTable(QSqlTableModel &model, QTableView* tableView ); /** \fn renomme le texte des header de la tableView **/
 
-    void initGui();
 
     QSettings::Format XmlFormat;
 
+private:
+    void initGui();
+    QSqlTableModel* model;
+    CotationsView* cotes;
+    Graphique* graph;
+    Ui::MainWindow *ui;
+    QSqlDatabase* db;
+
+
+signals:
+    void erreurConDb();
 
 
 private slots:
@@ -59,18 +73,6 @@ private slots:
     bool isChecked(QString str);
 
     void on_actionCalendrier_triggered();
-
-signals:
-    void erreurConDb();
-
-private:
-    QSqlTableModel* model;
-    CotationsView* cotes;
-    Graphique* graph;
-    Ui::MainWindow *ui;
-    QSqlDatabase* db;
-
-
 
 
 };

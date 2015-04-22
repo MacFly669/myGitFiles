@@ -33,7 +33,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
         ui->setupUi(this);
         this->cotations = _cotations;
         XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
-        mapList = MainWindow::getMap(); /*! Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10" !*/
+        mapList = MainWindow::getMap(); /*! Récupération de la QMap NomCouple/Id ex: "EUR/CHF","10" */
         tmpCheckBox = 0; // poiteur pour création dynamique des CheckBox
         checkListDevises = new QList<QCheckBox*>;
         dbDataChanged = false;
@@ -65,7 +65,7 @@ OptionDialog::OptionDialog(CotationsView *_cotations, QWidget *parent) : QDialog
 //!
 void OptionDialog::initGui()
 {
-    /*! Création des QlineEdit !*/
+    /*! Création des QlineEdit */
     nomDB = new QLineEdit;
     nomDB->setFixedWidth(200);
     chemin = new QLineEdit;
@@ -80,11 +80,11 @@ void OptionDialog::initGui()
     parcourir->setFixedSize(200,20);
     chemin->setFixedSize(700,20);
 
-    /*! Création de Layout !*/
+    /*! Création de Layout */
     QVBoxLayout *layoutPrincipale = new QVBoxLayout;
     QHBoxLayout *layout = new QHBoxLayout;
 
-    /*! Création d'un FormLayout pour lmes champs texte des infos de la DB!*/
+    /*! Création d'un FormLayout pour lmes champs texte des infos de la DB*/
     QFormLayout *formLayout = new QFormLayout;
      formLayout->addRow(tr("Nom de la base de données :"), nomDB);
      formLayout->addRow(tr("Chemin"), chemin);
@@ -92,22 +92,22 @@ void OptionDialog::initGui()
      formLayout->setVerticalSpacing(10);
      layoutPrincipale->addLayout(formLayout);
 
-     /*! Création d'un FormLayout pour lmes champs texte des infos du serveur de la DB!*/
+     /*! Création d'un FormLayout pour lmes champs texte des infos du serveur de la DB*/
     QFormLayout *formLayoutDistant = new QFormLayout;
      formLayoutDistant->addRow(tr("URL du serveur :"), urlBase);
      formLayoutDistant->addRow(tr("Utilisateur"), userBase);
      formLayoutDistant->addRow(tr("Mot de passe"), pwdBase);
      formLayoutDistant->setVerticalSpacing(10);
-     /*! Le layout est ajouté au groupBox de l'ui!*/
+     /*! Le layout est ajouté au groupBox de l'ui*/
      ui->groupBase->setLayout(formLayoutDistant);
      //ui->groupBase->setGeometry(10,100,850,125);
 
      layoutPrincipale->addWidget(ui->buttonBox);
     // layoutPrincipale->addWidget(parcourir);
-    /*! On applique le Layout principale au QDialog !*/
+    /*! On applique le Layout principale au QDialog */
      this->setLayout(layoutPrincipale);
 
-     /*! Le Latyout contenant les checkBox ests ajoputé au groupBox de l'ui !*/
+     /*! Le Latyout contenant les checkBox ests ajoputé au groupBox de l'ui */
      ui->groupCheck->setLayout(layout);
      ui->groupCheck->setGeometry(5,225,850,75);
      layoutPrincipale->addWidget(ui->buttonBox);
@@ -117,7 +117,7 @@ void OptionDialog::initGui()
      mapper = new QSignalMapper(this);
 
      /*! Boucle avec un QMap iterator, qui créée les checkBox dynamiquement, ajoute le nom du couple contenu dans le QMap,
-      * puis connection des checkBox au QSignalMapper ...!*/
+      * puis connection des checkBox au QSignalMapper ...*/
      QMapIterator<QString, QString> j(mapList);
      int i(0);
          while (j.hasNext())
@@ -211,7 +211,7 @@ void OptionDialog::accept(){
      * \li ids
      * \li nom base, chemin
      * \li url serveur base, user ,password
-     * !*/
+     * */
 
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     // inscription des options dans le xml
@@ -235,19 +235,19 @@ void OptionDialog::accept(){
 
         if(newPairs.endsWith(";"))
         {
-            newPairs.chop(1);/*! on retire le dernier caractère si ';'  !*/
+            newPairs.chop(1);/*! on retire le dernier caractère si ';'  */
         }
 
     cotations->setPaires(newPairs);
 
     settings.setValue("pairs", newPairs); // sauvegarde de la chaine d'id dans le fichier settings XML
-    cotations->setPaires(newPairs); /*! on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView !*/
+    cotations->setPaires(newPairs); /*! on initialise l'attribut membre m_paires avec la méthode setPaires() de la class CotationsView */
 
     settings.beginGroup("UrlForex");
-    settings.setValue("radioBoutonFr",ui->radioSiteFr->isChecked()); /*! sauvegarde de l'état des radio boutons !*/
+    settings.setValue("radioBoutonFr",ui->radioSiteFr->isChecked()); /*! sauvegarde de l'état des radio boutons */
     settings.setValue("radioBoutonEn", ui->radioSiteEn->isChecked());
     settings.setValue("radioBourtonPerso", ui->radioUrlPerso->isChecked());
-    settings.setValue("url",ui->lineUrlPerso->text()); /*! sauvegarde de l'url di site forex!*/
+    settings.setValue("url",ui->lineUrlPerso->text()); /*! sauvegarde de l'url di site forex*/
     settings.endGroup();
 
     // ***********************************************************************************
@@ -275,7 +275,7 @@ void OptionDialog::accept(){
         // restart de l'application
         switch (ret) {
 
-        case QMessageBox::Ok: /*! Si OK on redémarre l'application !*/
+        case QMessageBox::Ok: /*! Si OK on redémarre l'application */
 
             dbDataChanged = false;
             emit restartMyApp();
@@ -314,7 +314,7 @@ void OptionDialog::accept(){
 //!
 void OptionDialog::selectionBase()
 {
-   /*! Sélection de la base d données / récupération filename et path  !*/
+   /*! Sélection de la base d données / récupération filename et path  */
     QString  fileName = QFileDialog::getOpenFileName(this,
           tr("Choisir la base"), "/home/", tr("Fichiers  (*.db *.ocdb *.sqlite)"));
 

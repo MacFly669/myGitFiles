@@ -73,12 +73,12 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         \arg m_paires QString les id des paires de devises à afficher dans le webView et à sauvegarder dans la base.
         \arg this->ui->frame où le Widget parent de l'instance de CotationsView
         **/
-        cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 !*/
+        cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 */
         cotes->move(-25,10);
         cotes->setPaires(paires);
         cotes->setUrl(QUrl( forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
 
-        initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  !*/
+        initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  */
 
     if( db )
     {
@@ -93,7 +93,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         ui->tableView->setAlternatingRowColors(true);
         ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
     }
-        /*! Bloc de connection des signaux  !*/
+        /*! Bloc de connection des signaux  */
         connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application
         connect(ui->actionOptions, SIGNAL(triggered()),cotes,SLOT(afficheProprietes())); // affiche le boite d'options
@@ -266,7 +266,7 @@ void MainWindow::createTable(QSqlDatabase* db){
 
     if(!db->isValid())
     {
-        /*! MessageBox si la connection n'est pas valide !*/
+        /*! MessageBox si la connection n'est pas valide */
         QMessageBox msgBox;
         msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données\n Ouvrez le panneau options pour reconfigurer vos paramètres");
         msgBox.exec();
@@ -274,7 +274,7 @@ void MainWindow::createTable(QSqlDatabase* db){
     }
 
     QString sql ;
-    /*! Creation de la table if not exists !*/
+    /*! Creation de la table if not exists */
     sql = "create table if not exists couples (" ;
     sql += " id INTEGER PRIMARY KEY AUTOINCREMENT," ;
     sql += " nom varchar(50)," ;
@@ -318,7 +318,7 @@ void MainWindow::comboChanged(QString arg1)
 //!
 //!
 //!
-void MainWindow::reloadTableView() /*! Rafraichit l'affichage de la TableView !*/
+void MainWindow::reloadTableView() /*! Rafraichit l'affichage de la TableView */
 {
     model->setTable( "couples" ) ;
     model->setFilter("nom like '%" + ui->comboDevises->currentText()+ "'");

@@ -18,17 +18,17 @@ int main(int argc, char *argv[])
     /*! QSplashScreen : Splash à l'ouverture de l'application
      *  Récupération de l'url de la QResources splash2.png
      *
-     * !*/
+     * */
     QSplashScreen* splash = new QSplashScreen;
 
     splash->setPixmap(QPixmap(":/images/images/splash2.png")); //Splashscreen
     splash->show();
 
-    /*! End SplashScreen !*/
-    /*! Style de l'application !*/
+    /*! End SplashScreen */
+    /*! Style de l'application */
     QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-    /*! Récupération de la configuration dans le fichier XML généré par QSettings !*/
+    /*! Récupération de la configuration dans le fichier XML généré par QSettings */
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
@@ -38,19 +38,19 @@ int main(int argc, char *argv[])
     QString user = settings.value("OptionBase/user", "admin").toString();
     QString pass = settings.value("OptionBase/password","").toString();
     QString dbName = chemin + "/" + nomBase;
-     /*! Fin récupération de paramètres de l'application !*/
+     /*! Fin récupération de paramètres de l'application */
 
-    /*! Appel de la fonction static de connection à la base de données !*/
+    /*! Appel de la fonction static de connection à la base de données */
     QSqlDatabase* db = MainWindow::connectToDB( dbName, server, user , pass ) ;
 
-    /*! Instanciation de la class MainWindow avec la connection db en paramètre !*/
+    /*! Instanciation de la class MainWindow avec la connection db en paramètre */
     MainWindow w(db);
 
-    /*! Timer pour le QSplash et l'affichage de la MainWindow!*/
+    /*! Timer pour le QSplash et l'affichage de la MainWindow*/
     QTimer::singleShot(2500,splash,SLOT(close()));
     QTimer::singleShot(2500, &w, SLOT(show()));
 
-    /*! On fixe la taille de la fenêtre MainWindow !*/
+    /*! On fixe la taille de la fenêtre MainWindow */
     w.setFixedSize(860,420);
 
     return a.exec();
