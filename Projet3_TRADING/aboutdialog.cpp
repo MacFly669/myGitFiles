@@ -1,6 +1,8 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 #include <QDesktopServices>
+#include <QDebug>
+#include <QDir>
 //!
 //! \brief AboutDialog::AboutDialog
 //!
@@ -37,7 +39,20 @@ AboutDialog::~AboutDialog()
 {
     delete ui;
 }
-
+//!
+//! \brief AboutDialog::lienHypertexte
+//!
+//!
+//! \param lien
+//!
+//!
+//!
 void AboutDialog::lienHypertexte(const QUrl &lien){
-    QDesktopServices::openUrl(lien);
+
+     if(lien == QUrl( "file:///html/index.html" ) ) QDesktopServices::openUrl( QUrl(QDir::currentPath() + "/html/index.html"));
+
+     QDesktopServices::openUrl(lien);
+
+
+
 }

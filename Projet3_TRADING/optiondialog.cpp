@@ -150,6 +150,7 @@ void OptionDialog::checkboxClicked(int i)
 
         if(j.value() == idChecked)
                {
+                 QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
                  QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
                  settings.setValue("Checkbox/cb" + QString::number(x),checkListDevises->at(x)->isChecked());// enregistrement de l'id et de l'état de la checkBox
                }
@@ -179,6 +180,7 @@ OptionDialog::~OptionDialog()
 
 void OptionDialog::chargerOptions()
 {
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     // Boucle la Liste de CheckBox et mets true ou false a la méthode setChecked de la class QCheckBox
@@ -213,6 +215,7 @@ void OptionDialog::accept(){
      * \li url serveur base, user ,password
      * */
 
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     // inscription des options dans le xml
     settings.beginGroup("OptionBase");
@@ -321,6 +324,7 @@ void OptionDialog::selectionBase()
     nomDB->setText(QFileInfo(fileName).fileName());
     chemin->setText(QFileInfo(fileName).path());
 
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     settings.beginGroup("OptionBase");
     settings.setValue("chemin", QVariant(getChemin()));
@@ -348,7 +352,7 @@ void OptionDialog::alertDbChange()
 //!
 void OptionDialog::on_btnCocher_clicked()
 {
-
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString makePairs = "";
 
@@ -373,6 +377,7 @@ void OptionDialog::on_btnCocher_clicked()
 void OptionDialog::on_btnDecocher_clicked()
 {
 
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     QString pairVide = "";
     for ( int i(0); i <12; i++ )

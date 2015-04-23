@@ -40,3 +40,8 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     myresources.qrc
+
+DISTFILES += \
+    Projet3.rc
+
+RC_FILE = Projet3.rc

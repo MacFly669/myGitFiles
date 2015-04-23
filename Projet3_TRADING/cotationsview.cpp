@@ -41,7 +41,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QTimer>
-
+#include <QDir>
 //!
 //! \brief CotationsView::CotationsView \n
 //! Class qui affiche et sauvegarde les cotations des devises FOREX. L'affichage en direct dans un webView et le stockage des données
@@ -79,9 +79,10 @@ void CotationsView::initMain()
 {
     XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     *m_paires = settings.value("pairs", "1;10;").toString();
-    url = settings.value("UrlForex/url").toString();
+    url = settings.value("UrlForex/url", "http://fxrates.fr.forexprostools.com/index.php?force_lang=5" ).toString();
 
      dlg = new OptionDialog( this ) ; //déclaration de la boite de dialogue
 
@@ -128,6 +129,7 @@ void CotationsView::reload()
 void CotationsView::updateUrl()
 {
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     url = settings.value("UrlForex/url").toString();

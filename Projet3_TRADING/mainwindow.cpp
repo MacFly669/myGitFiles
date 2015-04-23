@@ -59,6 +59,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
       //  qApp->setStyleSheet("QMainWindow { background-image: url(:/images/images/splash2.png) }");
         /** Chargement des infos paires, urlForex, lang depuis le fichier de configuration XML  **/
         XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+        QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
         QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
         QString paires = settings.value("pairs", "1;10").toString();
         QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
@@ -74,7 +75,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         \arg this->ui->frame où le Widget parent de l'instance de CotationsView
         **/
         cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 */
-        cotes->move(-25,10);
+        cotes->move(0,5);
         cotes->setPaires(paires);
         cotes->setUrl(QUrl( forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
 
@@ -445,7 +446,7 @@ void MainWindow::on_actionShowHideView_triggered()
 {
     if(ui->frame->isHidden())
     {
-        this->setFixedHeight(680);
+        this->setFixedHeight(650);
         ui->frame->show();
         ui->statusBar->showMessage(tr("Affichage de la page cotations en direct"),2000);
     }

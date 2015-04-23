@@ -35,10 +35,12 @@ public:
     {
         if (CotationsView->objectName().isEmpty())
             CotationsView->setObjectName(QStringLiteral("CotationsView"));
-        CotationsView->resize(796, 191);
+        CotationsView->resize(800, 190);
+        CotationsView->setMinimumSize(QSize(800, 190));
+        CotationsView->setMaximumSize(QSize(800, 190));
         horizontalLayoutWidget = new QWidget(CotationsView);
         horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(20, 0, 641, 191));
+        horizontalLayoutWidget->setGeometry(QRect(0, 0, 641, 191));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);

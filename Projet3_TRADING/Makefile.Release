@@ -17,13 +17,13 @@ CXXFLAGS      = -nologo -Zm200 -Zc:wchar_t -FS -O2 -MD -Zc:strictStrings -GR -W3
 INCPATH       = -I"." -I"C:\Qt\5.4\msvc2013\include" -I"C:\Qt\5.4\msvc2013\include\QtWebKitWidgets" -I"C:\Qt\5.4\msvc2013\include\QtWidgets" -I"C:\Qt\5.4\msvc2013\include\QtWebKit" -I"C:\Qt\5.4\msvc2013\include\QtGui" -I"C:\Qt\5.4\msvc2013\include\QtANGLE" -I"C:\Qt\5.4\msvc2013\include\QtNetwork" -I"C:\Qt\5.4\msvc2013\include\QtSql" -I"C:\Qt\5.4\msvc2013\include\QtCore" -I"release" -I"." -I"C:\Qt\5.4\msvc2013\mkspecs\win32-msvc2013" 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:C:\Qt\5.4\msvc2013\lib C:\Qt\5.4\msvc2013\lib\qtmain.lib shell32.lib C:\Qt\5.4\msvc2013\lib\Qt5WebKitWidgets.lib C:\Qt\5.4\msvc2013\lib\Qt5Widgets.lib C:\Qt\5.4\msvc2013\lib\Qt5WebKit.lib C:\Qt\5.4\msvc2013\lib\Qt5Gui.lib C:\Qt\5.4\msvc2013\lib\Qt5Network.lib C:\Qt\5.4\msvc2013\lib\Qt5Sql.lib C:\Qt\5.4\msvc2013\lib\Qt5Core.lib 
+LIBS          = /LIBPATH:C:\Qt\5.4\msvc2013\lib C:\Qt\5.4\msvc2013\lib\qtmain.lib shell32.lib C:\Qt\5.4\msvc2013\lib\Qt5WebKitWidgets.lib C:\Qt\5.4\msvc2013\lib\Qt5Widgets.lib C:\Qt\5.4\msvc2013\lib\Qt5WebKit.lib C:\Qt\5.4\msvc2013\lib\Qt5Gui.lib C:\Qt\5.4\msvc2013\lib\Qt5Network.lib C:\Qt\5.4\msvc2013\lib\Qt5Sql.lib C:\Qt\5.4\msvc2013\lib\Qt5Core.lib release\Projet3.res 
 QMAKE         = C:\Qt\5.4\msvc2013\bin\qmake.exe
 IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = release\Projet3.res
 COPY          = copy /y
 SED           = $(QMAKE) -install sed
 COPY_FILE     = $(COPY)
@@ -75,7 +75,7 @@ OBJECTS       = release\main.obj \
 		release\moc_aboutdialog.obj \
 		release\moc_periodedialog.obj
 
-DIST          =  mainwindow.h \
+DIST          = Projet3.rc mainwindow.h \
 		cotationsview.h \
 		optiondialog.h \
 		xml.h \
@@ -144,10 +144,13 @@ DESTDIR_TARGET = release\Projet3_TRADING.exe
 first: all
 all: Makefile.Release $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h ui_cotationsview.h ui_optiondialog.h ui_graphique.h ui_aboutdialog.h ui_simulation.h ui_periodedialog.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h ui_cotationsview.h ui_optiondialog.h ui_graphique.h ui_aboutdialog.h ui_simulation.h ui_periodedialog.h $(OBJECTS) release\Projet3.res
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
 $(OBJECTS) $(LIBS)
 <<
+
+release\Projet3.res: Projet3.rc
+	rc $(DEFINES) -fo release\Projet3.res Projet3.rc
 
 qmake: FORCE
 	@$(QMAKE) -spec win32-msvc2013 -o Makefile.Release Projet3_TRADING.pro
@@ -160,6 +163,7 @@ dist:
 clean: compiler_clean 
 	-$(DEL_FILE) release\main.obj release\mainwindow.obj release\cotationsview.obj release\optiondialog.obj release\simulation.obj release\graphique.obj release\aboutdialog.obj release\periodedialog.obj release\qrc_myresources.obj release\moc_mainwindow.obj release\moc_cotationsview.obj release\moc_optiondialog.obj release\moc_simulation.obj release\moc_graphique.obj release\moc_aboutdialog.obj release\moc_periodedialog.obj
 	-$(DEL_FILE) release\Projet3_TRADING.exp
+	-$(DEL_FILE) release\Projet3.res
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -187,6 +191,7 @@ release\qrc_myresources.cpp: myresources.qrc \
 		graphique.h \
 		optiondialog.h \
 		doc.pdf \
+		Numbers.ico \
 		graphique.cpp \
 		images\forex.png \
 		images\mid_trading_small_new.jpg \
@@ -469,8 +474,36 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
 		ui_mainwindow.h \
-		cotationsview.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QComboBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qcombobox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMenu \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmenu.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMenuBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmenubar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QStatusBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstatusbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QToolBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtoolbar.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
+		cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QUrl \
 		graphique.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
@@ -645,6 +678,9 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtCore\QTimer \
 		C:\Qt\5.4\msvc2013\include\QtCore\qtimer.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDir \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h \
 		cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qwidget.h \
@@ -755,30 +791,16 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtCore\QSettings \
 		C:\Qt\5.4\msvc2013\include\QtCore\qsettings.h \
 		ui_cotationsview.h \
-		optiondialog.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialog.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
-		xml.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\QXmlStreamReader \
-		C:\Qt\5.4\msvc2013\include\QtCore\qxmlstream.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElementCollection \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebelement.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebView \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebview.h \
 		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebkitglobal.h \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElement \
-		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebFrame \
-		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebframe.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebpage.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebsettings.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\qnetworkaccessmanager.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QObject \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\QSslConfiguration \
@@ -792,6 +814,63 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\qssl.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QFlags \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		optiondialog.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		xml.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QXmlStreamReader \
+		C:\Qt\5.4\msvc2013\include\QtCore\qxmlstream.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElementCollection \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebelement.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElement \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebFrame \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebframe.h \
 		C:\Qt\5.4\msvc2013\include\QtSql\QSqlQuery \
 		C:\Qt\5.4\msvc2013\include\QtSql\qsqlquery.h \
 		C:\Qt\5.4\msvc2013\include\QtSql\QSqlError \
@@ -801,6 +880,9 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtCore\QTimer \
 		C:\Qt\5.4\msvc2013\include\QtCore\qtimer.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDir \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qwidget.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qwindowdefs.h \
@@ -1033,12 +1115,25 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
 		ui_optiondialog.h \
-		mainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialogButtonBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialogbuttonbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
@@ -1052,7 +1147,17 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QRadioButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
+		mainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QFormLayout \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qformlayout.h \
@@ -1061,11 +1166,7 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QSignalMapper \
 		C:\Qt\5.4\msvc2013\include\QtCore\qsignalmapper.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QFileDialog \
@@ -1407,7 +1508,63 @@ release\qrc_myresources.cpp: myresources.qrc \
 		C:\Qt\5.4\msvc2013\include\QtCore\qfiledevice.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
-		ui_graphique.h
+		ui_graphique.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebView \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebview.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebkitglobal.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebpage.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebsettings.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qnetworkaccessmanager.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\QSslConfiguration \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslconfiguration.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qtcpsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qabstractsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslerror.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslcertificate.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcryptographichash.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qssl.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QFlags \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h
 	C:\Qt\5.4\msvc2013\bin\rcc.exe -name myresources myresources.qrc -o release\qrc_myresources.cpp
 
 compiler_moc_header_make_all: release\moc_mainwindow.cpp release\moc_cotationsview.cpp release\moc_optiondialog.cpp release\moc_simulation.cpp release\moc_graphique.cpp release\moc_aboutdialog.cpp release\moc_periodedialog.cpp
@@ -2385,7 +2542,10 @@ release\main.obj: main.cpp mainwindow.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qsplashscreen.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QTimer \
 		C:\Qt\5.4\msvc2013\include\QtCore\qtimer.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h
+		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDir \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h
 
 release\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
@@ -2516,8 +2676,36 @@ release\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
 		ui_mainwindow.h \
-		cotationsview.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QComboBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qcombobox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMenu \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmenu.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMenuBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmenubar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QStatusBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstatusbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QToolBar \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtoolbar.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
+		cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QUrl \
 		graphique.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
@@ -2661,30 +2849,16 @@ release\cotationsview.obj: cotationsview.cpp cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QSettings \
 		C:\Qt\5.4\msvc2013\include\QtCore\qsettings.h \
 		ui_cotationsview.h \
-		optiondialog.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialog.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
-		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
-		xml.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\QXmlStreamReader \
-		C:\Qt\5.4\msvc2013\include\QtCore\qxmlstream.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElementCollection \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebelement.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebView \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebview.h \
 		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebkitglobal.h \
-		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElement \
-		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebFrame \
-		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebframe.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebpage.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebsettings.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\qnetworkaccessmanager.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QObject \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\QSslConfiguration \
@@ -2698,6 +2872,63 @@ release\cotationsview.obj: cotationsview.cpp cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
 		C:\Qt\5.4\msvc2013\include\QtNetwork\qssl.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QFlags \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QFrame \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		optiondialog.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QCheckBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qcheckbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QLineEdit \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlineedit.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		xml.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QXmlStreamReader \
+		C:\Qt\5.4\msvc2013\include\QtCore\qxmlstream.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElementCollection \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebelement.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\QWebElement \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebFrame \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebframe.h \
 		C:\Qt\5.4\msvc2013\include\QtSql\QSqlQuery \
 		C:\Qt\5.4\msvc2013\include\QtSql\qsqlquery.h \
 		C:\Qt\5.4\msvc2013\include\QtSql\QSqlError \
@@ -2706,7 +2937,10 @@ release\cotationsview.obj: cotationsview.cpp cotationsview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qmessagebox.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QTimer \
 		C:\Qt\5.4\msvc2013\include\QtCore\qtimer.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h
+		C:\Qt\5.4\msvc2013\include\QtCore\qbasictimer.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDir \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h
 
 release\optiondialog.obj: optiondialog.cpp optiondialog.h \
 		cotationsview.h \
@@ -2832,12 +3066,25 @@ release\optiondialog.obj: optiondialog.cpp optiondialog.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
 		ui_optiondialog.h \
-		mainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialogButtonBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdialogbuttonbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
@@ -2851,7 +3098,17 @@ release\optiondialog.obj: optiondialog.cpp optiondialog.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QRadioButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qradiobutton.h \
+		mainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QFormLayout \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qformlayout.h \
@@ -2860,11 +3117,7 @@ release\optiondialog.obj: optiondialog.cpp optiondialog.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QGroupBox \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qgroupbox.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QHBoxLayout \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QSignalMapper \
 		C:\Qt\5.4\msvc2013\include\QtCore\qsignalmapper.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QFileDialog \
@@ -2982,7 +3235,63 @@ release\simulation.obj: simulation.cpp simulation.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qfiledevice.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
-		ui_simulation.h
+		ui_simulation.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebView \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebview.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebkitglobal.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebpage.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebsettings.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qnetworkaccessmanager.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\QSslConfiguration \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslconfiguration.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qtcpsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qabstractsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslerror.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslcertificate.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcryptographichash.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qssl.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QFlags \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h
 
 release\graphique.obj: graphique.cpp graphique.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
@@ -3088,7 +3397,63 @@ release\graphique.obj: graphique.cpp graphique.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\qfiledevice.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
-		ui_graphique.h
+		ui_graphique.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\QWebView \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebview.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebkitglobal.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKitWidgets\qwebpage.h \
+		C:\Qt\5.4\msvc2013\include\QtWebKit\qwebsettings.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpainter.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qnetworkaccessmanager.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QObject \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\QSslConfiguration \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslconfiguration.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qtcpsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qabstractsocket.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslerror.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qsslcertificate.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcryptographichash.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
+		C:\Qt\5.4\msvc2013\include\QtNetwork\qssl.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QFlags \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h
 
 release\aboutdialog.obj: aboutdialog.cpp aboutdialog.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
@@ -3195,9 +3560,56 @@ release\aboutdialog.obj: aboutdialog.cpp aboutdialog.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
 		ui_aboutdialog.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qvalidator.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qregularexpression.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QTextBrowser \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtextbrowser.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtextedit.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextdocument.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextoption.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextcursor.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qtextformat.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qpen.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\QDesktopServices \
 		C:\Qt\5.4\msvc2013\include\QtGui\qdesktopservices.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\qstandardpaths.h
+		C:\Qt\5.4\msvc2013\include\QtCore\qstandardpaths.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2013\include\QtCore\QDir \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qfileinfo.h
 
 release\periodedialog.obj: periodedialog.cpp periodedialog.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\QDialog \
@@ -3304,23 +3716,22 @@ release\periodedialog.obj: periodedialog.cpp periodedialog.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qtouchdevice.h \
 		ui_periodedialog.h \
-		mainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QVariant \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QAction \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qaction.h \
 		C:\Qt\5.4\msvc2013\include\QtGui\qicon.h \
-		C:\Qt\5.4\msvc2013\include\QtSql\QSqlDatabase \
-		C:\Qt\5.4\msvc2013\include\QtSql\qsqldatabase.h \
-		C:\Qt\5.4\msvc2013\include\QtSql\qsql.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\QSettings \
-		C:\Qt\5.4\msvc2013\include\QtCore\qsettings.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
-		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QApplication \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qeventloop.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qguiapplication.h \
+		C:\Qt\5.4\msvc2013\include\QtGui\qinputmethod.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QComboBox \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qcombobox.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyleoption.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractspinbox.h \
@@ -3330,7 +3741,40 @@ release\periodedialog.obj: periodedialog.cpp periodedialog.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractslider.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qstyle.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2013\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qframe.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QDateEdit \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qdatetimeedit.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qdatetime.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QGridLayout \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qgridlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qboxlayout.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QHeaderView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QLabel \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qlabel.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QPushButton \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qabstractbutton.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QTableView \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qtableview.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QVBoxLayout \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QWidget \
+		mainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\QMainWindow \
+		C:\Qt\5.4\msvc2013\include\QtWidgets\qmainwindow.h \
+		C:\Qt\5.4\msvc2013\include\QtSql\QSqlDatabase \
+		C:\Qt\5.4\msvc2013\include\QtSql\qsqldatabase.h \
+		C:\Qt\5.4\msvc2013\include\QtSql\qsql.h \
+		C:\Qt\5.4\msvc2013\include\QtCore\QSettings \
+		C:\Qt\5.4\msvc2013\include\QtCore\qsettings.h \
 		C:\Qt\5.4\msvc2013\include\QtCore\QDebug \
 		C:\Qt\5.4\msvc2013\include\QtSql\QSqlTableModel \
 		C:\Qt\5.4\msvc2013\include\QtSql\qsqltablemodel.h \

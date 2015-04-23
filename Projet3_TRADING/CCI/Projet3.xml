@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+    <Checkbox>
+        <cb0>false</cb0>
+        <cb1>false</cb1>
+        <cb2>true</cb2>
+        <cb3>false</cb3>
+        <cb4>false</cb4>
+        <cb5>true</cb5>
+    </Checkbox>
+    <OptionBase>
+        <chemin>C:/Users/Juanpa/Documents/Developpement/Qt/Git/hub/Projet3_TRADING</chemin>
+        <nomBase>Projet3_Trading.db</nomBase>
+        <password>pf68</password>
+        <serveur>localhost</serveur>
+        <user>root</user>
+    </OptionBase>
+    <UrlForex>
+        <radioBourtonPerso>false</radioBourtonPerso>
+        <radioBoutonEn>false</radioBoutonEn>
+        <radioBoutonFr>true</radioBoutonFr>
+        <url>http://fxrates.fr.forexprostools.com/index.php?force_lang=5</url>
+    </UrlForex>
+    <pairs>10;1</pairs>
+</Settings>

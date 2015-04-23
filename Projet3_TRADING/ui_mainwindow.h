@@ -56,9 +56,10 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(875, 654);
+        MainWindow->resize(875, 600);
+        MainWindow->setMaximumSize(QSize(875, 16777215));
         QIcon icon;
-        icon.addFile(QStringLiteral(":/icons/icons/Dollar.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral(":/Numbers.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         MainWindow->setAutoFillBackground(true);
         actionQuitter = new QAction(MainWindow);
@@ -165,7 +166,9 @@ public:
         label_2->setAlignment(Qt::AlignCenter);
         frame = new QFrame(centralWidget);
         frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(20, 350, 791, 211));
+        frame->setGeometry(QRect(20, 350, 800, 210));
+        frame->setMinimumSize(QSize(800, 210));
+        frame->setMaximumSize(QSize(800, 210));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
         MainWindow->setCentralWidget(centralWidget);

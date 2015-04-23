@@ -12,6 +12,7 @@
         <file>doc.pdf</file>
         <file>html/index.html</file>
         <file>Projet3_Trading.db</file>
+        <file>Numbers.ico</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/3d bar chart.png</file>

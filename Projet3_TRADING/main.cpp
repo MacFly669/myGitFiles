@@ -7,7 +7,7 @@
 #include <QStyleFactory>
 #include <QSplashScreen>
 #include <QTimer>
-
+#include <QDir>
 
 
 int main(int argc, char *argv[])
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
     /*! Récupération de la configuration dans le fichier XML généré par QSettings */
     QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
 
     QString nomBase = settings.value("OptionBase/nomBase", "Projet3_Trading.db").toString();
