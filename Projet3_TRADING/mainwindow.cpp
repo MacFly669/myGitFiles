@@ -63,9 +63,9 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
         QString paires = settings.value("pairs", "1;10").toString();
         QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
-        QString langId = settings.value("UrlForex/lang","5").toString();
+        //QString langId = settings.value("UrlForex/lang","5").toString();
 
-       //if(m_paires == "" || m_paires == NULL) m_paires = "1;10";
+        //if(m_paires == "" || m_paires == NULL) m_paires = "1;10";
 
 
         /**
@@ -77,13 +77,14 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 */
         cotes->move(0,5);
         cotes->setPaires(paires);
-        cotes->setUrl(QUrl( forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show")); // Passage de l'URL
+        QUrl url = forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show";
+        cotes->setUrl( url ); // Passage de l'UR;
 
         initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  */
 
     if( db )
     {
-        MainWindow::createTable(db); /** \fn  MainWindow::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
+        MainWindow::createTable(*db); /** \fn  MainWindow::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
@@ -262,10 +263,9 @@ QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString us
 //! \param db Pointeur Objet QSqlDatabase
 //!
 //!
-void MainWindow::createTable(QSqlDatabase* db){
+void MainWindow::createTable(QSqlDatabase& db){
 
-
-    if(!db->isValid())
+    if(!&db)
     {
         /*! MessageBox si la connection n'est pas valide */
         QMessageBox msgBox;
@@ -290,7 +290,7 @@ void MainWindow::createTable(QSqlDatabase* db){
     sql += " date varchar(50),";
     sql += " timestamp INTEGER)";
 
-    QSqlQuery result = db->exec( sql ) ;
+    QSqlQuery result = db.exec( sql ) ;
 }
 
 

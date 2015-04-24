@@ -20,7 +20,7 @@ public:
     explicit OptionDialog(CotationsView* _cotations, QWidget *parent = 0);
     ~OptionDialog();
 
-    void OptionDialog::chargerOptions();
+    void chargerOptions();
     void setChemin(QString _chemin){ chemin->setText( _chemin); }
     void initGui();
     QVariant getChemin(){ return chemin->text();}

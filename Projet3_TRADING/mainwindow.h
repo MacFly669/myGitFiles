@@ -35,7 +35,7 @@ public:
  /*! Fonction static de connection  à la base SQLITE  */
     static QSqlDatabase* connectToDB(QString dbName , QString server, QString user, QString pass);
 /*!  Création de la table si elle n'existe pas  */
-    static void createTable(QSqlDatabase* db);
+    static void createTable(QSqlDatabase &db);
  /*! Fonction static qui renvoi le QMap  nom deivise/Id devise */
     static  QMap<QString, QString> getMap();
 /** \fn renomme le texte des header de la tableView **/
@@ -46,12 +46,13 @@ public:
     QSettings::Format XmlFormat;
 
 private:
+    QSqlDatabase* db;
     void initGui();
     QSqlTableModel* model;
     CotationsView* cotes;
     Graphique* graph;
     Ui::MainWindow *ui;
-    QSqlDatabase* db;
+
 
 
 signals:

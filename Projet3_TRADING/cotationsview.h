@@ -31,14 +31,6 @@ public:
     /*! Objet de type QDialog */
     OptionDialog* dlg;
 
-
-private:
-    Ui::CotationsView* ui;
-    QSqlDatabase* db;
-    QString* m_paires, url;
-
-    QSettings::Format XmlFormat;
-
 signals:
     void dataSaved(); /*! Signal emis lorsque la sauvegarde vers la base de données esst passée */
     void erreurConDb();
@@ -53,6 +45,18 @@ public slots:
 
 private slots:
        void on_pushButton_clicked();
+
+
+
+private:
+    Ui::CotationsView* ui;
+    QSqlDatabase* db;
+    QString* m_paires;
+    QString url;
+
+    QSettings::Format XmlFormat;
+
+
 };
 
 #endif // COTATIONSVIEW_H
