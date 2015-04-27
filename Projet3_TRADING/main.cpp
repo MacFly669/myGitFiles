@@ -1,4 +1,5 @@
-#include "mainwindow.h"
+#include "connectionbase.h"
+//#include "xml.h"
 //import de la class MainWindow
 #include "mainwindow.h"
 #include <QApplication>
@@ -8,6 +9,7 @@
 #include <QSplashScreen>
 #include <QTimer>
 #include <QDir>
+
 
 
 int main(int argc, char *argv[])
@@ -42,7 +44,7 @@ int main(int argc, char *argv[])
      /*! Fin récupération de paramètres de l'application */
 
     /*! Appel de la fonction static de connection à la base de données */
-    QSqlDatabase* db = MainWindow::connectToDB( dbName, server, user , pass ) ;
+    QSqlDatabase* db = ConnectionBase::ouvreConnex( dbName, server, user , pass ) ;
 
     /*! Instanciation de la class MainWindow avec la connection db en paramètre */
     MainWindow w(db);

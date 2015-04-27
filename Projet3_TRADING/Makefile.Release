@@ -50,7 +50,8 @@ SOURCES       = main.cpp \
 		simulation.cpp \
 		graphique.cpp \
 		aboutdialog.cpp \
-		periodedialog.cpp release\qrc_myresources.cpp \
+		periodedialog.cpp \
+		connectionbase.cpp release\qrc_myresources.cpp \
 		release\moc_mainwindow.cpp \
 		release\moc_cotationsview.cpp \
 		release\moc_optiondialog.cpp \
@@ -66,6 +67,7 @@ OBJECTS       = release/main.o \
 		release/graphique.o \
 		release/aboutdialog.o \
 		release/periodedialog.o \
+		release/connectionbase.o \
 		release/qrc_myresources.o \
 		release/moc_mainwindow.o \
 		release/moc_cotationsview.o \
@@ -82,14 +84,16 @@ DIST          = Projet3.rc mainwindow.h \
 		simulation.h \
 		graphique.h \
 		aboutdialog.h \
-		periodedialog.h main.cpp \
+		periodedialog.h \
+		connectionbase.h main.cpp \
 		mainwindow.cpp \
 		cotationsview.cpp \
 		optiondialog.cpp \
 		simulation.cpp \
 		graphique.cpp \
 		aboutdialog.cpp \
-		periodedialog.cpp
+		periodedialog.cpp \
+		connectionbase.cpp
 QMAKE_TARGET  = Projet3_TRADING
 DESTDIR        = release\ #avoid trailing-slash linebreak
 TARGET         = Projet3_TRADING.exe
@@ -131,7 +135,7 @@ dist:
 	$(ZIP) Projet3_TRADING.zip $(SOURCES) $(DIST) Projet3_TRADING.pro C:\Qt\5.4\mingw491_32\mkspecs\features\spec_pre.prf C:\Qt\5.4\mingw491_32\mkspecs\qdevice.pri C:\Qt\5.4\mingw491_32\mkspecs\features\device_config.prf C:\Qt\5.4\mingw491_32\mkspecs\common\shell-win32.conf C:\Qt\5.4\mingw491_32\mkspecs\qconfig.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_script.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.4\mingw491_32\mkspecs\features\qt_functions.prf C:\Qt\5.4\mingw491_32\mkspecs\features\qt_config.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\qt_config.prf C:\Qt\5.4\mingw491_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.4\mingw491_32\mkspecs\features\spec_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.4\mingw491_32\mkspecs\features\default_pre.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.4\mingw491_32\mkspecs\features\resolve_config.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\default_post.prf C:\Qt\5.4\mingw491_32\mkspecs\features\build_pass.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\rtti.prf C:\Qt\5.4\mingw491_32\mkspecs\features\precompile_header.prf C:\Qt\5.4\mingw491_32\mkspecs\features\warn_on.prf C:\Qt\5.4\mingw491_32\mkspecs\features\qt.prf C:\Qt\5.4\mingw491_32\mkspecs\features\resources.prf C:\Qt\5.4\mingw491_32\mkspecs\features\moc.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\opengl.prf C:\Qt\5.4\mingw491_32\mkspecs\features\uic.prf C:\Qt\5.4\mingw491_32\mkspecs\features\win32\windows.prf C:\Qt\5.4\mingw491_32\mkspecs\features\testcase_targets.prf C:\Qt\5.4\mingw491_32\mkspecs\features\exceptions.prf C:\Qt\5.4\mingw491_32\mkspecs\features\yacc.prf C:\Qt\5.4\mingw491_32\mkspecs\features\lex.prf Projet3_TRADING.pro myresources.qrc C:/Qt/5.4/mingw491_32/lib/qtmain.prl C:/Qt/5.4/mingw491_32/lib/Qt5Core.prl C:/Qt/5.4/mingw491_32/lib/Qt5WebKitWidgets.prl C:/Qt/5.4/mingw491_32/lib/Qt5Widgets.prl C:/Qt/5.4/mingw491_32/lib/Qt5WebKit.prl C:/Qt/5.4/mingw491_32/lib/Qt5Gui.prl C:/Qt/5.4/mingw491_32/lib/Qt5Network.prl C:/Qt/5.4/mingw491_32/lib/Qt5Sql.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.o release\mainwindow.o release\cotationsview.o release\optiondialog.o release\simulation.o release\graphique.o release\aboutdialog.o release\periodedialog.o release\qrc_myresources.o release\moc_mainwindow.o release\moc_cotationsview.o release\moc_optiondialog.o release\moc_simulation.o release\moc_graphique.o release\moc_aboutdialog.o release\moc_periodedialog.o
+	-$(DEL_FILE) release\main.o release\mainwindow.o release\cotationsview.o release\optiondialog.o release\simulation.o release\graphique.o release\aboutdialog.o release\periodedialog.o release\connectionbase.o release\qrc_myresources.o release\moc_mainwindow.o release\moc_cotationsview.o release\moc_optiondialog.o release\moc_simulation.o release\moc_graphique.o release\moc_aboutdialog.o release\moc_periodedialog.o
 	-$(DEL_FILE) release\Projet3_res.o
 
 distclean: clean 
@@ -480,6 +484,8 @@ release/qrc_myresources.cpp: myresources.qrc \
 		aboutdialog.h \
 		simulation.h \
 		periodedialog.h \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QDebug \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QMap \
 		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMessageBox \
@@ -505,11 +511,10 @@ release/qrc_myresources.cpp: myresources.qrc \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QTimer \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qtimer.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qbasictimer.h \
-		mainwindow.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMainWindow \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
-		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
@@ -538,17 +543,20 @@ release/qrc_myresources.cpp: myresources.qrc \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		mainwindow.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMainWindow \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
@@ -835,6 +843,8 @@ release/qrc_myresources.cpp: myresources.qrc \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QXmlStreamReader \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qxmlstream.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QDebug \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/QWebElementCollection \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/qwebelement.h \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/QWebElement \
@@ -2370,11 +2380,10 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
-release/main.o: main.cpp mainwindow.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMainWindow \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
-		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+release/main.o: main.cpp connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
@@ -2403,17 +2412,20 @@ release/main.o: main.cpp mainwindow.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		mainwindow.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMainWindow \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmainwindow.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
@@ -2683,6 +2695,8 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		aboutdialog.h \
 		simulation.h \
 		periodedialog.h \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QDebug \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QMap \
 		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMessageBox \
@@ -2895,6 +2909,8 @@ release/cotationsview.o: cotationsview.cpp cotationsview.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QXmlStreamReader \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qxmlstream.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/QDebug \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/QWebElementCollection \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/qwebelement.h \
 		C:/Qt/5.4/mingw491_32/include/QtWebKit/QWebElement \
@@ -3760,6 +3776,122 @@ release/periodedialog.o: periodedialog.cpp periodedialog.h \
 		C:/Qt/5.4/mingw491_32/include/QtSql/QSqlError \
 		C:/Qt/5.4/mingw491_32/include/QtSql/qsqlerror.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\periodedialog.o periodedialog.cpp
+
+release/connectionbase.o: connectionbase.cpp connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlogging.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qflags.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QDate \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatetime.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMessageBox \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmessagebox.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qisenum.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmargins.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qrect.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsize.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpalette.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcolor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qrgb.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qbrush.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qmatrix.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpolygon.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qregion.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qline.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtransform.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpainterpath.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qimage.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixelformat.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qpixmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfont.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontmetrics.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qfontinfo.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qsizepolicy.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qcursor.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qkeysequence.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qevent.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qurlquery.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfile.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfiledevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qvector2d.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qtouchdevice.h \
+		C:/Qt/5.4/mingw491_32/include/QtSql/QSqlDatabase \
+		C:/Qt/5.4/mingw491_32/include/QtSql/qsqldatabase.h \
+		C:/Qt/5.4/mingw491_32/include/QtSql/qsql.h \
+		C:/Qt/5.4/mingw491_32/include/QtSql/QSqlQuery \
+		C:/Qt/5.4/mingw491_32/include/QtSql/qsqlquery.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QVariant
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\connectionbase.o connectionbase.cpp
 
 release/qrc_myresources.o: release/qrc_myresources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\qrc_myresources.o release\qrc_myresources.cpp

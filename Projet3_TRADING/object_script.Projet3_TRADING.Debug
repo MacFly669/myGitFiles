@@ -7,6 +7,7 @@ INPUT(
 ./debug\graphique.o
 ./debug\aboutdialog.o
 ./debug\periodedialog.o
+./debug\connectionbase.o
 ./debug\qrc_myresources.o
 ./debug\moc_mainwindow.o
 ./debug\moc_cotationsview.o

@@ -64,10 +64,7 @@ CotationsView::CotationsView(QSqlDatabase* _db, QString* _paires, QWidget *paren
     if(!_db)
     {
                dlg->exec();
-               qApp->quit();
                return;
-
-
     }
 
     ui->webView->move(50,0);

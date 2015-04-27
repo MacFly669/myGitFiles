@@ -1,8 +1,7 @@
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
-#include "cotationsview.h"
 #include "mainwindow.h"
-//#include "xml.h"
+
 #include <QDebug>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -126,10 +125,14 @@ void OptionDialog::initGui()
 
               tmpCheckBox = new QCheckBox( j.key() );
               checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
+              layout->addSpacing(-5);
               layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
               connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
               mapper->setMapping(tmpCheckBox, j.value().toInt());
               i++;
+
+
+
          }
 }
 
@@ -282,6 +285,7 @@ void OptionDialog::accept(){
 
             dbDataChanged = false;
             emit restartMyApp();
+
             qApp->quit();
             QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
 

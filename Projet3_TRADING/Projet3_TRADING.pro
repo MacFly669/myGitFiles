@@ -19,7 +19,8 @@ SOURCES += main.cpp\
         simulation.cpp\
         graphique.cpp \
     aboutdialog.cpp \
-    periodedialog.cpp
+    periodedialog.cpp \
+    connectionbase.cpp
 
 HEADERS  += mainwindow.h \
         cotationsview.h \
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h \
         simulation.h \
         graphique.h \
     aboutdialog.h \
-    periodedialog.h
+    periodedialog.h \
+    connectionbase.h
 
 FORMS    += mainwindow.ui \
         cotationsview.ui \

@@ -29,7 +29,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QFrame *frame;
     QWebView *webView;
-    QPushButton *pushButton;
+    QPushButton *btnRefresh;
 
     void setupUi(QWidget *CotationsView)
     {
@@ -56,9 +56,9 @@ public:
 
         horizontalLayout->addWidget(frame);
 
-        pushButton = new QPushButton(CotationsView);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(670, 80, 91, 23));
+        btnRefresh = new QPushButton(CotationsView);
+        btnRefresh->setObjectName(QStringLiteral("btnRefresh"));
+        btnRefresh->setGeometry(QRect(670, 80, 91, 23));
 
         retranslateUi(CotationsView);
 
@@ -68,7 +68,7 @@ public:
     void retranslateUi(QWidget *CotationsView)
     {
         CotationsView->setWindowTitle(QApplication::translate("CotationsView", "Form", 0));
-        pushButton->setText(QApplication::translate("CotationsView", "&Rafra\303\256chir", 0));
+        btnRefresh->setText(QApplication::translate("CotationsView", "&Rafra\303\256chir", 0));
     } // retranslateUi
 
 };

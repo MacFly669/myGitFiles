@@ -24,6 +24,8 @@
 //!
 //!
 //!
+//!
+//!
 bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
 {
     QXmlStreamReader xmlReader(&device);
@@ -71,8 +73,6 @@ bool readXmlFile( QIODevice& device, QSettings::SettingsMap& map )
 //! \param device  param de type QIODevice
 //! \param map : Mapping de valeur de QSettings
 //! \return  vrai ou false si erreur
-//!
-//!
 //!
 //!
 //!

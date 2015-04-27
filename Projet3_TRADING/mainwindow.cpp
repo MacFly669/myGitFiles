@@ -6,6 +6,8 @@
 #include "aboutdialog.h"
 #include "simulation.h"
 #include "periodedialog.h"
+#include "connectionbase.h"
+
 //Debug
 #include <QDebug>
 // imports
@@ -77,14 +79,15 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         cotes = new CotationsView(db,&paires,this->ui->frame); /*! Widget CotationsView à pour parent 'ui->frame', on le positionne à 0,0 */
         cotes->move(0,5);
         cotes->setPaires(paires);
-        QUrl url = forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() +"&bid=show&ask=show&last=show&change=hide&last_update=show";
-        cotes->setUrl( url ); // Passage de l'UR;
+        /*! Création de l'url */
+        QUrl url = forexUrl + INDEXURL +  "&pairs_ids=" + cotes->getPaires() + "&bid=show&ask=show&last=show&change=hide&last_update=show";
+        cotes->setUrl( url ); // Passage de l'URL;
 
         initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  */
 
     if( db )
     {
-        MainWindow::createTable(*db); /** \fn  MainWindow::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
+        ConnectionBase::createTable(db); /** \fn  ConnectionBase::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
@@ -105,7 +108,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         connect(ui->comboDevises, SIGNAL(currentTextChanged(QString)), this, SLOT(comboChanged(QString)));
         connect( cotes, SIGNAL(emitReloadCombo()),this, SLOT( initCombo() ) );
 
-
+        /*! Timer qui recharge la page toutes les 10 secondes */
         QTimer *timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), cotes, SLOT(reload()));
         timer->start(10000);
@@ -226,72 +229,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-//!
-//! \brief  \fn MainWindow::connectToDB Fonction static qui créée une connection à la base de données
-//! \param QString dbName \t Nom de la base de données
-//! \return  Retourne un objet QSqlDatabase
-//!
-//!
-//!
-//!
-QSqlDatabase* MainWindow::connectToDB(QString dbName, QString server, QString user, QString pass)// Création d'un connection à la base passée en paramètre
-{
 
-    QSqlDatabase* db = new QSqlDatabase ;
 
-   *db = QSqlDatabase::addDatabase( "QSQLITE" ) ;
-    db->setHostName(server);
-    db->setDatabaseName( dbName );
-    db->setUserName(user);
-    db->setPassword(pass);
-
-    if(  db->open()) return db ;
-    QMessageBox msgBox;
-    msgBox.setText("Erreur lors de la tentative de création de la base de données \n Vérifiez le chemin de la base de données \n Ouvrez le panneau options pour reconfigurer vos paramètres");
-    msgBox.exec();
-    db->close();
-    delete db ;
-    return 0 ;
-
-}
-
-//!
-//! \brief MainWindow::createTable \n
-//!
-//!         Création de la table couples de la base de données
-//!
-//! \param db Pointeur Objet QSqlDatabase
-//!
-//!
-void MainWindow::createTable(QSqlDatabase& db){
-
-    if(!&db)
-    {
-        /*! MessageBox si la connection n'est pas valide */
-        QMessageBox msgBox;
-        msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données\n Ouvrez le panneau options pour reconfigurer vos paramètres");
-        msgBox.exec();
-        return;
-    }
-
-    QString sql ;
-    /*! Creation de la table if not exists */
-    sql = "create table if not exists couples (" ;
-    sql += " id INTEGER PRIMARY KEY AUTOINCREMENT," ;
-    sql += " nom varchar(50)," ;
-    sql += " achat real," ;
-    sql += " vente real," ;
-    sql += " cours real," ;
-    sql += " ouverture real," ;
-    sql += " haut real," ;
-    sql += " bas real," ;
-    sql += " variation varchar(5)," ;
-    sql += " heure numeric," ;
-    sql += " date varchar(50),";
-    sql += " timestamp INTEGER)";
-
-    QSqlQuery result = db.exec( sql ) ;
-}
 
 
 //!

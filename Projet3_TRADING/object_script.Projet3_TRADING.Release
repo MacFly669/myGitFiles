@@ -7,6 +7,7 @@ INPUT(
 ./release\graphique.o
 ./release\aboutdialog.o
 ./release\periodedialog.o
+./release\connectionbase.o
 ./release\qrc_myresources.o
 ./release\moc_mainwindow.o
 ./release\moc_cotationsview.o
