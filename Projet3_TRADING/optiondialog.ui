@@ -147,6 +147,19 @@
     </property>
    </widget>
   </widget>
+  <widget class="QRadioButton" name="radioDistant">
+   <property name="geometry">
+    <rect>
+     <x>88</x>
+     <y>77</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

@@ -36,6 +36,7 @@ public:
     QRadioButton *radioSiteEn;
     QRadioButton *radioUrlPerso;
     QLineEdit *lineUrlPerso;
+    QRadioButton *radioDistant;
 
     void setupUi(QDialog *OptionDialog)
     {
@@ -77,6 +78,9 @@ public:
         lineUrlPerso = new QLineEdit(groupBase_2);
         lineUrlPerso->setObjectName(QStringLiteral("lineUrlPerso"));
         lineUrlPerso->setGeometry(QRect(30, 110, 321, 20));
+        radioDistant = new QRadioButton(OptionDialog);
+        radioDistant->setObjectName(QStringLiteral("radioDistant"));
+        radioDistant->setGeometry(QRect(88, 77, 81, 20));
 
         retranslateUi(OptionDialog);
         QObject::connect(buttonBox, SIGNAL(accepted()), OptionDialog, SLOT(accept()));
@@ -96,6 +100,7 @@ public:
         radioSiteFr->setText(QApplication::translate("OptionDialog", "URL du site fran\303\247ais .fr", 0));
         radioSiteEn->setText(QApplication::translate("OptionDialog", "URL du site anglais ", 0));
         radioUrlPerso->setText(QApplication::translate("OptionDialog", "URL personnalis\303\251e", 0));
+        radioDistant->setText(QString());
     } // retranslateUi
 
 };

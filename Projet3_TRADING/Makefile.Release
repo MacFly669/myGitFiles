@@ -127,7 +127,7 @@ release/Projet3_res.o: Projet3.rc
 	windres -i Projet3.rc -o release\Projet3_res.o --include-dir=. $(DEFINES)
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-g++ -o Makefile.Release Projet3_TRADING.pro
+	@$(QMAKE) -spec win32-g++ CONFIG+=debug -o Makefile.Release Projet3_TRADING.pro
 
 qmake_all: FORCE
 
@@ -3777,10 +3777,10 @@ release/periodedialog.o: periodedialog.cpp periodedialog.h \
 		C:/Qt/5.4/mingw491_32/include/QtSql/qsqlerror.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\periodedialog.o periodedialog.cpp
 
-release/connectionbase.o: connectionbase.cpp connectionbase.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
+release/connectionbase.o: connectionbase.cpp xml.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QXmlStreamReader \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qxmlstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobal.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qconfig.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qfeatures.h \
@@ -3809,29 +3809,20 @@ release/connectionbase.o: connectionbase.cpp connectionbase.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qglobalstatic.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qmutex.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstring.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qchar.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearray.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qrefcount.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qnamespace.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qarraydata.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qstringbuilder.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/QDate \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qdatetime.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qlist.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qiterator.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMessageBox \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmessagebox.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qdialog.h \
-		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
-		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qobjectdefs_impl.h \
-		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qobject.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qcoreevent.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qscopedpointer.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qmetatype.h \
@@ -3839,21 +3830,43 @@ release/connectionbase.o: connectionbase.cpp connectionbase.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qisenum.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QSettings \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qsettings.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qpair.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qhash.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qshareddata.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QDebug \
+		connectionbase.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QString \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QDate \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdatetime.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/QMessageBox \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qmessagebox.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qdialog.h \
+		C:/Qt/5.4/mingw491_32/include/QtWidgets/qwidget.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs.h \
+		C:/Qt/5.4/mingw491_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qmargins.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qrect.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qsize.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qpoint.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qpalette.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qcolor.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qrgb.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstringlist.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qdatastream.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qiodevice.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qregexp.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qbrush.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qvector.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qmatrix.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qpolygon.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qregion.h \
@@ -3872,13 +3885,6 @@ release/connectionbase.o: connectionbase.cpp connectionbase.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qcursor.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qkeysequence.h \
 		C:/Qt/5.4/mingw491_32/include/QtGui/qevent.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qvariant.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qmap.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qdebug.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qtextstream.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qlocale.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qset.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/qcontiguouscache.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qurl.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qurlquery.h \
 		C:/Qt/5.4/mingw491_32/include/QtCore/qfile.h \
@@ -3890,7 +3896,10 @@ release/connectionbase.o: connectionbase.cpp connectionbase.h \
 		C:/Qt/5.4/mingw491_32/include/QtSql/qsql.h \
 		C:/Qt/5.4/mingw491_32/include/QtSql/QSqlQuery \
 		C:/Qt/5.4/mingw491_32/include/QtSql/qsqlquery.h \
-		C:/Qt/5.4/mingw491_32/include/QtCore/QVariant
+		C:/Qt/5.4/mingw491_32/include/QtCore/QVariant \
+		C:/Qt/5.4/mingw491_32/include/QtCore/QDir \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qdir.h \
+		C:/Qt/5.4/mingw491_32/include/QtCore/qfileinfo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\connectionbase.o connectionbase.cpp
 
 release/qrc_myresources.o: release/qrc_myresources.cpp 

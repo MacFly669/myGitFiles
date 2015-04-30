@@ -1,7 +1,7 @@
 #include "optiondialog.h"
 #include "ui_optiondialog.h"
 #include "mainwindow.h"
-
+//  #include "xml.h"
 #include <QDebug>
 #include <QFormLayout>
 #include <QGroupBox>
@@ -106,11 +106,11 @@ void OptionDialog::initGui()
     /*! On applique le Layout principale au QDialog */
      this->setLayout(layoutPrincipale);
 
-     /*! Le Latyout contenant les checkBox ests ajoputé au groupBox de l'ui */
+     /*! Le Latyout contenant les checkBox est ajoputé au groupBox de l'ui */
      ui->groupCheck->setLayout(layout);
-     ui->groupCheck->setGeometry(5,225,850,75);
+     ui->groupCheck->setGeometry(25,225,825,75);
      layoutPrincipale->addWidget(ui->buttonBox);
-    // layoutPrincipale->addLayout(layout);
+     layoutPrincipale->addLayout(layout);
 
      //Création d'un signal mapper
      mapper = new QSignalMapper(this);
@@ -125,7 +125,7 @@ void OptionDialog::initGui()
 
               tmpCheckBox = new QCheckBox( j.key() );
               checkListDevises->append(tmpCheckBox); // on stocke les checkBox dans un Qlist
-              layout->addSpacing(-5);
+             // layout->addSpacing(-15);
               layout->addWidget(tmpCheckBox); // on ajoute les widgets au layout
               connect(tmpCheckBox, SIGNAL( stateChanged(int) ), mapper, SLOT(map()));
               mapper->setMapping(tmpCheckBox, j.value().toInt());
@@ -200,6 +200,7 @@ void OptionDialog::chargerOptions()
     ui->radioSiteEn->setChecked(settings.value("UrlForex/radioBoutonEn").toBool());
     ui->radioSiteFr->setChecked(settings.value("UrlForex/radioBoutonFr").toBool());
     ui->radioUrlPerso->setChecked(settings.value("UrlForex/radioBoutonPerso").toBool());
+    ui->radioDistant->setChecked(settings.value("OptionBase/distant", "false").toBool());
 }
 
 //!
@@ -222,6 +223,7 @@ void OptionDialog::accept(){
     QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
     // inscription des options dans le xml
     settings.beginGroup("OptionBase");
+    settings.setValue("distant",ui->radioDistant->isChecked());
     settings.setValue("nomBase", nomDB->text());
     settings.setValue("chemin", chemin->text());
     settings.setValue("serveur", urlBase->text());
@@ -256,6 +258,8 @@ void OptionDialog::accept(){
     settings.setValue("url",ui->lineUrlPerso->text()); /*! sauvegarde de l'url di site forex*/
     settings.endGroup();
 
+
+
     // ***********************************************************************************
     //    Si variables de connection modifiées propose un redémarrage de l'application
     // ***********************************************************************************
@@ -285,7 +289,7 @@ void OptionDialog::accept(){
 
             dbDataChanged = false;
             emit restartMyApp();
-
+            delete this->parent();
             qApp->quit();
             QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
 
@@ -427,4 +431,9 @@ void OptionDialog::on_radioSiteEn_toggled(bool checked)
 void OptionDialog::on_radioUrlPerso_toggled(bool checked)
 {
      if(checked) ui->lineUrlPerso->setText("");
+}
+
+void OptionDialog::on_radioDistant_toggled(bool checked)
+{
+    dbDataChanged = true;
 }

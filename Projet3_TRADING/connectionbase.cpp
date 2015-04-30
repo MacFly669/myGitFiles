@@ -1,10 +1,14 @@
+
 #include "connectionbase.h"
 #include <QDate>
 #include <QMessageBox>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QVariant>
-
+#include <QSettings>
+#include <QDir>
+#include <QDebug>
+#include <QSqlError>
 //!
 //! \brief ConnectionBase::ConnectionBase
 //!
@@ -14,6 +18,9 @@
 //!
 ConnectionBase::ConnectionBase()
 {
+
+
+
 
 }
 
@@ -36,14 +43,34 @@ ConnectionBase::~ConnectionBase()
 //!
 QSqlDatabase* ConnectionBase::ouvreConnex(QString dbName, QString server, QString user, QString pass)// Création d'un connection à la base passée en paramètre
 {
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+
+    bool c_distant =  settings.value("OptionBase/distant").toBool();
+
 
     QSqlDatabase* db = new QSqlDatabase ;
 
-   *db = QSqlDatabase::addDatabase( "QSQLITE" ) ;
-    db->setHostName(server);
-    db->setDatabaseName( dbName );
-    db->setUserName(user);
-    db->setPassword(pass);
+        if( !c_distant )
+        {
+
+       *db = QSqlDatabase::addDatabase( "QSQLITE" ) ;
+        db->setDatabaseName(QDir::currentPath() + "/" + dbName );
+        ConnectionBase::createTableSqlite(db);
+
+        }
+        else
+        {
+            qDebug() << "Distant......";
+            *db = QSqlDatabase::addDatabase( "QMYSQL" ) ;
+             db->setHostName(server);
+             db->setDatabaseName( "mabase" );
+             db->setUserName(user);
+             db->setPassword(pass);
+             createTableMySql(db);
+
+        }
 
     if(  db->open()) return db ;
     QMessageBox msgBox;
@@ -66,7 +93,14 @@ QSqlDatabase* ConnectionBase::ouvreConnex(QString dbName, QString server, QStrin
 //!
 //!
 //!
-void ConnectionBase::createTable(QSqlDatabase* db){
+//!
+void ConnectionBase::createTableSqlite(QSqlDatabase* db){
+
+    QSettings::Format XmlFormat = QSettings::registerFormat("xml", readXmlFile, writeXmlFile);
+    QSettings::setPath(XmlFormat, QSettings::UserScope, QDir::currentPath() );
+    QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
+
+    bool c_distant =  settings.value("OptionBase/distant").toBool();
 
     if(!db)
     {
@@ -76,6 +110,8 @@ void ConnectionBase::createTable(QSqlDatabase* db){
         msgBox.exec();
         return;
     }
+
+    qDebug() << "Création table......";
 
     QString sql ;
     /*! Creation de la table if not exists */
@@ -92,9 +128,46 @@ void ConnectionBase::createTable(QSqlDatabase* db){
     sql += " heure numeric," ;
     sql += " date varchar(50),";
     sql += " timestamp INTEGER)";
-
     QSqlQuery result = db->exec( sql ) ;
+    qDebug() << result.lastError();
+
 }
+void ConnectionBase::createTableMySql(QSqlDatabase* db){
+
+    if(!db)
+    {
+        /*! MessageBox si la connection n'est pas valide */
+        QMessageBox msgBox;
+        msgBox.setText("Erreur lors de la tentative de création de la table \n Vérifiez que vous avez accès à la base de données distante \n Ouvrez le panneau options pour reconfigurer vos paramètres");
+        msgBox.exec();
+        return;
+    }
+
+    qDebug() << "Création table distante......";
+
+        /*! Creation de la table if not exists */
+         QString sql ;
+        sql = "create table if not exists couples (" ;
+        sql += " id INTEGER PRIMARY KEY AUTO_INCREMENT," ;
+        sql += " nom varchar(50)," ;
+        sql += " achat real," ;
+        sql += " vente real," ;
+        sql += " cours real," ;
+        sql += " ouverture real," ;
+        sql += " haut real," ;
+        sql += " bas real," ;
+        sql += " variation varchar(5)," ;
+        sql += " heure time," ;
+        sql += " date varchar(50),";
+        sql += " timestamp INTEGER)";
+        QSqlQuery result = db->exec( sql ) ;
+
+        qDebug() << result.lastError();
+
+
+
+
+    }
 
 //!
 //! \brief ConnectionBase::saveData

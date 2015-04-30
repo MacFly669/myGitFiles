@@ -53,9 +53,10 @@ private slots:
        void on_btnRefresh_clicked();
 
 private:
-    Ui::CotationsView* ui;
-    QSqlDatabase* db; /*! Pointeur vers l'instance QSqlDatabase */
-    QString* m_paires; /*! id des paires à affichar ex: "1;10" */
+       QSqlDatabase* db; /*! Pointeur vers l'instance QSqlDatabase */
+       QString* m_paires; /*! id des paires à affichar ex: "1;10" */
+       Ui::CotationsView* ui;
+
     QString url; /*! requête http passée dans le QWebview */
 
     QSettings::Format XmlFormat;

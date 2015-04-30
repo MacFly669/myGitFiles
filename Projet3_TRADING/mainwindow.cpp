@@ -65,6 +65,8 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         QSettings settings(XmlFormat, QSettings::UserScope, "CCI", "Projet3");
         QString paires = settings.value("pairs", "1;10").toString();
         QString forexUrl = settings.value("UrlForex/url","http://fxrates.fr.forexprostools.com").toString();
+        bool s_distant =   settings.value("OptionBase/distant").toBool();
+
         //QString langId = settings.value("UrlForex/lang","5").toString();
 
         //if(m_paires == "" || m_paires == NULL) m_paires = "1;10";
@@ -85,9 +87,9 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
 
         initGui(); /*! \fn initGui s'occupe de l'initialisation de l'ui  */
 
-    if( db )
-    {
-        ConnectionBase::createTable(db); /** \fn  ConnectionBase::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
+    if( db && s_distant ) ConnectionBase::createTableMySql(db); /** \fn  ConnectionBase::createTable(db) static de création de la table si elle n'existe pas \arg db de type QSqlDaztabase **/
+    else if ( db && !s_distant ) ConnectionBase::createTableSqlite(db);
+
         // création du model d'affichage
         model = new QSqlTableModel( NULL, *db ) ;
         model->setTable( "couples" ) ;// séléction de la table à affiche dans le TableView
@@ -97,7 +99,7 @@ MainWindow::MainWindow(QSqlDatabase* db,QWidget *parent): QMainWindow(parent),db
         ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tableView->setAlternatingRowColors(true);
         ui->tableView->setStyleSheet("::item:hover { color:rgb(0,0,255) }");
-    }
+
         /*! Bloc de connection des signaux  */
         connect(ui->action_Rafraichir, SIGNAL(triggered()),cotes, SLOT(reload())); // Rafraichit l'affichage du webView
         connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));  // Quit l'application

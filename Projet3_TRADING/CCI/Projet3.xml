@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
-    <Checkbox>
-        <cb0>true</cb0>
-        <cb1>true</cb1>
-        <cb2>true</cb2>
-        <cb5>true</cb5>
-    </Checkbox>
     <OptionBase>
-        <chemin>C:/Users/Juanpa/Documents/Developpement/Qt/Git/hub/Projet3_TRADING</chemin>
-        <nomBase>Project3.db</nomBase>
+        <chemin></chemin>
+        <distant>true</distant>
+        <nomBase>Projet3.db</nomBase>
         <password></password>
         <serveur>localhost</serveur>
-        <user></user>
+        <user>root</user>
     </OptionBase>
     <UrlForex>
         <radioBourtonPerso>false</radioBourtonPerso>
-        <radioBoutonEn>true</radioBoutonEn>
+        <radioBoutonEn>false</radioBoutonEn>
         <radioBoutonFr>false</radioBoutonFr>
-        <url>http://fxrates.investing.com/index.php?force_lang=1</url>
+        <url></url>
     </UrlForex>
-    <pairs>49;5;10;1</pairs>
+    <pairs></pairs>
 </Settings>

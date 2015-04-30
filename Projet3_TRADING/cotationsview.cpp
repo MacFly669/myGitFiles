@@ -56,7 +56,7 @@
 //!
 //!
 //!
-CotationsView::CotationsView(QSqlDatabase* _db, QString* _paires, QWidget *parent): db(_db), m_paires(_paires), QWidget(parent), ui(new Ui::CotationsView)
+CotationsView::CotationsView(QSqlDatabase* _db, QString* _paires, QWidget *parent): QWidget(parent), db(_db), m_paires(_paires),  ui(new Ui::CotationsView)
 {
     ui->setupUi(this);
     initMain();
@@ -64,10 +64,7 @@ CotationsView::CotationsView(QSqlDatabase* _db, QString* _paires, QWidget *paren
     if(!_db)
     {
                dlg->exec();
-               qApp->quit();
                return;
-
-
     }
 
     ui->webView->move(50,0);
